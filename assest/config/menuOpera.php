@@ -163,6 +163,15 @@
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="verUsuarioActividad.php"><i class="ion ion-bag"></i> Mi Actividad</a>              
               <div class="dropdown-divider"></div>
+              <div class="dropdown-header text-muted" style="font-size: 11px; text-transform: uppercase; letter-spacing: .04em;">
+                Cambiar de módulo
+              </div>
+              <a class="dropdown-item" href="../../fruta/"><i class="ti-angle-right"></i> Fruta</a>
+              <a class="dropdown-item" href="../../exportadora/"><i class="ti-angle-right"></i> Exportador</a>
+              <a class="dropdown-item" href="../../estadistica/"><i class="ti-angle-right"></i> Estadísticas</a>
+              <a class="dropdown-item" href="../../material/"><i class="ti-angle-right"></i> Materiales</a>
+              <div class="dropdown-divider"></div>
+
               <div class="p-10">
                 <center>
                   <form method="post">

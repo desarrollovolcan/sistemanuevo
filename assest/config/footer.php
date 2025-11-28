@@ -45,5 +45,8 @@ if($remoteVersion === $localVersion){
 		  </li>
 		</ul>
     </div>
-	  &copy; 2021 <a href="#">Desarrollado: Volcan Foods Ltda</a>. Todos los derechos reservados.
+	    &copy; 2025 <a href="#" class="text-muted">Desarrollado por CreativeAgro</a>. Todos los derechos reservados.
+      <a href="https://wa.me/56952157840" target="_blank" class="btn btn-success btn-sm btn-whatsapp-float">
+        <i class="fa fa-whatsapp"></i> Soporte
+      </a>
   </footer>
