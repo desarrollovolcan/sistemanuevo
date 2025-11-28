@@ -82,10 +82,108 @@ $(function () {
 
             // Optimizaciones de rendimiento por defecto
             deferRender: true,          // Renderiza filas bajo demanda
-            pageLength: 25,             // Menos filas iniciales -> carga más rápida
+            pageLength: 100,            // Más filas visibles por defecto para evitar recortes
+            lengthMenu: [ [25, 50, 100, 250, 500, -1], [25, 50, 100, 250, 500, "Todos"] ],
             processing: true,           // Muestra indicador de carga
-            lengthChange: false,        // Oculta selector de cantidad si no se sobreescribe
-            stateSave: true,            // Recuerda filtros / página por tabla
+            lengthChange: true,         // Permite que el usuario ajuste la cantidad a mostrar
+            stateSave: false,           // Evita filtros persistentes que oculten registros
+            autoWidth: false,
+            responsive: true,
+            searchDelay: 350,           // Reduce el número de peticiones para listas extensas
+            language: {
+                processing: "Procesando...",
+                lengthMenu: "Mostrar _MENU_ registros",
+                zeroRecords: "No se encontraron resultados",
+                emptyTable: "Ningún dato disponible en esta tabla",
+                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+                infoFiltered: "(filtrado de un total de _MAX_ registros)",
+                search: "Buscar:",
+                infoThousands: ",",
+                loadingRecords: "Cargando...",
+                paginate: {
+                    first: "Primero",
+                    last: "Último",
+                    next: "Siguiente",
+                    previous: "Anterior"
+                },
+                aria: {
+                    sortAscending: ": Activar para ordenar la columna de manera ascendente",
+                    sortDescending: ": Activar para ordenar la columna de manera descendente"
+                },
+                buttons: {
+                    copy: "Copiar",
+                    colvis: "Visibilidad",
+                    collection: "Colección",
+                    colvisRestore: "Restaurar visibilidad",
+                    copyKeys: "Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br \/> <b r \/> Para cancelar, haga clic en este mensaje o presione escape.",
+                    copySuccess: {
+                        1: "Copiada 1 fila al portapapeles",
+                        _: "Copiadas %d fila al portapapeles"
+                    },
+                    copyTitle: "Copiar al portapapeles",
+                    csv: "CSV",
+                    excel: "Excel",
+                    pageLength: {
+                        -1: "Mostrar todas las filas",
+                        _: "Mostrar %d filas"
+                    },
+                    pdf: "PDF",
+                    print: "Imprimir"
+                },
+                autoFill: {
+                    cancel: "Cancelar",
+                    fill: "Rellene todas las celdas con <i>%d<\/i>",
+                    fillHorizontal: "Rellenar celdas horizontalmente",
+                    fillVertical: "Rellenar celdas verticalmentemente"
+                },
+                searchBuilder: {
+                    add: "Añadir Filtro",
+                    button: {
+                        0: "Filtros",
+                        _: "Filtros(%d)"
+                    },
+                    clearAll: "Borrar todo",
+                    condition: "Condición",
+                    delete: "Quitar",
+                    deleteTitle: "Titulo Quitar",
+                    conditions: {
+                        date: {
+                            after: "Despues",
+                            before: "Antes",
+                            between: "Entre",
+                            empty: "Vacío",
+                            equals: "Igual a",
+                            notBetween: "No entre",
+                            notEmpty: "No Vacio",
+                            not: "Diferente de"
+                        },
+                        number: {
+                            between: "Entre",
+                            empty: "Vacio",
+                            equals: "Igual a",
+                            gt: "Mayor a",
+                            gte: "Mayor o igual a",
+                            lt: "Menor que",
+                            lte: "Menor o igual que",
+                            notBetween: "No entre",
+                            notEmpty: "No vacío",
+                            not: "Diferente de"
+                        },
+                        string: {
+                            contains: "Contiene",
+                            empty: "Vacío",
+                            endsWith: "Termina con",
+                            equals: "Igual a",
+                            not: "Diferente de",
+                            notEmpty: "No Vacío",
+                            startsWith: "Empieza con",
+                            notStartsWith: "No empieza con",
+                            notEndsWith: "No termina con"
+                        }
+                    }
+                }
+            },
             columnDefs: [
                 { targets: 'no-sort', orderable: false },
                 { targets: 'no-search', searchable: false }
