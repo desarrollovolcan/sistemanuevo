@@ -1,0 +1,3 @@
+Reemplaza estos archivos dentro de /assest/config/ de tu proyecto.
+Los contenidos son placeholders ya que ChatGPT no tiene acceso a tu código real.
+Envíame uno de los archivos originales y lo devuelvo corregido completamente.
