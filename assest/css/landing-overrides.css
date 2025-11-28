@@ -1,0 +1,88 @@
+/* Limpia degradados y aplica un esquema claro y sobrio para las pantallas de ingreso */
+
+:root {
+  --landing-surface: #f6f7fb;
+  --landing-panel: #ffffff;
+  --landing-border: #d7dce5;
+  --landing-text: #0f172a;
+  --landing-subtle-text: #475569;
+  --landing-action: #e2e8f0;
+  --landing-action-strong: #cbd5e1;
+}
+
+body.landing-neutral {
+  background: var(--landing-surface);
+  color: var(--landing-text);
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* Contenedores principales */
+.bg-white-10 {
+  background-color: var(--landing-panel) !important;
+  border: 1px solid var(--landing-border);
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+}
+
+.content-top-agile h2,
+.text-white,
+.text-primary {
+  color: var(--landing-text) !important;
+}
+
+/* Botones sin degradados */
+.btn.bg-gradient-primary,
+.btn.bg-gradient-secondary,
+.bg-gradient-primary,
+.bg-gradient-secondary {
+  background: var(--landing-action) !important;
+  color: var(--landing-text) !important;
+  border: 1px solid var(--landing-action-strong) !important;
+  box-shadow: none !important;
+}
+
+.btn.bg-gradient-primary:hover,
+.btn.bg-gradient-secondary:hover {
+  background: #dfe6ee !important;
+  border-color: var(--landing-action-strong) !important;
+  color: #0b1221 !important;
+}
+
+.btn {
+  border-radius: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Ajustes de layout de las columnas divididas */
+.split.right {
+  background: transparent;
+  padding: 40px 24px;
+}
+
+.split.left {
+  filter: grayscale(8%);
+}
+
+/* Formularios y textos */
+.form-group label,
+.form-group button,
+.form-group a,
+.p-30,
+.p-10 {
+  color: var(--landing-text);
+}
+
+h2 {
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin-bottom: 12px;
+}
+
+/* Evita degradados heredados del tema base */
+.hold-transition.theme-primary,
+.bg-gradient-primary,
+.bg-gradient-secondary,
+.bg-primary,
+.bg-secondary {
+  background-image: none !important;
+}

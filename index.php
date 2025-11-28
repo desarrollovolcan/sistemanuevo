@@ -16,6 +16,7 @@
     <!-- Style-->
     <link rel="stylesheet" href="api/cryptioadmin10/html/main/css/style.css">
     <link rel="stylesheet" href="api/cryptioadmin10/html/main/css/skin_color.css">
+    <link rel="stylesheet" href="assest/css/landing-overrides.css">
 
     <style>
         body, html {
@@ -58,7 +59,7 @@
 
 </head>
 
-<body class="hold-transition theme-primary bg-gradient-primary">
+<body class="hold-transition landing-neutral">
 
 
 
