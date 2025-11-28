@@ -95,6 +95,34 @@ class CONSULTA_ADO
         }
     }
 
+    public function TotalKgMpPorVariedad($TEMPORADA, $EMPRESA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT 
+                                                    IFNULL(SUM(detalle.KILOS_NETO_DRECEPCION),0) AS TOTAL,
+                                                    IFNULL(VES.NOMBRE_VESPECIES,'Sin variedad') AS NOMBRE_VESPECIES
+                                                FROM fruta_recepcionmp recepcion
+                                                    LEFT JOIN fruta_drecepcionmp detalle ON detalle.ID_RECEPCION = recepcion.ID_RECEPCION
+                                                    LEFT JOIN fruta_vespecies VES ON detalle.ID_VESPECIES = VES.ID_VESPECIES
+                                                WHERE recepcion.ESTADO_REGISTRO = 1
+                                                    AND detalle.ESTADO_REGISTRO = 1
+                                                    AND recepcion.ESTADO = 0
+                                                    AND recepcion.ID_TEMPORADA = '".$TEMPORADA."'
+                                                    AND recepcion.ID_EMPRESA = '".$EMPRESA."'
+                                                    AND recepcion.ID_PLANTA = '".$PLANTA."'
+                                                GROUP BY detalle.ID_VESPECIES
+                                                ORDER BY TOTAL DESC; ");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
 
     public function TotalKgMpRecepcionadosPlanta($TEMPORADA, $PLANTA)
     {

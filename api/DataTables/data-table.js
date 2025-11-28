@@ -5084,6 +5084,7 @@ $(function () {
             'info': true,
             'autoWidth': false,
             'responsive': false,
+            'stateSave': false,
             'order': [
                 [0, 'desc'], //desc ->descente asc -> ascedente
             ],
