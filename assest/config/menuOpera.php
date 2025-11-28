@@ -1,4 +1,4 @@
-<header class="main-header">
+<header class="main-header shared-app-header">
   <div class="d-flex align-items-center logo-box pl-20">
     <a href="#" class="waves-effect waves-light nav-link rounded d-none d-md-inline-block push-btn" data-toggle="push-menu" role="button">
       <img src="../../api/cryptioadmin10/html/images/svg-icon/collapse.svg" class="img-fluid svg-icon" alt="">
@@ -13,7 +13,7 @@
     </a>
   </div>
   <!-- Header Navbar -->
-  <nav class="navbar navbar-static-top pl-10">
+  <nav class="navbar navbar-static-top pl-10 shared-app-navbar">
     <!-- Sidebar toggle button-->
     <div class="app-menu">
       <ul class="header-megamenu nav">
@@ -29,96 +29,70 @@
         </li>
         <li class="btn-group nav-item">
           <div class="search-bx ml-10">
-            <div class="input-group" style="font-size: 12px;">            
-         
-              <?php
-              if (isset($_SESSION["NOMBRE_USUARIO"])) {
-                $ARRAYTEMPORADAS = $TEMPORADA_ADO->verTemporada($TEMPORADAS);
-                if ($ARRAYTEMPORADAS) {
-                  echo $ARRAYTEMPORADAS[0]['NOMBRE_TEMPORADA'];
-                  //$TEMPORADA = $ARRAYTEMPORADAS[0]['ID_TEMPORADA'];
-                } else {
-                  echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
-                }
-              } else {
-                echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
-              }
-              ?>
+            <div class="session-meta">
+              <div class="meta-block">
+                <span class="meta-label">Empresa</span>
+                <span class="meta-value">
+                  <?php
+                  if (isset($_SESSION["NOMBRE_USUARIO"])) {
+                    $ARRAYEMPRESAS = $EMPRESA_ADO->verEmpresa($EMPRESAS);
+                    if ($ARRAYEMPRESAS) {
+                      echo $ARRAYEMPRESAS[0]['NOMBRE_EMPRESA'];
+                    } else {
+                      echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
+                    }
+                  } else {
+                    echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
+                  }
+                  ?>
+                </span>
+              </div>
+              <div class="meta-block">
+                <span class="meta-label">Planta</span>
+                <span class="meta-value">
+                  <?php
+                  if (isset($_SESSION["NOMBRE_USUARIO"])) {
+                    $ARRAYPLANTAS = $PLANTA_ADO->verPlanta($PLANTAS);
+                    if ($ARRAYPLANTAS) {
+                      echo $ARRAYPLANTAS[0]['NOMBRE_PLANTA'];
+                    } else {
+                      echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
+                    }
+                  } else {
+                    echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
+                  }
+                  ?>
+                </span>
+              </div>
+              <div class="meta-block">
+                <span class="meta-label">Temporada</span>
+                <span class="meta-value">
+                  <?php
+                  if (isset($_SESSION["NOMBRE_USUARIO"])) {
+                    $ARRAYTEMPORADAS = $TEMPORADA_ADO->verTemporada($TEMPORADAS);
+                    if ($ARRAYTEMPORADAS) {
+                      echo $ARRAYTEMPORADAS[0]['NOMBRE_TEMPORADA'];
+                    } else {
+                      echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
+                    }
+                  } else {
+                    echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
+                  }
+                  ?>
+                </span>
+              </div>
             </div>
           </div>
         </li>
       </ul>
     </div>
     <div class="navbar-custom-menu r-side">
-      <ul class="nav navbar-nav">       
-        <!-- Notifications -->
-        <li class="dropdown notifications-menu">
-          <a href="#" class="waves-effect waves-light dropdown-toggle" data-toggle="dropdown" title="Notifications">
-            <img src="../../api/cryptioadmin10/html/images/svg-icon/notifications.svg" class="img-fluid svg-icon" alt="">
-          </a>
-          <ul class="dropdown-menu animated bounceIn">
-
-            <li class="header">
-              <div class="p-20">
-                <div class="flexbox">
-                  <div>
-                    <h4 class="mb-0 mt-0">Notificaciones</h4>
-                  </div>
-                  <div>
-                    <a href="#" class="text-danger">Limpiar Todo</a>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <!-- inner menu: contains the actual data -->
-              <ul class="menu sm-scrol">
-                <li>
-                  <a href="#">
-                    <i class="fa fa-users text-info"></i> Curabitur id eros quis nunc suscipit blandit.
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-warning text-warning"></i> Duis malesuada justo eu sapien elementum, in semper diam posuere.
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-users text-danger"></i> Donec at nisi sit amet tortor commodo porttitor pretium a erat.
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-shopping-cart text-success"></i> In gravida mauris et nisi
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-user text-danger"></i> Praesent eu lacus in libero dictum fermentum.
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-user text-primary"></i> Nunc fringilla lorem
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-user text-success"></i> Nullam euismod dolor ut quam interdum, at scelerisque ipsum imperdiet.
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="footer">
-              <a href="#">Ver Todo</a>
-            </li>
-          </ul>
-        </li>
+      <ul class="nav navbar-nav">
         <!-- User Account-->
         <li class="dropdown user user-menu">
-          <a href="#" class="waves-effect waves-light dropdown-toggle" data-toggle="dropdown" title="User">
+          <a href="#" class="waves-effect waves-light dropdown-toggle" data-toggle="dropdown" title="Mi Cuenta">
             <img src="../../api/cryptioadmin10/html/images/svg-icon/user.svg" class="rounded svg-icon" alt="" />
+            <span class="user-toggle-label">Mi Cuenta</span>
           </a>
           <ul class="dropdown-menu animated flipInX">
             <!-- User image -->

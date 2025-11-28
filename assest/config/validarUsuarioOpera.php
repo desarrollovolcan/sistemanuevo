@@ -13,6 +13,7 @@
     $ARRAYTEMPORADAS = "";
     $ARRAYTUSUARIO = "";
     $ARRAYNOMBRESUSUARIOSLOGIN="";
+    $ARRAYNOTIFICACIONESCABECERA="";
     
     $EMPRESACAMBIAR="";
     $PLANTACAMBIAR="";
@@ -38,6 +39,7 @@
     include_once '../../assest/controlador/TUSUARIO_ADO.php';
     include_once '../../assest/controlador/PTUSUARIO_ADO.php';
     include_once "../../assest/controlador/AUSUARIO_ADO.php";
+    include_once '../../assest/controlador/NOTIFICACION_ADO.php';
 
     include_once '../../assest/controlador/EMPRESA_ADO.php';
     include_once '../../assest/controlador/PLANTA_ADO.php';
@@ -48,6 +50,7 @@
     $TUSUARIO_ADO = new TUSUARIO_ADO();
     $PTUSUARIO_ADO = new PTUSUARIO_ADO();
     $AUSUARIO_ADO = new AUSUARIO_ADO();
+    $NOTIFICACION_ADO = new NOTIFICACION_ADO();
 
     $EMPRESA_ADO =  new EMPRESA_ADO();
     $PLANTA_ADO =  new PLANTA_ADO();
@@ -61,36 +64,55 @@
         $NOMBREUSUARIOS = $_SESSION["NOMBRE_USUARIO"];
         $TUSUARIOS = $_SESSION["TIPO_USUARIO"];        
         $ARRAYVERPTUSUARIO  =$PTUSUARIO_ADO->listarPtusuarioPorTusuarioCBX($TUSUARIOS);
-        if($ARRAYVERPTUSUARIO){            
-            $PESTADISTICA  =$ARRAYVERPTUSUARIO[0]['ESTADISTICA'];      
+        if($ARRAYVERPTUSUARIO){
+            $PESTADISTICA  =$ARRAYVERPTUSUARIO[0]['ESTADISTICA'];
             if($PESTADISTICA!="1"){
                  session_destroy();
                  echo "<script type='text/javascript'> location.href ='../../';</script>";
-            }    
+            }
             $PESTARVSP = $ARRAYVERPTUSUARIO[0]['ESTARVSP'];
             $PESTASTOPMP = $ARRAYVERPTUSUARIO[0]['ESTASTOPMP'];
             $PESTAINFORME = $ARRAYVERPTUSUARIO[0]['ESTAINFORME'];
             $PESTAEXISTENCIA = $ARRAYVERPTUSUARIO[0]['ESTAEXISTENCIA'];
             $PESTAPRODUCTOR = $ARRAYVERPTUSUARIO[0]['ESTAPRODUCTOR'];
-        }else{              
+        }else{
             $PESTADISTICA="";
             $PESTADISTICATODO="";
             $PESTARVSP="";
             $PESTASTOPMP="";
             $PESTAINFORME="";
             $PESTAEXISTENCIA="";
-            $PESTAPRODUCTOR="";   
+            $PESTAPRODUCTOR="";
+        }
+
+        if (isset($_SESSION["ID_EMPRESA"])) {
+            $EMPRESAS = $_SESSION["ID_EMPRESA"];
+            if($EMPRESAS==""){
+                echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
+            }
+        }else {
+            echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
+        }
+        if (isset($_SESSION["ID_PLANTA"])) {
+            $PLANTAS = $_SESSION["ID_PLANTA"];
+            if($PLANTAS==""){
+                echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
+            }
+        }else {
+            echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
         }
         
         if (isset($_SESSION["ID_TEMPORADA"])) {
-            $TEMPORADAS  = $_SESSION["ID_TEMPORADA"];  
-            $ESPECIE  = $_SESSION["ID_ESPECIE"];   
+            $TEMPORADAS  = $_SESSION["ID_TEMPORADA"];
+            $ESPECIE  = $_SESSION["ID_ESPECIE"];
             if($TEMPORADAS==""){
                 echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
             }
         }  else {
             echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
-        }      
+        }
+
+        $ARRAYNOTIFICACIONESCABECERA = $NOTIFICACION_ADO->listarNotificacionesActivas($IDUSUARIOS, $EMPRESAS, $PLANTAS);
 
     } else {
         session_destroy();
