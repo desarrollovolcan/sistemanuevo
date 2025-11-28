@@ -5,6 +5,19 @@
 
 $(function () {
     "use strict";
+    // Registrar helper para sumar columnas aunque el plugin oficial no esté cargado
+    if ($.fn.dataTable && $.fn.dataTable.Api && typeof $.fn.dataTable.Api.prototype.sum !== 'function') {
+        $.fn.dataTable.Api.register('sum()', function () {
+            return this.flatten().reduce(function (a, b) {
+                if (typeof b === 'string') {
+                    b = b.replace(/[^0-9,.-]/g, '').replace(',', '.');
+                }
+                var n = parseFloat(b);
+                return a + (isNaN(n) ? 0 : n);
+            }, 0);
+        });
+    }
+
     // === Configuración global DataTables: filtros por columna + botón Excel ===
     if ($.fn.dataTable) {
         $.extend(true, $.fn.dataTable.defaults, {
