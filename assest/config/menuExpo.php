@@ -1,4 +1,4 @@
-<header class="main-header">
+<header class="main-header app-header-modern">
   <div class="d-flex align-items-center logo-box pl-20">
     <a href="#" class="waves-effect waves-light nav-link rounded d-none d-md-inline-block push-btn" data-toggle="push-menu" role="button">
       <img src="../../api/cryptioadmin10/html/images/svg-icon/collapse.svg" class="img-fluid svg-icon" alt="">
@@ -13,7 +13,7 @@
     </a>    
   </div>
   <!-- Header Navbar -->
-  <nav class="navbar navbar-static-top pl-10">
+  <nav class="navbar navbar-static-top pl-10 navbar-modern">
     <!-- Sidebar toggle button-->
     <div class="app-menu">
       <ul class="header-megamenu nav">
@@ -64,66 +64,43 @@
     </div>
     <div class="navbar-custom-menu r-side">
       <ul class="nav navbar-nav">
-        <!-- Notifications -->   
+        <!-- Notifications -->
+        <?php $TOTALNOTI = $ARRAYNOTIFICACIONESCABECERA ? count($ARRAYNOTIFICACIONESCABECERA) : 0; ?>
         <li class="dropdown notifications-menu">
           <a href="#" class="waves-effect waves-light dropdown-toggle" data-toggle="dropdown" title="Notifications">
             <img src="../../api/cryptioadmin10/html/images/svg-icon/notifications.svg" class="img-fluid svg-icon" alt="">
+            <span class="badge badge-counter"><?php echo $TOTALNOTI; ?></span>
           </a>
-          <ul class="dropdown-menu animated bounceIn">
-            <li class="header">
-              <div class="p-20">
-                <div class="flexbox">
-                  <div>
-                    <h4 class="mb-0 mt-0">Notificaciones</h4>
-                  </div>
-                  <div>
-                    <a href="#" class="text-danger">Limpiar Todo</a>
-                  </div>
-                </div>
-              </div>
+          <ul class="dropdown-menu dropdown-menu-right notifications-modern animated fadeIn">
+            <li class="notification-headline">
+              <span>Notificaciones</span>
+              <span class="badge badge-light"><?php echo $TOTALNOTI; ?></span>
             </li>
+            <?php if($TOTALNOTI>0){ ?>
             <li>
-              <!-- inner menu: contains the actual data -->
               <ul class="menu sm-scrol">
-                <li>
-                  <a href="#">
-                    <i class="fa fa-users text-info"></i> Curabitur id eros quis nunc suscipit blandit.
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-warning text-warning"></i> Duis malesuada justo eu sapien elementum, in semper diam posuere.
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-users text-danger"></i> Donec at nisi sit amet tortor commodo porttitor pretium a erat.
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-shopping-cart text-success"></i> In gravida mauris et nisi
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-user text-danger"></i> Praesent eu lacus in libero dictum fermentum.
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-user text-primary"></i> Nunc fringilla lorem
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-user text-success"></i> Nullam euismod dolor ut quam interdum, at scelerisque ipsum imperdiet.
-                  </a>
-                </li>
+                <?php foreach ($ARRAYNOTIFICACIONESCABECERA as $noti) : ?>
+                  <?php
+                    $color = 'bg-info';
+                    if($noti['PRIORIDAD']==1){ $color='bg-danger'; }
+                    if($noti['PRIORIDAD']==3){ $color='bg-success'; }
+                    $destino = ucfirst($noti['DESTINO_TIPO']).' #'.$noti['DESTINO_ID'];
+                  ?>
+                  <li class="notification-item">
+                    <div class="notification-icon <?php echo $color; ?>">!</div>
+                    <div>
+                      <p class="notification-text"><?php echo $noti['MENSAJE']; ?></p>
+                      <div class="notification-meta">Para: <?php echo $destino; ?> · Vigencia <?php echo $noti['FECHA_INICIO']; ?> <?php echo $noti['FECHA_FIN']? ' - '.$noti['FECHA_FIN'] : ''; ?></div>
+                    </div>
+                  </li>
+                <?php endforeach; ?>
               </ul>
             </li>
-            <li class="footer">
-              <a href="#">Ver Todo</a>
+            <?php } else { ?>
+              <li class="empty-state">Sin notificaciones asignadas</li>
+            <?php } ?>
+            <li class="footer text-center p-2">
+              <a href="registroNotificacion.php" class="btn btn-link">Gestionar notificaciones</a>
             </li>
           </ul>
         </li>
@@ -765,7 +742,12 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
             <a href="registroUsuarioAviso.php">
               <i class="material-icons">notifications</i><span>Avisos</span>
             </a>
-          </li> 
+          </li>
+          <li>
+            <a href="registroNotificacion.php">
+              <i class="material-icons">notifications_active</i><span>Notificaciones</span>
+            </a>
+          </li>
         <?php  } ?>
       <?php  } ?>
     </ul>
