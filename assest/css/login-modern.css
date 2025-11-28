@@ -1,0 +1,163 @@
+:root {
+  --login-bg: #f3f4f6;
+  --login-card: #ffffff;
+  --login-accent: #31b889;
+  --login-accent-dark: #2b9c74;
+  --login-muted: #6b7280;
+  --login-border: #e5e7eb;
+  --login-privilege-bg: #f8fafc;
+}
+
+body.login-modern {
+  background: var(--login-bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+.login-modern .login-modern-card {
+  background: var(--login-card);
+  border: 1px solid var(--login-border);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.login-modern .login-modern-card .card-header {
+  background: linear-gradient(90deg, var(--login-accent), var(--login-accent-dark));
+  color: #fff;
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 18px 22px;
+}
+
+.login-modern .login-modern-card .card-header .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.login-modern .login-modern-card .card-body {
+  padding: 28px;
+}
+
+.login-modern .login-sidebar {
+  background: var(--login-privilege-bg);
+  border: 1px dashed var(--login-border);
+  border-radius: 14px;
+  padding: 18px;
+  height: 100%;
+}
+
+.login-modern .login-sidebar h5 {
+  font-weight: 700;
+}
+
+.login-modern .privilege-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 18px;
+}
+
+.login-modern .privilege-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  color: var(--login-muted);
+  font-weight: 600;
+}
+
+.login-modern .badge-status {
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.login-modern .badge-status.success {
+  background: rgba(49, 184, 137, 0.18);
+  color: var(--login-accent-dark);
+}
+
+.login-modern .badge-status.warning {
+  background: #fff7ed;
+  color: #ea580c;
+}
+
+.login-modern .badge-status.info {
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+.login-modern .module-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--login-border);
+  background: #fff;
+  font-weight: 700;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.login-modern .module-pill span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.login-modern .module-pill .dot-fruta { background: #22c55e; }
+.login-modern .module-pill .dot-material { background: #0ea5e9; }
+.login-modern .module-pill .dot-export { background: #f59e0b; }
+
+.login-modern .nav-tabs {
+  border-bottom: none;
+  gap: 8px;
+}
+
+.login-modern .nav-tabs .nav-link {
+  border-radius: 12px;
+  border: 1px solid var(--login-border);
+  color: #111827;
+  font-weight: 700;
+  padding: 10px 18px;
+}
+
+.login-modern .nav-tabs .nav-link.active {
+  background: var(--login-accent);
+  color: #fff;
+  border-color: var(--login-accent);
+}
+
+.login-modern .form-label {
+  font-weight: 700;
+  color: #111827;
+}
+
+.login-modern .input-group-text {
+  background: #f8fafc;
+}
+
+.login-modern .btn-primary {
+  background: var(--login-accent);
+  border-color: var(--login-accent);
+}
+
+.login-modern .btn-primary:hover {
+  background: var(--login-accent-dark);
+  border-color: var(--login-accent-dark);
+}
+
+@media (max-width: 991px) {
+  .login-modern .login-modern-card .card-body { padding: 20px; }
+  .login-modern .login-sidebar { margin-bottom: 18px; }
+}

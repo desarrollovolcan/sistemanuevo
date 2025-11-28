@@ -13,12 +13,13 @@
 
     <!-- Custom styles -->
     <link rel="stylesheet" href="./assest/css/loginv2.css">
+    <link rel="stylesheet" href="./assest/css/login-modern.css">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="./api/bootstrap/css/bootstrap.css" />
 
     <!-- JS -->
-    <script src="./assest/js/jquery.min.js"></script>    
+    <script src="./assest/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="./api/bootstrap/js/bootstrap.min.js"></script>
 
@@ -27,129 +28,151 @@
 
 </head>
 
-<body class="hold-transition sidebar-collapse sidebar-mini login-page">
-    <div class="login-box">
-        <div class="login-logo">
-            <img src="./assest/img/volcan-foods-logo-original.png" alt="" height="50px">
-        </div>
-        <div class="card border-0">
-            <div class="card-header bg-info text-white text-center text-uppercase">
-                <img src="./assest/img/favicon.png" alt="" height="20px">
-                Inicio de sesión <strong id="title_section"></strong>
-            </div>
-            <div class="card-body login-card-body">
-                <!-- Tabs para seleccionar el tipo de login -->
-                <ul class="nav nav-tabs" id="loginTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="fruta-tab" data-toggle="tab" href="#fruta" role="tab" aria-controls="fruta" aria-selected="true" style="color: black;">Fruta</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="materiales-tab" data-toggle="tab" href="#materiales" role="tab" aria-controls="materiales" aria-selected="false" style="color: black;">Materiales</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="exportadora-tab" data-toggle="tab" href="#exportadora" role="tab" aria-controls="exportadora" aria-selected="false" style="color: black;">Exportadora</a>
-                    </li>
-                </ul>
-
-                <!-- Contenido de cada tab -->
-                <div class="tab-content" id="loginTabContent">
-                    <div class="tab-pane fade show active" id="fruta" role="tabpanel" aria-labelledby="fruta-tab" style="border: solid 1px rgba(0,0,0,0.1); padding: 10px;">
-                        <!-- Formulario para Fruta -->
-                        <form class="form" role="form" id="loginForm_fruta" name="form_reg_dato">
-                            <input type="hidden" class="form-control" id="MODULO_FRUTA" name="MODULO" value="fruta">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="NOMBRE USUARIO" id="NOMBRE_FRUTA" name="NOMBRE" required>
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-user"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="input-group mb-3">
-                                <input type="password" class="form-control" placeholder="CONTRASEÑA" id="CONTRASENA_FRUTA" name="CONTRASENA" required>
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-lock"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="btn-group col-12 d-flex">
-                                        
-                                        <button type="submit" class="btn btn-success w-100" id="ENTRAR" name="ENTRAR">ENTRAR</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+<body class="login-modern">
+    <div class="container py-4 login-modern">
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-11">
+                <div class="card login-modern-card shadow">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="brand">
+                            <img src="./assest/img/favicon.png" alt="" height="26px">
+                            <span>Inicio de sesión y privilegios</span>
+                        </div>
+                        <small class="text-white-50">Formato unificado de acceso</small>
                     </div>
-
-                    <!-- Login Materiales -->
-                    <div class="tab-pane fade" id="materiales" role="tabpanel" aria-labelledby="materiales-tab" style="border: solid 1px rgba(0,0,0,0.1); padding: 10px;">
-                        <!-- Formulario para Materiales -->
-                        <form class="form" role="form" id="loginForm_material" name="form_reg_dato">
-                            <input type="hidden" class="form-control" id="MODULO_MATERIAL" name="MODULO" value="material">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="NOMBRE USUARIO" id="NOMBRE_MATERIAL" name="NOMBRE" required>
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-user"></span>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-lg-5">
+                                <div class="login-sidebar h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <img src="./assest/img/volcan-foods-logo-original.png" alt="" height="48px" class="mr-2">
+                                        <div>
+                                            <p class="mb-1 text-uppercase text-muted" style="letter-spacing: .08em; font-weight: 700;">Vista de privilegios</p>
+                                            <h5 class="mb-0">Panel de acceso por módulo</h5>
+                                        </div>
+                                    </div>
+                                    <ul class="privilege-list">
+                                        <li><span class="badge-status success">Exact</span> Usuarios habilitados en el módulo</li>
+                                        <li><span class="badge-status info">Tipo Usuario</span> Control de perfiles y roles</li>
+                                        <li><span class="badge-status warning">Operaciones</span> Rutas con permisos activos</li>
+                                    </ul>
+                                    <div class="mb-2"><small class="text-muted">Referencias rápidas</small></div>
+                                    <div class="d-flex flex-wrap mb-3">
+                                        <span class="module-pill"><span class="dot-fruta"></span>Fruta</span>
+                                        <span class="module-pill"><span class="dot-material"></span>Materiales</span>
+                                        <span class="module-pill"><span class="dot-export"></span>Exportadora</span>
+                                    </div>
+                                    <p class="mb-0 text-muted" style="font-size: 0.95rem;">Inspirado en el registro de materia prima: un solo formato limpio para gestionar accesos y mantener estándar visual entre módulos.</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <!-- Tabs para seleccionar el tipo de login -->
+                                <ul class="nav nav-tabs mb-3" id="loginTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="fruta-tab" data-toggle="tab" href="#fruta" role="tab" aria-controls="fruta" aria-selected="true">Fruta</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="materiales-tab" data-toggle="tab" href="#materiales" role="tab" aria-controls="materiales" aria-selected="false">Materiales</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="exportadora-tab" data-toggle="tab" href="#exportadora" role="tab" aria-controls="exportadora" aria-selected="false">Exportadora</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="loginTabContent">
+                                    <div class="tab-pane fade show active" id="fruta" role="tabpanel" aria-labelledby="fruta-tab">
+                                        <form class="form" role="form" id="loginForm_fruta" name="form_reg_dato">
+                                            <input type="hidden" class="form-control" id="MODULO_FRUTA" name="MODULO" value="fruta">
+                                            <div class="form-group">
+                                                <label for="NOMBRE_FRUTA" class="form-label">Nombre de usuario</label>
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control" placeholder="Ingresa tu usuario" id="NOMBRE_FRUTA" name="NOMBRE" required>
+                                                    <div class="input-group-append">
+                                                        <div class="input-group-text">
+                                                            <span class="fas fa-user"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="CONTRASENA_FRUTA" class="form-label">Contraseña</label>
+                                                <div class="input-group mb-4">
+                                                    <input type="password" class="form-control" placeholder="********" id="CONTRASENA_FRUTA" name="CONTRASENA" required>
+                                                    <div class="input-group-append">
+                                                        <div class="input-group-text">
+                                                            <span class="fas fa-lock"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-end">
+                                                <button type="submit" class="btn btn-primary px-4" id="ENTRAR" name="ENTRAR">Ingresar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="tab-pane fade" id="materiales" role="tabpanel" aria-labelledby="materiales-tab">
+                                        <form class="form" role="form" id="loginForm_material" name="form_reg_dato">
+                                            <input type="hidden" class="form-control" id="MODULO_MATERIAL" name="MODULO" value="material">
+                                            <div class="form-group">
+                                                <label for="NOMBRE_MATERIAL" class="form-label">Nombre de usuario</label>
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control" placeholder="Ingresa tu usuario" id="NOMBRE_MATERIAL" name="NOMBRE" required>
+                                                    <div class="input-group-append">
+                                                        <div class="input-group-text">
+                                                            <span class="fas fa-user"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="CONTRASENA_MATERIAL" class="form-label">Contraseña</label>
+                                                <div class="input-group mb-4">
+                                                    <input type="password" class="form-control" placeholder="********" id="CONTRASENA_MATERIAL" name="CONTRASENA" required>
+                                                    <div class="input-group-append">
+                                                        <div class="input-group-text">
+                                                            <span class="fas fa-lock"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-end">
+                                                <button type="submit" class="btn btn-primary px-4" id="ENTRAR" name="ENTRAR">Ingresar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="tab-pane fade" id="exportadora" role="tabpanel" aria-labelledby="exportadora-tab">
+                                        <form class="form" role="form" id="loginForm_exportadora" name="form_reg_dato">
+                                            <input type="hidden" class="form-control" id="MODULO_EXPORTADORA" name="MODULO" value="exportadora">
+                                            <div class="form-group">
+                                                <label for="NOMBRE_EXPORTADORA" class="form-label">Nombre de usuario</label>
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control" placeholder="Ingresa tu usuario" id="NOMBRE_EXPORTADORA" name="NOMBRE" required>
+                                                    <div class="input-group-append">
+                                                        <div class="input-group-text">
+                                                            <span class="fas fa-user"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="CONTRASENA_EXPORTADORA" class="form-label">Contraseña</label>
+                                                <div class="input-group mb-4">
+                                                    <input type="password" class="form-control" placeholder="********" id="CONTRASENA_EXPORTADORA" name="CONTRASENA" required>
+                                                    <div class="input-group-append">
+                                                        <div class="input-group-text">
+                                                            <span class="fas fa-lock"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-end">
+                                                <button type="submit" class="btn btn-primary px-4" id="ENTRAR" name="ENTRAR">Ingresar</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            <div class="input-group mb-3">
-                                <input type="password" class="form-control" placeholder="CONTRASEÑA" id="CONTRASENA_MATERIAL" name="CONTRASENA" required>
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-lock"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="btn-group col-12 d-flex">
-                                       
-                                        <button type="submit" class="btn btn-success w-100" id="ENTRAR" name="ENTRAR">ENTRAR</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
-
-
-                    <!-- Login Exportadora -->
-                    <div class="tab-pane fade" id="exportadora" role="tabpanel" aria-labelledby="exportadora-tab" style="border: solid 1px rgba(0,0,0,0.1); padding: 10px;">
-                        <!-- Formulario para exportadora -->
-                        <form class="form" role="form" id="loginForm_exportadora" name="form_reg_dato">
-                            <input type="hidden" class="form-control" id="MODULO_EXPORTADORA" name="MODULO" value="exportadora">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="NOMBRE USUARIO" id="NOMBRE_EXPORTADORA" name="NOMBRE" required>
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-user"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="input-group mb-3">
-                                <input type="password" class="form-control" placeholder="CONTRASEÑA" id="CONTRASENA_EXPORTADORA" name="CONTRASENA" required>
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-lock"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="btn-group col-12 d-flex">
-                                        
-                                        <button type="submit" class="btn btn-success w-100" id="ENTRAR" name="ENTRAR">ENTRAR</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-
                 </div>
             </div>
         </div>
@@ -159,116 +182,41 @@
 
 
 <script>
-        document.getElementById("loginForm_material").addEventListener("submit", function(e) {
-            e.preventDefault(); // Prevenir que el formulario se envíe de manera tradicional
+        function registerLoginHandler(formId, nameId, passwordId, moduleId) {
+            const form = document.getElementById(formId);
+            form.addEventListener("submit", function(e) {
+                e.preventDefault();
 
-            // Capturar valores del formulario
-            const nombreUsuario = document.getElementById("NOMBRE_MATERIAL").value;
-            const contrasena = document.getElementById("CONTRASENA_MATERIAL").value;
-            const modulo = document.getElementById("MODULO_MATERIAL").value;
+                const nombreUsuario = document.getElementById(nameId).value;
+                const contrasena = document.getElementById(passwordId).value;
+                const modulo = document.getElementById(moduleId).value;
 
-            // Crear los datos a enviar
-            const formData = new FormData();
-            formData.append("NOMBRE", nombreUsuario);
-            formData.append("CONTRASENA", contrasena);
-            formData.append("ENTRAR", "ENTRAR"); // Valor del botón
+                const formData = new FormData();
+                formData.append("NOMBRE", nombreUsuario);
+                formData.append("CONTRASENA", contrasena);
+                formData.append("ENTRAR", "ENTRAR");
 
-            // Realizar la petición POST
-            fetch("", { // Cambia a la URL de tu backend
-                method: "POST",
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.text(); // O `response.json()` dependiendo del tipo de respuesta esperada
-                } else {
+                fetch("", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
                     throw new Error("Error en el inicio de sesión");
-                }
-            })
-            .then(data => {
-                // Manejar respuesta exitosa y redirigir
-                console.log(data); // Aquí puedes manejar la respuesta del servidor si es necesario
-                window.location.href = "./"+modulo+"/vista/iniciarSession.php"; // Redirige al dashboard o donde sea
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("Fallo en el inicio de sesión");
+                })
+                .then(() => {
+                    window.location.href = "./" + modulo + "/vista/iniciarSession.php";
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("Fallo en el inicio de sesión");
+                });
             });
-        });
+        }
 
-
-        document.getElementById("loginForm_fruta").addEventListener("submit", function(e) {
-            e.preventDefault(); // Prevenir que el formulario se envíe de manera tradicional
-
-            // Capturar valores del formulario
-            const nombreUsuario = document.getElementById("NOMBRE_FRUTA").value;
-            const contrasena = document.getElementById("CONTRASENA_FRUTA").value;
-            const modulo = document.getElementById("MODULO_FRUTA").value;
-
-            // Crear los datos a enviar
-            const formData = new FormData();
-            formData.append("NOMBRE", nombreUsuario);
-            formData.append("CONTRASENA", contrasena);
-            formData.append("ENTRAR", "ENTRAR"); // Valor del botón
-
-            // Realizar la petición POST
-            fetch("", { // Cambia a la URL de tu backend
-                method: "POST",
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.text(); // O `response.json()` dependiendo del tipo de respuesta esperada
-                } else {
-                    throw new Error("Error en el inicio de sesión");
-                }
-            })
-            .then(data => {
-                // Manejar respuesta exitosa y redirigir
-                console.log(data); // Aquí puedes manejar la respuesta del servidor si es necesario
-                window.location.href = "./"+modulo+"/vista/iniciarSession.php"; // Redirige al dashboard o donde sea
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("Fallo en el inicio de sesión");
-            });
-        });
-
-
-        document.getElementById("loginForm_exportadora").addEventListener("submit", function(e) {
-            e.preventDefault(); // Prevenir que el formulario se envíe de manera tradicional
-
-            // Capturar valores del formulario
-            const nombreUsuario = document.getElementById("NOMBRE_EXPORTADORA").value;
-            const contrasena = document.getElementById("CONTRASENA_EXPORTADORA").value;
-            const modulo = document.getElementById("MODULO_EXPORTADORA").value;
-
-            // Crear los datos a enviar
-            const formData = new FormData();
-            formData.append("NOMBRE", nombreUsuario);
-            formData.append("CONTRASENA", contrasena);
-            formData.append("ENTRAR", "ENTRAR"); // Valor del botón
-
-            // Realizar la petición POST
-            fetch("", { // Cambia a la URL de tu backend
-                method: "POST",
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.text(); // O `response.json()` dependiendo del tipo de respuesta esperada
-                } else {
-                    throw new Error("Error en el inicio de sesión");
-                }
-            })
-            .then(data => {
-                // Manejar respuesta exitosa y redirigir
-                console.log(data); // Aquí puedes manejar la respuesta del servidor si es necesario
-                window.location.href = "./"+modulo+"/vista/iniciarSession.php"; // Redirige al dashboard o donde sea
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("Fallo en el inicio de sesión");
-            });
-        });
-    </script>
+        registerLoginHandler("loginForm_fruta", "NOMBRE_FRUTA", "CONTRASENA_FRUTA", "MODULO_FRUTA");
+        registerLoginHandler("loginForm_material", "NOMBRE_MATERIAL", "CONTRASENA_MATERIAL", "MODULO_MATERIAL");
+        registerLoginHandler("loginForm_exportadora", "NOMBRE_EXPORTADORA", "CONTRASENA_EXPORTADORA", "MODULO_EXPORTADORA");
+</script>
