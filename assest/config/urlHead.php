@@ -39,3 +39,4 @@
 <link rel="stylesheet" type="text/css" href="../../assest/css/theme-velzon.css" />
 <link rel="stylesheet" type="text/css" href="../../assest/css/layout-lite.css" />
 <link rel="stylesheet" type="text/css" href="../../assest/css/velzon-overrides.css" />
+<link rel="stylesheet" type="text/css" href="../../assest/css/solid-monochrome.css" />

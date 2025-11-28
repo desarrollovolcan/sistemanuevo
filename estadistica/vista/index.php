@@ -64,9 +64,68 @@ $TOTALPROCESADO=$ARRAYPROCESADOMP[0]["NETO"];
         <!- LLAMADA AL MENU PRINCIPAL DE LA PAGINA-!>
             <?php include_once "../../assest/config/menuOpera.php"; ?>
             <div class="content-wrapper">
-                <div class="container-full">                   
+                <div class="container-full">
                     <section class="content">
-                        <div class="row">      
+                        <?php $TOTALNOTIDASH = $ARRAYNOTIFICACIONESCABECERA ? count($ARRAYNOTIFICACIONESCABECERA) : 0; ?>
+                        <div class="row mb-15">
+                            <div class="col-12">
+                                <div class="alert-summary mb-3">
+                                    <strong><?php echo $TOTALNOTIDASH; ?> notificaciones activas</strong> filtradas por el usuario, empresa y planta actuales.
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card notifications-board table-velzon">
+                                    <div class="card-header d-flex align-items-center justify-content-between flex-wrap">
+                                        <div>
+                                            <p class="card-subtitle mb-1 text-muted">Centro de alertas</p>
+                                            <h4 class="card-title mb-0">Notificaciones según sesión</h4>
+                                        </div>
+                                        <a href="../../exportadora/vista/registroNotificacion.php" class="btn btn-primary btn-sm">Crear / Gestionar</a>
+                                    </div>
+                                    <div class="card-body">
+                                        <?php if($TOTALNOTIDASH>0){ ?>
+                                            <div class="table-responsive">
+                                                <table class="table table-hover align-middle mb-0 table-velzon">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Notificación</th>
+                                                            <th>Dirigida a</th>
+                                                            <th>Prioridad</th>
+                                                            <th>Vigencia</th>
+                                                            <th>Estado</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php foreach ($ARRAYNOTIFICACIONESCABECERA as $noti) : ?>
+                                                            <?php
+                                                                $prioridadTexto = $noti['PRIORIDAD']==1 ? 'Alta' : ($noti['PRIORIDAD']==3 ? 'Baja' : 'Media');
+                                                                $prioridadClase = 'badge-prioridad';
+                                                                $destino = ucfirst($noti['DESTINO_TIPO']).' #'.$noti['DESTINO_ID'];
+                                                                $vigencia = $noti['FECHA_INICIO'];
+                                                                if($noti['FECHA_FIN']){ $vigencia .= ' - '.$noti['FECHA_FIN']; }
+                                                                $estado = $noti['ESTADO_REGISTRO']==1 ? 'Activa' : 'Inactiva';
+                                                            ?>
+                                                            <tr>
+                                                                <td><?php echo $noti['MENSAJE']; ?></td>
+                                                                <td><span class="badge-destino text-uppercase"><?php echo $destino; ?></span></td>
+                                                                <td><span class="badge <?php echo $prioridadClase; ?>"><?php echo $prioridadTexto; ?></span></td>
+                                                                <td><?php echo $vigencia; ?></td>
+                                                                <td><span class="badge badge-destino"><?php echo $estado; ?></span></td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        <?php } else { ?>
+                                            <div class="text-center text-muted py-4">
+                                                No hay notificaciones asignadas al usuario, empresa o planta activos.
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <?php if($PESTARVSP=="1"){ ?>               
                                 <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 col-xs-12">				
                                     <div class="card">

@@ -70,8 +70,8 @@ strong,
 }
 
 .badge-primary {
-  background: linear-gradient(135deg, var(--app-primary), var(--app-primary-strong));
-  color: #0b0b0b;
+  background: #1f1f1f;
+  color: #ffffff;
 }
 
 .badge-warning {

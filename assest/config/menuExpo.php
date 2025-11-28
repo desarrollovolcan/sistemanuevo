@@ -1,4 +1,4 @@
-<header class="main-header app-header-modern">
+<header class="main-header shared-app-header">
   <div class="d-flex align-items-center logo-box pl-20">
     <a href="#" class="waves-effect waves-light nav-link rounded d-none d-md-inline-block push-btn" data-toggle="push-menu" role="button">
       <img src="../../api/cryptioadmin10/html/images/svg-icon/collapse.svg" class="img-fluid svg-icon" alt="">
@@ -13,7 +13,7 @@
     </a>    
   </div>
   <!-- Header Navbar -->
-  <nav class="navbar navbar-static-top pl-10 navbar-modern">
+  <nav class="navbar navbar-static-top pl-10 shared-app-navbar">
     <!-- Sidebar toggle button-->
     <div class="app-menu">
       <ul class="header-megamenu nav">
@@ -29,95 +29,70 @@
         </li>
         <li class="btn-group nav-item">
           <div class="search-bx ml-10">
-            <div class="input-group" style="font-size: 12px;">
-              <?php
-              if (isset($_SESSION["NOMBRE_USUARIO"])) {
-                $ARRAYEMPRESAS = $EMPRESA_ADO->verEmpresa($EMPRESAS);
-                if ($ARRAYEMPRESAS) {
-                  echo $ARRAYEMPRESAS[0]['NOMBRE_EMPRESA'];
-                  //$EMPRESA = $ARRAYEMPRESAS[0]['ID_EMPRESA'];
-                } else {
-                  echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
-                }
-              } else {
-                echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
-              }
-              ?>
-              <br>
-              <?php
-              if (isset($_SESSION["NOMBRE_USUARIO"])) {
-                $ARRAYTEMPORADAS = $TEMPORADA_ADO->verTemporada($TEMPORADAS);
-                if ($ARRAYTEMPORADAS) {
-                  echo $ARRAYTEMPORADAS[0]['NOMBRE_TEMPORADA'];
-                  //$TEMPORADA = $ARRAYTEMPORADAS[0]['ID_TEMPORADA'];
-                } else {
-                  echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
-                }
-              } else {
-                echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
-              }
-              ?>
+            <div class="session-meta">
+              <div class="meta-block">
+                <span class="meta-label">Empresa</span>
+                <span class="meta-value">
+                  <?php
+                  if (isset($_SESSION["NOMBRE_USUARIO"])) {
+                    $ARRAYEMPRESAS = $EMPRESA_ADO->verEmpresa($EMPRESAS);
+                    if ($ARRAYEMPRESAS) {
+                      echo $ARRAYEMPRESAS[0]['NOMBRE_EMPRESA'];
+                    } else {
+                      echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
+                    }
+                  } else {
+                    echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
+                  }
+                  ?>
+                </span>
+              </div>
+              <div class="meta-block">
+                <span class="meta-label">Planta</span>
+                <span class="meta-value">
+                  <?php
+                  if (isset($_SESSION["NOMBRE_USUARIO"])) {
+                    $ARRAYPLANTAS = $PLANTA_ADO->verPlanta($PLANTAS);
+                    if ($ARRAYPLANTAS) {
+                      echo $ARRAYPLANTAS[0]['NOMBRE_PLANTA'];
+                    } else {
+                      echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
+                    }
+                  } else {
+                    echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
+                  }
+                  ?>
+                </span>
+              </div>
+              <div class="meta-block">
+                <span class="meta-label">Temporada</span>
+                <span class="meta-value">
+                  <?php
+                  if (isset($_SESSION["NOMBRE_USUARIO"])) {
+                    $ARRAYTEMPORADAS = $TEMPORADA_ADO->verTemporada($TEMPORADAS);
+                    if ($ARRAYTEMPORADAS) {
+                      echo $ARRAYTEMPORADAS[0]['NOMBRE_TEMPORADA'];
+                    } else {
+                      echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
+                    }
+                  } else {
+                    echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
+                  }
+                  ?>
+                </span>
+              </div>
             </div>
           </div>
-        </li>  
+        </li>
       </ul>
     </div>
     <div class="navbar-custom-menu r-side">
       <ul class="nav navbar-nav">
-        <!-- Notifications -->
-        <?php $TOTALNOTI = $ARRAYNOTIFICACIONESCABECERA ? count($ARRAYNOTIFICACIONESCABECERA) : 0; ?>
-        <li class="dropdown notifications-menu">
-          <a href="#" class="dropdown-toggle btn-icon-label" data-toggle="dropdown" title="Notificaciones" aria-haspopup="true" aria-expanded="false">
-            <span class="material-icons">notifications_active</span>
-            <span class="d-none d-sm-inline">Notificaciones</span>
-            <span class="badge-counter"><?php echo $TOTALNOTI; ?></span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right notification-dropdown animated fadeIn">
-            <div class="notification-headline">
-              <div>
-                <p class="title mb-0">Centro de alertas</p>
-                <small>Filtrado por usuario, empresa y planta</small>
-              </div>
-              <span class="badge badge-light"><?php echo $TOTALNOTI; ?></span>
-            </div>
-            <?php if($TOTALNOTI>0){ ?>
-              <div class="notification-list">
-                <?php foreach ($ARRAYNOTIFICACIONESCABECERA as $noti) : ?>
-                  <?php
-                    $prioridadTexto = $noti['PRIORIDAD']==1 ? 'Alta' : ($noti['PRIORIDAD']==3 ? 'Baja' : 'Media');
-                    $prioridadClase = $noti['PRIORIDAD']==1 ? 'alta' : ($noti['PRIORIDAD']==3 ? 'baja' : 'media');
-                    $colorFondo = $noti['PRIORIDAD']==1 ? '#fde2db' : ($noti['PRIORIDAD']==3 ? '#daf3ed' : '#fff3da');
-                    $destino = ucfirst($noti['DESTINO_TIPO']).' #'.$noti['DESTINO_ID'];
-                    $vigencia = $noti['FECHA_INICIO'];
-                    if($noti['FECHA_FIN']){ $vigencia .= ' - '.$noti['FECHA_FIN']; }
-                  ?>
-                  <div class="notification-card" style="background: <?php echo $colorFondo; ?>;">
-                    <div class="notification-avatar" style="background: <?php echo $noti['PRIORIDAD']==1 ? '#f06548' : ($noti['PRIORIDAD']==3 ? '#0ab39c' : '#f7b84b'); ?>;">
-                      <span class="material-icons" style="font-size:18px;">campaign</span>
-                    </div>
-                    <div>
-                      <p class="notification-message mb-1"><?php echo $noti['MENSAJE']; ?></p>
-                      <div class="notification-meta">Para: <span class="notification-destination"><?php echo $destino; ?></span> · Vigencia: <?php echo $vigencia; ?></div>
-                      <div class="d-flex align-items-center" style="gap:8px;">
-                        <span class="badge-prioridad <?php echo $prioridadClase; ?>"><?php echo $prioridadTexto; ?></span>
-                        <span class="badge-destino text-uppercase">Destino <?php echo $noti['DESTINO_TIPO']; ?></span>
-                      </div>
-                    </div>
-                  </div>
-                <?php endforeach; ?>
-              </div>
-            <?php } else { ?>
-              <div class="p-3 text-center text-muted">Sin notificaciones asignadas</div>
-            <?php } ?>
-            <div class="notification-footer text-center">
-              <a href="registroNotificacion.php" class="btn btn-sm btn-primary">Gestionar notificaciones</a>
-            </div>
-          </div>
-        </li>
         <!-- User Account-->
         <li class="dropdown user user-menu">
-          <a href="#" class="waves-effect waves-light dropdown-toggle" data-toggle="dropdown" title="User">
+          <a href="#" class="waves-effect waves-light dropdown-toggle" data-toggle="dropdown" title="Mi Cuenta">
             <img src="../../api/cryptioadmin10/html/images/svg-icon/user.svg" class="rounded svg-icon" alt="" />
+            <span class="user-toggle-label">Mi Cuenta</span>
           </a>
           <ul class="dropdown-menu animated flipInX">
             <!-- User image -->
