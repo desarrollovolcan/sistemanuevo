@@ -28,7 +28,7 @@
 
 </head>
 
-<body class="login-modern">
+<body class="login-modern light-skin">
     <div class="container py-4 login-modern">
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-11">
@@ -36,33 +36,31 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div class="brand">
                             <img src="./assest/img/favicon.png" alt="" height="26px">
-                            <span>Inicio de sesión y privilegios</span>
+                            <span>Inicio de sesión</span>
                         </div>
-                        <small class="text-white-50">Formato unificado de acceso</small>
+                        <small class="text-muted">Acceso a los módulos</small>
                     </div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-lg-5">
                                 <div class="login-sidebar h-100">
                                     <div class="d-flex align-items-center mb-3">
-                                        <img src="./assest/img/volcan-foods-logo-original.png" alt="" height="48px" class="mr-2">
+                                        <img src="./assest/img/volcan-foods-logo-original.png" alt="" height="42px" class="mr-2">
                                         <div>
-                                            <p class="mb-1 text-uppercase text-muted" style="letter-spacing: .08em; font-weight: 700;">Vista de privilegios</p>
-                                            <h5 class="mb-0">Panel de acceso por módulo</h5>
+                                            <p class="mb-1 text-uppercase text-muted" style="letter-spacing: .08em; font-weight: 700;">Frutícola Volcán</p>
+                                            <h6 class="mb-0">Control de accesos por módulo</h6>
                                         </div>
                                     </div>
                                     <ul class="privilege-list">
-                                        <li><span class="badge-status success">Exact</span> Usuarios habilitados en el módulo</li>
-                                        <li><span class="badge-status info">Tipo Usuario</span> Control de perfiles y roles</li>
-                                        <li><span class="badge-status warning">Operaciones</span> Rutas con permisos activos</li>
+                                        <li>Usuarios habilitados en el módulo</li>
+                                        <li>Perfiles y roles vigentes</li>
+                                        <li>Operaciones con permisos activos</li>
                                     </ul>
-                                    <div class="mb-2"><small class="text-muted">Referencias rápidas</small></div>
-                                    <div class="d-flex flex-wrap mb-3">
+                                    <div class="d-flex flex-wrap gap-2">
                                         <span class="module-pill"><span class="dot-fruta"></span>Fruta</span>
                                         <span class="module-pill"><span class="dot-material"></span>Materiales</span>
                                         <span class="module-pill"><span class="dot-export"></span>Exportadora</span>
                                     </div>
-                                    <p class="mb-0 text-muted" style="font-size: 0.95rem;">Inspirado en el registro de materia prima: un solo formato limpio para gestionar accesos y mantener estándar visual entre módulos.</p>
                                 </div>
                             </div>
                             <div class="col-lg-7">

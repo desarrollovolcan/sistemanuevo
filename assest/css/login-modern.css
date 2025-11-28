@@ -1,11 +1,13 @@
 :root {
-  --login-bg: #f3f4f6;
+  --login-bg: #f5f7fa;
   --login-card: #ffffff;
-  --login-accent: #31b889;
-  --login-accent-dark: #2b9c74;
-  --login-muted: #6b7280;
-  --login-border: #e5e7eb;
-  --login-privilege-bg: #f8fafc;
+  --login-accent: #0bc169;
+  --login-accent-strong: #0a9a55;
+  --login-muted: #5a6169;
+  --login-border: #d0d7de;
+  --login-surface: #eef1f6;
+  --login-text: #2f343a;
+  --login-soft-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 body.login-modern {
@@ -14,23 +16,25 @@ body.login-modern {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--login-text);
 }
 
 .login-modern .login-modern-card {
   background: var(--login-card);
   border: 1px solid var(--login-border);
-  border-radius: 18px;
+  border-radius: 16px;
+  box-shadow: var(--login-soft-shadow);
   overflow: hidden;
 }
 
 .login-modern .login-modern-card .card-header {
-  background: linear-gradient(90deg, var(--login-accent), var(--login-accent-dark));
-  color: #fff;
-  border: none;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 18px 22px;
+  background: var(--login-card);
+  color: var(--login-text);
+  border-bottom: 1px solid var(--login-border);
+  text-transform: none;
+  letter-spacing: 0;
+  padding: 16px 22px;
 }
 
 .login-modern .login-modern-card .card-header .brand {
@@ -38,74 +42,44 @@ body.login-modern {
   align-items: center;
   gap: 10px;
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1rem;
 }
 
 .login-modern .login-modern-card .card-body {
-  padding: 28px;
+  padding: 24px;
 }
 
 .login-modern .login-sidebar {
-  background: var(--login-privilege-bg);
-  border: 1px dashed var(--login-border);
-  border-radius: 14px;
-  padding: 18px;
+  background: var(--login-surface);
+  border: 1px solid var(--login-border);
+  border-radius: 12px;
+  padding: 16px;
   height: 100%;
 }
 
-.login-modern .login-sidebar h5 {
+.login-modern .login-sidebar h6 {
   font-weight: 700;
+  color: var(--login-text);
 }
 
 .login-modern .privilege-list {
-  list-style: none;
-  padding-left: 0;
-  margin-bottom: 18px;
-}
-
-.login-modern .privilege-list li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 0;
+  list-style: disc;
+  padding-left: 18px;
+  margin-bottom: 16px;
   color: var(--login-muted);
-  font-weight: 600;
-}
-
-.login-modern .badge-status {
-  padding: 6px 10px;
-  border-radius: 10px;
-  font-size: 0.85rem;
-  font-weight: 700;
-}
-
-.login-modern .badge-status.success {
-  background: rgba(49, 184, 137, 0.18);
-  color: var(--login-accent-dark);
-}
-
-.login-modern .badge-status.warning {
-  background: #fff7ed;
-  color: #ea580c;
-}
-
-.login-modern .badge-status.info {
-  background: #eef2ff;
-  color: #4f46e5;
+  line-height: 1.5;
 }
 
 .login-modern .module-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 14px;
-  border-radius: 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
   border: 1px solid var(--login-border);
   background: #fff;
   font-weight: 700;
-  margin-right: 8px;
-  margin-bottom: 8px;
-  color: #111827;
+  color: var(--login-text);
 }
 
 .login-modern .module-pill span {
@@ -113,51 +87,62 @@ body.login-modern {
   width: 10px;
   height: 10px;
   border-radius: 50%;
+  background: var(--login-accent);
 }
 
-.login-modern .module-pill .dot-fruta { background: #22c55e; }
-.login-modern .module-pill .dot-material { background: #0ea5e9; }
+.login-modern .module-pill .dot-material { background: #0992d1; }
 .login-modern .module-pill .dot-export { background: #f59e0b; }
 
 .login-modern .nav-tabs {
-  border-bottom: none;
+  border-bottom: 1px solid var(--login-border);
   gap: 8px;
 }
 
 .login-modern .nav-tabs .nav-link {
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid var(--login-border);
-  color: #111827;
+  color: var(--login-muted);
   font-weight: 700;
-  padding: 10px 18px;
+  padding: 10px 16px;
+  background: #fff;
 }
 
 .login-modern .nav-tabs .nav-link.active {
-  background: var(--login-accent);
-  color: #fff;
+  background: var(--login-surface);
+  color: var(--login-text);
   border-color: var(--login-accent);
+  box-shadow: inset 0 0 0 1px var(--login-accent);
 }
 
 .login-modern .form-label {
   font-weight: 700;
-  color: #111827;
+  color: var(--login-text);
 }
 
 .login-modern .input-group-text {
-  background: #f8fafc;
+  background: var(--login-surface);
+  border-color: var(--login-border);
+}
+
+.login-modern .form-control {
+  border-color: var(--login-border);
+  color: var(--login-text);
 }
 
 .login-modern .btn-primary {
   background: var(--login-accent);
   border-color: var(--login-accent);
+  font-weight: 700;
+  padding: 10px 18px;
 }
 
-.login-modern .btn-primary:hover {
-  background: var(--login-accent-dark);
-  border-color: var(--login-accent-dark);
+.login-modern .btn-primary:hover,
+.login-modern .btn-primary:focus {
+  background: var(--login-accent-strong);
+  border-color: var(--login-accent-strong);
 }
 
 @media (max-width: 991px) {
-  .login-modern .login-modern-card .card-body { padding: 20px; }
+  .login-modern .login-modern-card .card-body { padding: 18px; }
   .login-modern .login-sidebar { margin-bottom: 18px; }
 }
