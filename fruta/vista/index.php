@@ -16,6 +16,18 @@ $kilosMpTotales = 0;
 $nombrePlanta = "";
 $kilosMpTotalesEmpresaPlanta = [];
 $kilosMpProcesadosAgrupado = [];
+$RECEPCION = 0;
+$RECEPCIONMP = 0;
+$RECEPCIONIND = 0;
+$RECEPCIONPT = 0;
+$DESPACHO = 0;
+$DESPACHOMP = 0;
+$DESPACHOIND = 0;
+$DESPACHOPT = 0;
+$DESPACHOEXPO = 0;
+$PROCESO = 0;
+$REEMBALAJE = 0;
+$REPALETIZAJE = 0;
 
 $query_kilosMpTotales = $CONSULTA_ADO->TotalKgMpRecepcionadosPlanta($TEMPORADAS, $PLANTAS);
 $query_datosPlanta = $CONSULTA_ADO->verPlanta($PLANTAS);
@@ -41,6 +53,7 @@ $query_acumuladoMPDiaAnterior = $CONSULTA_ADO->TotalKgMpRecepcionadoDiaAnterior(
 
 $query_acumuladoMPProcesado = $CONSULTA_ADO->TotalKgMpProcesado($TEMPORADAS, $EMPRESAS, $PLANTAS);
 $query_acumuladoMPProcesadoDiaAnterior = $CONSULTA_ADO->TotalKgMpProcesadoDiaAnterior($TEMPORADAS, $EMPRESAS, $PLANTAS);
+$ARRAYREGISTROSABIERTOS = $CONSULTA_ADO->contarRegistrosAbiertosFruta($EMPRESAS, $PLANTAS, $TEMPORADAS);
 
 if ($query_kilosMpTotales) {
     $kilosMpTotales = $query_kilosMpTotales[0]["TOTAL"];
@@ -75,6 +88,34 @@ $mpProcesadoDiaAnterior = $query_acumuladoMPProcesadoDiaAnterior ? $query_acumul
 
 $ptExportacion = $query_totalPtExportacion ? $query_totalPtExportacion[0]["TOTAL"] : 0;
 $porcentajeExportacion = $mpProcesado > 0 ? round((round($ptExportacion, 0) * 100) / round($mpProcesado, 0), 1) : 0;
+
+if ($ARRAYREGISTROSABIERTOS) {
+    $RECEPCION = $ARRAYREGISTROSABIERTOS[0]["RECEPCION"];
+    $RECEPCIONMP = $ARRAYREGISTROSABIERTOS[0]["RECEPCIONMP"];
+    $RECEPCIONIND = $ARRAYREGISTROSABIERTOS[0]["RECEPCIONIND"];
+    $RECEPCIONPT = $ARRAYREGISTROSABIERTOS[0]["RECEPCIONPT"];
+    $DESPACHO = $ARRAYREGISTROSABIERTOS[0]["DESPACHO"];
+    $DESPACHOMP = $ARRAYREGISTROSABIERTOS[0]["DESPACHOMP"];
+    $DESPACHOIND = $ARRAYREGISTROSABIERTOS[0]["DESPACHOIND"];
+    $DESPACHOPT = $ARRAYREGISTROSABIERTOS[0]["DESPACHOPT"];
+    $DESPACHOEXPO = $ARRAYREGISTROSABIERTOS[0]["DESPACHOEXPO"];
+    $PROCESO = $ARRAYREGISTROSABIERTOS[0]["PROCESO"];
+    $REEMBALAJE = $ARRAYREGISTROSABIERTOS[0]["REEMBALAJE"];
+    $REPALETIZAJE = $ARRAYREGISTROSABIERTOS[0]["REPALETIZAJE"];
+}
+
+$tarjetasRegistrosAbiertos = [
+    ["titulo" => "Recepción MP", "valor" => $RECEPCIONMP],
+    ["titulo" => "Recepción IND", "valor" => $RECEPCIONIND],
+    ["titulo" => "Recepción PT", "valor" => $RECEPCIONPT],
+    ["titulo" => "Despacho MP", "valor" => $DESPACHOMP],
+    ["titulo" => "Despacho IND", "valor" => $DESPACHOIND],
+    ["titulo" => "Despacho PT", "valor" => $DESPACHOPT],
+    ["titulo" => "Despacho EXPO", "valor" => $DESPACHOEXPO],
+    ["titulo" => "Proceso", "valor" => $PROCESO],
+    ["titulo" => "Reembalaje", "valor" => $REEMBALAJE],
+    ["titulo" => "Repaletizaje", "valor" => $REPALETIZAJE],
+];
 
 
 
@@ -212,6 +253,25 @@ if($ARRAYREGISTROSABIERTOS){
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-12">
+                                <div class="box">
+                                    <div class="box-header with-border" style="padding: 7px 1.5rem!important;">
+                                        <h4 class="box-title">Registros abiertos por módulo</h4>
+                                    </div>
+                                    <div class="box-body pt-15 pb-5">
+                                        <div class="row">
+                                            <?php foreach ($tarjetasRegistrosAbiertos as $registro) : ?>
+                                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-15">
+                                                    <div class="p-15 bg-light rounded">
+                                                        <p class="text-muted mb-5"><?php echo $registro["titulo"]; ?></p>
+                                                        <h4 class="mb-0 text-primary"><?php echo $registro["valor"]; ?></h4>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-xl-3 col-md-6 col-12">
                                 <div class="box">
                                     <div class="box-body text-center">
