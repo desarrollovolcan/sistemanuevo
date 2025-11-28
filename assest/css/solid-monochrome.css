@@ -135,9 +135,9 @@ body,
 .alert-summary,
 .notifications-board,
 .notification-card {
-  background: #ededed;
-  color: #111111;
-  border: 1px solid var(--mono-border);
+  background: #fff7e6;
+  color: #0f1c1b;
+  border: 1px solid #f0c66d;
   border-radius: 10px;
 }
 
@@ -153,8 +153,8 @@ body,
 }
 
 .notification-card .notification-avatar {
-  background: var(--mono-mid);
-  color: var(--mono-light);
+  background: #f08a24;
+  color: #ffffff;
   width: 42px;
   height: 42px;
   border-radius: 8px;
@@ -166,9 +166,9 @@ body,
 .notification-card .badge-prioridad,
 .notification-card .badge-destino,
 .badge-destino {
-  background: var(--mono-mid) !important;
-  color: var(--mono-light) !important;
-  border: 1px solid var(--mono-black) !important;
+  background: #ffe7bf !important;
+  color: #7a3b00 !important;
+  border: 1px solid #f0c66d !important;
 }
 
 .table-velzon thead th,

@@ -19,6 +19,15 @@ $(function () {
                     }
                 }
             ],
+            drawCallback: function () {
+                var api = this.api();
+                var $rows = $(api.table().body()).find('tr');
+
+                $rows.removeClass('estado-abierto-row');
+                $rows.filter(function () {
+                    return $(this).find('button.btn-success:contains("Abierto")').length > 0;
+                }).addClass('estado-abierto-row');
+            },
             initComplete: function () {
                 var api = this.api();
                 var table = api.table().node();

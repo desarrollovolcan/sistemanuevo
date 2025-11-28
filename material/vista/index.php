@@ -57,7 +57,7 @@ include_once "../../assest/config/ValidardatosUrl.php";
 
 </head>
 
-<body class="hold-transition light-skin fixed sidebar-mini theme-primary" >
+<body class="hold-transition light-skin fixed sidebar-mini theme-primary module-material" >
     <div class="wrapper">
         <?php include_once "../../assest/config/menuMaterial.php"; ?>
         <!-- Content Wrapper. Contains page content -->
@@ -82,7 +82,7 @@ include_once "../../assest/config/ValidardatosUrl.php";
                 </div>
                 <section class="content">
                         <?php $TOTALNOTIDASH = $ARRAYNOTIFICACIONESCABECERA ? count($ARRAYNOTIFICACIONESCABECERA) : 0; ?>
-                        <div class="row mb-15">
+                        <div class="row mb-15 notifications-row">
                             <div class="col-12">
                                 <div class="alert-summary mb-3">
                                     <strong><?php echo $TOTALNOTIDASH; ?> notificaciones activas</strong> filtradas por el usuario, empresa y planta actuales.
@@ -95,7 +95,6 @@ include_once "../../assest/config/ValidardatosUrl.php";
                                             <p class="card-subtitle mb-1 text-muted">Centro de alertas</p>
                                             <h4 class="card-title mb-0">Notificaciones según sesión</h4>
                                         </div>
-                                        <a href="../../exportadora/vista/registroNotificacion.php" class="btn btn-primary btn-sm">Crear / Gestionar</a>
                                     </div>
                                     <div class="card-body">
                                         <?php if($TOTALNOTIDASH>0){ ?>

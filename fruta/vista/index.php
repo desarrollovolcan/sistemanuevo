@@ -136,7 +136,7 @@ if($ARRAYREGISTROSABIERTOS){
             }
         </script>
 </head>
-<body class="hold-transition light-skin fixed sidebar-mini theme-primary" >
+<body class="hold-transition light-skin fixed sidebar-mini theme-primary module-fruta" >
     <div class="wrapper">
         <!- LLAMADA AL MENU PRINCIPAL DE LA PAGINA-!>
             <?php include_once "../../assest/config/menuFruta.php"; ?>
@@ -154,7 +154,7 @@ if($ARRAYREGISTROSABIERTOS){
                     </div>
                     <section class="content">
                         <?php $TOTALNOTIDASH = $ARRAYNOTIFICACIONESCABECERA ? count($ARRAYNOTIFICACIONESCABECERA) : 0; ?>
-                        <div class="row mb-15">
+                        <div class="row mb-15 notifications-row">
                             <div class="col-12">
                                 <div class="alert-summary mb-3">
                                     <strong><?php echo $TOTALNOTIDASH; ?> notificaciones activas</strong> filtradas por el usuario, empresa y planta actuales.
@@ -167,7 +167,6 @@ if($ARRAYREGISTROSABIERTOS){
                                             <p class="card-subtitle mb-1 text-muted">Centro de alertas</p>
                                             <h4 class="card-title mb-0">Notificaciones según sesión</h4>
                                         </div>
-                                        <a href="../../exportadora/vista/registroNotificacion.php" class="btn btn-primary btn-sm">Crear / Gestionar</a>
                                     </div>
                                     <div class="card-body">
                                         <?php if($TOTALNOTIDASH>0){ ?>
