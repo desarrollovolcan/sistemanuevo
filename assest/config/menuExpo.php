@@ -67,42 +67,52 @@
         <!-- Notifications -->
         <?php $TOTALNOTI = $ARRAYNOTIFICACIONESCABECERA ? count($ARRAYNOTIFICACIONESCABECERA) : 0; ?>
         <li class="dropdown notifications-menu">
-          <a href="#" class="waves-effect waves-light dropdown-toggle" data-toggle="dropdown" title="Notifications">
-            <img src="../../api/cryptioadmin10/html/images/svg-icon/notifications.svg" class="img-fluid svg-icon" alt="">
-            <span class="badge badge-counter"><?php echo $TOTALNOTI; ?></span>
+          <a href="#" class="dropdown-toggle btn-icon-label" data-toggle="dropdown" title="Notificaciones" aria-haspopup="true" aria-expanded="false">
+            <span class="material-icons">notifications_active</span>
+            <span class="d-none d-sm-inline">Notificaciones</span>
+            <span class="badge-counter"><?php echo $TOTALNOTI; ?></span>
           </a>
-          <ul class="dropdown-menu dropdown-menu-right notifications-modern animated fadeIn">
-            <li class="notification-headline">
-              <span>Notificaciones</span>
+          <div class="dropdown-menu dropdown-menu-right notification-dropdown animated fadeIn">
+            <div class="notification-headline">
+              <div>
+                <p class="title mb-0">Centro de alertas</p>
+                <small>Filtrado por usuario, empresa y planta</small>
+              </div>
               <span class="badge badge-light"><?php echo $TOTALNOTI; ?></span>
-            </li>
+            </div>
             <?php if($TOTALNOTI>0){ ?>
-            <li>
-              <ul class="menu sm-scrol">
+              <div class="notification-list">
                 <?php foreach ($ARRAYNOTIFICACIONESCABECERA as $noti) : ?>
                   <?php
-                    $color = 'bg-info';
-                    if($noti['PRIORIDAD']==1){ $color='bg-danger'; }
-                    if($noti['PRIORIDAD']==3){ $color='bg-success'; }
+                    $prioridadTexto = $noti['PRIORIDAD']==1 ? 'Alta' : ($noti['PRIORIDAD']==3 ? 'Baja' : 'Media');
+                    $prioridadClase = $noti['PRIORIDAD']==1 ? 'alta' : ($noti['PRIORIDAD']==3 ? 'baja' : 'media');
+                    $colorFondo = $noti['PRIORIDAD']==1 ? '#fde2db' : ($noti['PRIORIDAD']==3 ? '#daf3ed' : '#fff3da');
                     $destino = ucfirst($noti['DESTINO_TIPO']).' #'.$noti['DESTINO_ID'];
+                    $vigencia = $noti['FECHA_INICIO'];
+                    if($noti['FECHA_FIN']){ $vigencia .= ' - '.$noti['FECHA_FIN']; }
                   ?>
-                  <li class="notification-item">
-                    <div class="notification-icon <?php echo $color; ?>">!</div>
-                    <div>
-                      <p class="notification-text"><?php echo $noti['MENSAJE']; ?></p>
-                      <div class="notification-meta">Para: <?php echo $destino; ?> · Vigencia <?php echo $noti['FECHA_INICIO']; ?> <?php echo $noti['FECHA_FIN']? ' - '.$noti['FECHA_FIN'] : ''; ?></div>
+                  <div class="notification-card" style="background: <?php echo $colorFondo; ?>;">
+                    <div class="notification-avatar" style="background: <?php echo $noti['PRIORIDAD']==1 ? '#f06548' : ($noti['PRIORIDAD']==3 ? '#0ab39c' : '#f7b84b'); ?>;">
+                      <span class="material-icons" style="font-size:18px;">campaign</span>
                     </div>
-                  </li>
+                    <div>
+                      <p class="notification-message mb-1"><?php echo $noti['MENSAJE']; ?></p>
+                      <div class="notification-meta">Para: <span class="notification-destination"><?php echo $destino; ?></span> · Vigencia: <?php echo $vigencia; ?></div>
+                      <div class="d-flex align-items-center" style="gap:8px;">
+                        <span class="badge-prioridad <?php echo $prioridadClase; ?>"><?php echo $prioridadTexto; ?></span>
+                        <span class="badge-destino text-uppercase">Destino <?php echo $noti['DESTINO_TIPO']; ?></span>
+                      </div>
+                    </div>
+                  </div>
                 <?php endforeach; ?>
-              </ul>
-            </li>
+              </div>
             <?php } else { ?>
-              <li class="empty-state">Sin notificaciones asignadas</li>
+              <div class="p-3 text-center text-muted">Sin notificaciones asignadas</div>
             <?php } ?>
-            <li class="footer text-center p-2">
-              <a href="registroNotificacion.php" class="btn btn-link">Gestionar notificaciones</a>
-            </li>
-          </ul>
+            <div class="notification-footer text-center">
+              <a href="registroNotificacion.php" class="btn btn-sm btn-primary">Gestionar notificaciones</a>
+            </div>
+          </div>
         </li>
         <!-- User Account-->
         <li class="dropdown user user-menu">
