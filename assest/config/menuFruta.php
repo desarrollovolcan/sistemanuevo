@@ -330,7 +330,7 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php if($PFGRANEL=="1"){ ?>
           <li class="treeview">
             <a href="#">
-              <i class="material-icons">inventory_2</i><span>Granel</span>
+              <i class="material-icons">agriculture</i><span>Granel</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-right pull-right"></i>
               </span>
@@ -430,7 +430,7 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
           <?php if($PMENVASE=="1"){ ?>
             <li class="treeview">
               <a href="#">
-                <i class="material-icons">inventory</i><span>Envases</span>
+                <i class="material-icons">category</i><span>Envases</span>
                 <span class="pull-right-container">
                   <i class="fa fa-angle-right pull-right"></i>
                 </span>
@@ -489,7 +489,7 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php if($PFPACKING=="1"){ ?>
           <li class="treeview">
             <a href="#">
-              <i class="material-icons">local_shipping</i><span>Packing</span>
+              <i class="material-icons">inventory_2</i><span>Packing</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-right pull-right"></i>
               </span>
@@ -602,8 +602,7 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php if($PFFRIGORIFICO=="1"){ ?>
           <li class="treeview">
             <a href="#">
-              <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/maps.svg" class="svg-icon" alt="">
-              <span> Frigorifico</span>
+              <i class="material-icons">ac_unit</i><span> Frigorifico</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-right pull-right"></i>
               </span>
