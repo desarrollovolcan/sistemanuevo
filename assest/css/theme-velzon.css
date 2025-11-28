@@ -240,13 +240,13 @@ a:hover {
 .content-header h1 {
   font-size: 20px;
   font-weight: 600;
-  color: var(--vz-text);
+  color: var(--text-color);
   margin-bottom: 4px;
 }
 
 .content-header .subtitle {
   font-size: 13px;
-  color: var(--vz-text-muted);
+  color: var(--text-muted);
 }
 
 /* ===== CARDS / BOX ===== */
@@ -1212,25 +1212,25 @@ label {
 /* Título principal más visible */
 .content-header h1,
 .content-header .page-title {
-  color: #111827 !important;   /* gris muy oscuro */
+  color: var(--text-color) !important;
   font-weight: 600;
   font-size: 20px;
 }
 
 /* Migas de pan: items normales en gris medio */
 .content-header .breadcrumb > li > a {
-  color: #6b7280 !important;   /* gris medio */
+  color: var(--text-muted) !important;
   font-weight: 400;
 }
 
 /* Separador "/" también más visible */
 .content-header .breadcrumb > li + li:before {
-  color: #9ca3af !important;
+  color: var(--text-muted) !important;
 }
 
 /* Migas de pan: item activo en rojo de acento */
 .content-header .breadcrumb > .active {
-  color: #f06548 !important;  /* rojo Velzon */
+  color: var(--accent) !important;
   font-weight: 600;
 }
 
