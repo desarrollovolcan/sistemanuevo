@@ -59,7 +59,7 @@ $TOTALPROCESADO=$ARRAYPROCESADOMP[0]["NETO"];
         
         </script>
 </head>
-<body class="hold-transition light-skin fixed sidebar-mini theme-primary" >
+<body class="hold-transition light-skin fixed sidebar-mini theme-primary module-estadistica" >
     <div class="wrapper">
         <!- LLAMADA AL MENU PRINCIPAL DE LA PAGINA-!>
             <?php include_once "../../assest/config/menuOpera.php"; ?>
@@ -67,7 +67,7 @@ $TOTALPROCESADO=$ARRAYPROCESADOMP[0]["NETO"];
                 <div class="container-full">
                     <section class="content">
                         <?php $TOTALNOTIDASH = $ARRAYNOTIFICACIONESCABECERA ? count($ARRAYNOTIFICACIONESCABECERA) : 0; ?>
-                        <div class="row mb-15">
+                        <div class="row mb-15 notifications-row">
                             <div class="col-12">
                                 <div class="alert-summary mb-3">
                                     <strong><?php echo $TOTALNOTIDASH; ?> notificaciones activas</strong> filtradas por el usuario, empresa y planta actuales.
@@ -80,7 +80,6 @@ $TOTALPROCESADO=$ARRAYPROCESADOMP[0]["NETO"];
                                             <p class="card-subtitle mb-1 text-muted">Centro de alertas</p>
                                             <h4 class="card-title mb-0">Notificaciones según sesión</h4>
                                         </div>
-                                        <a href="../../exportadora/vista/registroNotificacion.php" class="btn btn-primary btn-sm">Crear / Gestionar</a>
                                     </div>
                                     <div class="card-body">
                                         <?php if($TOTALNOTIDASH>0){ ?>

@@ -89,6 +89,9 @@
   color: #e6f3e9;
   padding: 18px 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-left: 230px;
+  position: relative;
+  z-index: 50;
 }
 
 .footer-modern .version-chip {
@@ -109,6 +112,14 @@
   padding: 8px 14px;
   font-weight: 700;
   box-shadow: none;
+}
+
+@media (max-width: 991.98px) {
+  .footer-modern {
+    margin-left: 0;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
 }
 
 /* Filtros de columnas DataTables */

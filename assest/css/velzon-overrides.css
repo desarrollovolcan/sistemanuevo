@@ -40,6 +40,16 @@ h3.page-title,
   align-items: center;
 }
 
+.navbar-nav > .user-menu > a {
+  color: #374151 !important;
+  border-color: #d1d5db;
+}
+
+.navbar-nav > .user-menu > a::before,
+.navbar-nav > .user-menu > a .user-toggle-label {
+  color: #374151 !important;
+}
+
 .btn-icon-label {
   display: inline-flex;
   align-items: center;
@@ -159,9 +169,9 @@ h3.page-title,
   font-size: 12px;
 }
 
-.badge-prioridad.alta { background: rgba(240, 101, 72, 0.12); color: var(--vz-danger); }
-.badge-prioridad.media { background: rgba(247, 184, 75, 0.16); color: #aa7315; }
-.badge-prioridad.baja { background: rgba(10, 179, 156, 0.14); color: var(--vz-success); }
+.badge-prioridad.alta { background: #ffe1d7; color: #c23a1e; }
+.badge-prioridad.media { background: #ffe8c2; color: #c2790d; }
+.badge-prioridad.baja { background: #dff7f1; color: #0a8a74; }
 
 .notification-destination {
   font-weight: 600;
@@ -186,6 +196,26 @@ h3.page-title,
   border-bottom: 1px solid var(--vz-border);
   background: var(--vz-surface);
   padding: 16px 18px;
+}
+
+.btn-toolbar[aria-label="Datos generales"] {
+  display: none !important;
+}
+
+.estado-abierto-row td {
+  background: #fff7d1 !important;
+}
+
+body.module-fruta .content-wrapper section .row:not(.notifications-row),
+body.module-material .content-wrapper section .row:not(.notifications-row),
+body.module-estadistica .content-wrapper section .row:not(.notifications-row) {
+  display: none;
+}
+
+body.module-fruta .notifications-row,
+body.module-material .notifications-row,
+body.module-estadistica .notifications-row {
+  margin-bottom: 0;
 }
 
 .card-velzon .card-body {
