@@ -1,19 +1,27 @@
-
-/* ===============================
-   TEMA CORPORATIVO COMPLETO (AZUL/GRIS/NEGRO)
-   =============================== */
+/* =============================
+   TEMA CORPORATIVO OSCURO UNIFICADO
+   ============================= */
 :root {
-  --gc-bg-body: #020617;
-  --gc-bg-alt: #0b1120;
-  --gc-surface: #111827;
-  --gc-surface-alt: #1f2937;
-  --gc-primary: #2563EB;
-  --gc-primary-soft: rgba(37, 99, 235, 0.12);
-  --gc-border: #1f2937;
-  --gc-border-soft: #272e3b;
-  --gc-text: #E5E7EB;
-  --gc-text-muted: #9CA3AF;
+  --app-bg: #0b1021;
+  --app-surface: #0f172a;
+  --app-surface-alt: #111827;
+  --app-card: #152238;
+  --app-border: #1f2937;
+  --app-border-soft: #243045;
+  --app-primary: #38bdf8;
+  --app-primary-strong: #6366f1;
+  --app-primary-soft: rgba(56, 189, 248, 0.16);
+  --app-text: #e5e7eb;
+  --app-text-muted: #94a3b8;
+  --app-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
 }
-/* Fondo, header, sidebar, tablas, formularios, botones, login... */
-body.light-skin { background-color: var(--gc-bg-body); color: var(--gc-text); }
-.wrapper { background: radial-gradient(circle at top left, #1e293b 0, #020617 45%, #000000 100%); }
+
+body.light-skin {
+  background-color: var(--app-bg);
+  color: var(--app-text);
+  font-family: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.wrapper {
+  background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.12), rgba(14, 24, 42, 0.95) 40%, #020617 90%);
+}

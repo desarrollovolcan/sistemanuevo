@@ -1401,3 +1401,266 @@ button[name="pop"]::after {
   font-size: 20px;
   line-height: 1;
 }
+
+/* ==========================================================
+   BLOQUE DE ESTILO OSCURO UNIFICADO PARA TODOS LOS MÓDULOS
+   Aplica a menús, encabezados, formularios y tablas para que
+   exportación, fruta, estadísticas y materiales compartan la
+   misma estética.
+   ========================================================== */
+:root {
+  --nav-bg: linear-gradient(120deg, #0f172a 0%, #111827 60%, #0b1021 100%);
+  --nav-border: rgba(99, 102, 241, 0.25);
+  --sidebar-bg: #0f172a;
+  --sidebar-active: #111827;
+  --sidebar-hover: rgba(99, 102, 241, 0.14);
+  --sidebar-text: #e5e7eb;
+  --sidebar-text-muted: #94a3b8;
+  --surface: #111827;
+  --surface-alt: #152238;
+  --surface-soft: #0b1220;
+  --card-border: #1f2937;
+  --accent: #38bdf8;
+  --accent-strong: #6366f1;
+  --accent-soft: rgba(56, 189, 248, 0.16);
+  --text-color: #e5e7eb;
+  --text-muted: #9ca3af;
+}
+
+body.light-skin {
+  background: radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.14), rgba(11, 16, 33, 0.9) 45%, #050914 100%);
+  color: var(--text-color);
+  font-family: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+a, .nav > li > a {
+  color: var(--text-color);
+}
+
+a:hover, .nav > li > a:hover {
+  color: var(--accent);
+}
+
+/* Encabezado y barra superior */
+.main-header,
+.navbar {
+  background: var(--nav-bg);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
+  border-bottom: 1px solid var(--nav-border);
+}
+
+.navbar-custom-menu .nav > li > a,
+.app-menu .nav > li > a,
+.navbar-nav > li > a {
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.navbar-custom-menu .nav > li > a:hover,
+.app-menu .nav > li > a:hover,
+.navbar-nav > li > a:hover {
+  color: var(--accent);
+}
+
+/* Sidebar unificado */
+.main-sidebar {
+  background: var(--sidebar-bg);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+  border-right: 1px solid var(--card-border);
+}
+
+.sidebar-menu > li > a {
+  color: var(--sidebar-text-muted);
+  padding: 12px 18px;
+  border-radius: 10px;
+  margin: 2px 12px;
+  transition: all 0.2s ease;
+}
+
+.sidebar-menu > li > a:hover,
+.sidebar-menu > li.menu-open > a,
+.sidebar-menu > li.active > a {
+  background: linear-gradient(120deg, var(--accent-soft), rgba(99, 102, 241, 0.18));
+  color: var(--sidebar-text);
+  border-left: 4px solid var(--accent);
+  padding-left: 14px;
+}
+
+.sidebar-menu .treeview-menu {
+  background: var(--sidebar-active);
+  border-left: 1px dashed var(--card-border);
+  padding: 6px 0 8px 6px;
+  margin-left: 12px;
+  border-radius: 10px;
+}
+
+.sidebar-menu .treeview-menu > li > a {
+  color: var(--sidebar-text-muted);
+  padding: 8px 14px;
+}
+
+.sidebar-menu .treeview-menu > li > a:hover,
+.sidebar-menu .treeview-menu > li.active > a {
+  color: var(--sidebar-text);
+  background: var(--sidebar-hover);
+  border-radius: 8px;
+}
+
+.sidebar-menu > li.header {
+  color: var(--text-muted);
+  padding: 14px 16px 6px;
+  letter-spacing: 0.08em;
+}
+
+/* Contenido y tarjetas */
+.content-wrapper,
+.container-full,
+.content-header {
+  background: transparent;
+}
+
+.card,
+.box,
+.widget-user,
+.table-responsive,
+.panel {
+  background: var(--surface);
+  color: var(--text-color);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+}
+
+.card-header,
+.box-header,
+.panel-heading,
+.content-header {
+  background: linear-gradient(120deg, rgba(99, 102, 241, 0.12), rgba(56, 189, 248, 0.05));
+  border-bottom: 1px solid var(--card-border);
+  color: var(--text-color);
+}
+
+.card-title,
+.page-title,
+.box-title,
+.breadcrumb li,
+.breadcrumb li a {
+  color: var(--text-color);
+}
+
+.breadcrumb {
+  background: transparent;
+  margin-bottom: 8px;
+}
+
+/* Tablas y formularios */
+.table {
+  color: var(--text-color);
+}
+
+.table thead th {
+  background: linear-gradient(120deg, rgba(56, 189, 248, 0.12), rgba(99, 102, 241, 0.12));
+  color: var(--text-color);
+  border-color: var(--card-border);
+}
+
+.table tbody tr:nth-child(even) {
+  background: rgba(17, 24, 39, 0.6);
+}
+
+.table tbody tr:hover {
+  background: rgba(56, 189, 248, 0.12);
+}
+
+.form-control,
+.custom-select,
+.select2-container--default .select2-selection--single {
+  background: var(--surface-alt);
+  border: 1px solid var(--card-border);
+  color: var(--text-color);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.form-control:focus,
+.custom-select:focus,
+.select2-container--default .select2-selection--single:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
+  background: var(--surface);
+}
+
+label,
+.control-label,
+.form-group > span {
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Botones */
+.btn-primary,
+.btn-info,
+.btn-success {
+  background: linear-gradient(120deg, var(--accent), var(--accent-strong));
+  border: 1px solid var(--accent);
+  color: #0b1220;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.btn-primary:hover,
+.btn-info:hover,
+.btn-success:hover {
+  background: linear-gradient(120deg, var(--accent-strong), var(--accent));
+  color: #0b1220;
+}
+
+.btn-secondary,
+.btn-default {
+  background: var(--surface-alt);
+  border: 1px solid var(--card-border);
+  color: var(--text-color);
+}
+
+/* Dropdowns y modales */
+.dropdown-menu,
+.modal-content {
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  color: var(--text-color);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+}
+
+.dropdown-menu > li > a {
+  color: var(--text-muted);
+}
+
+.dropdown-menu > li > a:hover {
+  background: var(--sidebar-hover);
+  color: var(--text-color);
+}
+
+/* Indicadores y badges */
+.badge,
+.label {
+  background: var(--accent-soft);
+  color: var(--text-color);
+  border: 1px solid var(--accent);
+}
+
+/* Ajustes específicos de listas y banners */
+.widget-user-username,
+.widget-user-desc,
+.info-box-text,
+.info-box-number {
+  color: var(--text-color);
+}
+
+.progress-bar-primary,
+.progress-bar-info,
+.bg-primary,
+.bg-info {
+  background: linear-gradient(120deg, var(--accent), var(--accent-strong));
+}
