@@ -15,10 +15,14 @@ $CONSULTA_ADO =  NEW CONSULTA_ADO;
 $kilosMpTotales = 0;
 $nombrePlanta = "";
 $kilosMpTotalesEmpresaPlanta = [];
+$kilosMpProcesadosAgrupado = [];
 
 $query_kilosMpTotales = $CONSULTA_ADO->TotalKgMpRecepcionadosPlanta($TEMPORADAS, $PLANTAS);
 $query_datosPlanta = $CONSULTA_ADO->verPlanta($PLANTAS);
 $query_kilosMpTotalesEmpresaPlanta = $CONSULTA_ADO->TotalKgMpRecepcionadosEmpresaPlanta($TEMPORADAS, $PLANTAS);
+$query_kilosMpProcesadosAgrupado = $CONSULTA_ADO->TotalKgMpProcesadoAgrupado($TEMPORADAS, $EMPRESAS, $PLANTAS);
+$query_totalPtExportacion = $CONSULTA_ADO->TotalKgPtExportacionPlanta($TEMPORADAS, $PLANTAS);
+$query_existenciaMpEmpresa = $CONSULTA_ADO->TotalExistenciaMpEmpresaPlanta($TEMPORADAS, $PLANTAS);
 
 //recepciones
 $query_recepcionAbiertaMP = $CONSULTA_ADO->TotalRecepcionMpAbiertas($TEMPORADAS, $EMPRESAS, $PLANTAS);
@@ -50,6 +54,10 @@ if ($query_kilosMpTotalesEmpresaPlanta) {
     $kilosMpTotalesEmpresaPlanta = $query_kilosMpTotalesEmpresaPlanta;
 }
 
+if ($query_kilosMpProcesadosAgrupado) {
+    $kilosMpProcesadosAgrupado = $query_kilosMpProcesadosAgrupado;
+}
+
 $recepcionesMpAbiertas = $query_recepcionAbiertaMP ? $query_recepcionAbiertaMP[0]["NUMERO"] : 0;
 $recepcionesIndAbiertas = $query_recepcionAbiertaIND ? $query_recepcionAbiertaIND[0]["NUMERO"] : 0;
 $despachosMpAbiertos = $query_despachoAbiertoMP ? $query_despachoAbiertoMP[0]["NUMERO"] : 0;
@@ -64,6 +72,9 @@ $acumuladoMpDiaAnterior = $query_acumuladoMPDiaAnterior ? $query_acumuladoMPDiaA
 
 $mpProcesado = $query_acumuladoMPProcesado ? $query_acumuladoMPProcesado[0]["TOTAL"] : 0;
 $mpProcesadoDiaAnterior = $query_acumuladoMPProcesadoDiaAnterior ? $query_acumuladoMPProcesadoDiaAnterior[0]["TOTAL"] : 0;
+
+$ptExportacion = $query_totalPtExportacion ? $query_totalPtExportacion[0]["TOTAL"] : 0;
+$porcentajeExportacion = $mpProcesado > 0 ? round((round($ptExportacion, 0) * 100) / round($mpProcesado, 0), 1) : 0;
 
 
 
@@ -204,6 +215,14 @@ if($ARRAYREGISTROSABIERTOS){
                                             <span>Día anterior</span>
                                             <strong><?php echo number_format(round($mpProcesadoDiaAnterior, 0), 0, ",", "."); ?> kg</strong>
                                         </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-15">
+                                            <span>PT exportación</span>
+                                            <strong><?php echo number_format(round($ptExportacion, 0), 0, ",", "."); ?> kg</strong>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-15">
+                                            <span>% exportación vs procesado</span>
+                                            <strong><?php echo $porcentajeExportacion; ?>%</strong>
+                                        </div>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span>Procesos abiertos</span>
                                             <span class="badge badge-warning"><?php echo $procesosAbiertos; ?></span>
@@ -245,6 +264,78 @@ if($ARRAYREGISTROSABIERTOS){
                                                     <?php else : ?>
                                                         <tr>
                                                             <td colspan="3" class="text-center text-muted">Sin kilos netos registrados para la planta seleccionada.</td>
+                                                        </tr>
+                                                    <?php endif; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6 col-12">
+                                <div class="box">
+                                    <div class="box-header with-border" style="padding: 7px 1.5rem!important;">
+                                        <h4 class="box-title">Procesos agrupados por tipo</h4>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipo de proceso</th>
+                                                        <th class="text-right">Kilos netos</th>
+                                                        <th class="text-right">Participación</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php if ($kilosMpProcesadosAgrupado) : ?>
+                                                        <?php foreach ($kilosMpProcesadosAgrupado as $rowsProcesoAgrupado) :
+                                                            $porcentajeProceso = $mpProcesado > 0 ? round((round($rowsProcesoAgrupado["TOTAL"], 0) * 100) / round($mpProcesado, 0), 1) : 0;
+                                                        ?>
+                                                            <tr>
+                                                                <td><?php echo $rowsProcesoAgrupado["NOMBRE_TPROCESO"]; ?></td>
+                                                                <td class="text-right"><?php echo number_format(round($rowsProcesoAgrupado["TOTAL"], 0), 0, ",", "."); ?> kg</td>
+                                                                <td class="text-right"><?php echo $porcentajeProceso; ?>%</td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    <?php else : ?>
+                                                        <tr>
+                                                            <td colspan="3" class="text-center text-muted">Sin procesos registrados para la planta seleccionada.</td>
+                                                        </tr>
+                                                    <?php endif; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-12">
+                                <div class="box">
+                                    <div class="box-header with-border" style="padding: 7px 1.5rem!important;">
+                                        <h4 class="box-title">Existencia de materia prima por empresa</h4>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Empresa</th>
+                                                        <th class="text-right">Kilos netos</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php if ($query_existenciaMpEmpresa) : ?>
+                                                        <?php foreach ($query_existenciaMpEmpresa as $rowsExistenciaMpEmpresa) : ?>
+                                                            <tr>
+                                                                <td><?php echo $rowsExistenciaMpEmpresa["NOMBRE_EMPRESA"]; ?></td>
+                                                                <td class="text-right"><?php echo number_format(round($rowsExistenciaMpEmpresa["TOTAL"], 0), 0, ",", "."); ?> kg</td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    <?php else : ?>
+                                                        <tr>
+                                                            <td colspan="2" class="text-center text-muted">Sin existencia de materia prima para la planta seleccionada.</td>
                                                         </tr>
                                                     <?php endif; ?>
                                                 </tbody>
