@@ -73,7 +73,7 @@ $ARRAYAUSUARIOS = $AUSUARIO_ADO->verAusuarioTodo($IDUSUARIOS);
                         </div>
                     </div>
                     <!-- Main content -->
-                    <section class="content">
+                    <section class="content profile-page">
 
                         <div class="row">
                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 col-xs-12">

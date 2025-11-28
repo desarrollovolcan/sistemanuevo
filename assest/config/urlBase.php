@@ -41,15 +41,32 @@
           }
         });
 
-        // click en el enlace principal despliega / oculta
+        
+        // click en el enlace principal despliega / oculta solo su módulo
         $('.sidebar-menu').on('click', 'li.treeview > a', function (e) {
           var $li = $(this).parent();
           var $submenu = $li.children('.treeview-menu');
-          if ($submenu.length) {
-            e.preventDefault();
-            $li.toggleClass('menu-open');
-            $submenu.slideToggle(150);
+          if (!$submenu.length) {
+            return; // nada que desplegar
+          }
+          e.preventDefault();
+
+          var isOpen = $li.hasClass('menu-open');
+
+          // cerrar hermanos abiertos en el mismo nivel
+          $li.siblings('.treeview.menu-open').each(function () {
+            $(this).removeClass('menu-open')
+                   .children('.treeview-menu:visible').slideUp(150);
+          });
+
+          if (isOpen) {
+            $li.removeClass('menu-open');
+            $submenu.slideUp(150);
+          } else {
+            $li.addClass('menu-open');
+            $submenu.slideDown(150);
           }
         });
+
       });
     </script>

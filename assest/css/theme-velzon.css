@@ -540,3 +540,325 @@ label {
   padding-left: 34px;
   font-size: 12px;
 }
+
+
+/* Ajustes de colores en menú y cabecera para mejor contraste */
+
+/* Todos los enlaces dentro del sidebar usan paleta clara sobre fondo oscuro */
+.main-sidebar .sidebar a {
+  color: var(--vz-sidebar-text);
+}
+.main-sidebar .sidebar a:hover {
+  color: #f9fafb;
+}
+
+/* Subniveles en gris claro, no azul */
+.main-sidebar .sidebar .sidebar-menu > li > ul > li > a {
+  color: var(--vz-sidebar-text-muted);
+}
+.main-sidebar .sidebar .sidebar-menu > li > ul > li > a:hover {
+  color: #f9fafb;
+}
+
+/* Texto de cabecera (empresa, planta, temporada) en gris oscuro sobre fondo blanco */
+.search-bx .input-group,
+.search-bx .input-group * {
+  color: var(--vz-text) !important;
+}
+
+
+/* ===== Encabezado de página y migas de pan ===== */
+
+.content-header h1 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--vz-text);
+  margin-bottom: 4px;
+}
+
+.content-header .subtitle {
+  font-size: 13px;
+  color: var(--vz-text-muted);
+}
+
+/* migas de pan más legibles */
+.content-header .breadcrumb {
+  margin-bottom: 0;
+}
+
+.content-header .breadcrumb > li > a {
+  color: var(--vz-text-muted);
+  font-size: 12px;
+}
+
+.content-header .breadcrumb > .active {
+  color: var(--vz-primary);
+  font-weight: 600;
+}
+
+
+
+/* ===== Dropdown de perfil / mi cuenta ===== */
+
+.navbar-nav > .user-menu .dropdown-menu {
+  min-width: 260px;
+  border-radius: 14px;
+  border: 1px solid var(--vz-border);
+  box-shadow: 0 18px 40px rgba(15,23,42,0.25);
+  padding: 0;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+/* cabecera dentro de la tarjeta */
+.navbar-nav > .user-menu .user-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #ffffff;
+  padding: 12px 16px;
+  color: var(--vz-text);
+}
+
+/* ocultamos el avatar roto y mantenemos solo el texto */
+.navbar-nav > .user-menu .user-header img {
+  display: none;
+}
+
+.navbar-nav > .user-menu .user-header p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.navbar-nav > .user-menu .user-header small {
+  display: block;
+  font-size: 11px;
+  color: var(--vz-text-muted);
+}
+
+/* cuerpo de enlaces */
+.navbar-nav > .user-menu .user-body {
+  padding: 8px 0;
+  background-color: #ffffff;
+}
+
+.navbar-nav > .user-menu .user-body a {
+  display: block;
+  padding: 6px 16px;
+  font-size: 13px;
+  color: var(--vz-text);
+}
+
+.navbar-nav > .user-menu .user-body a:hover {
+  background-color: #f3f4f6;
+}
+
+/* separadores dentro del dropdown */
+.navbar-nav > .user-menu .dropdown-menu > li.divider {
+  height: 1px;
+  margin: 4px 0;
+  background-color: var(--vz-border);
+}
+
+/* pie con botón */
+.navbar-nav > .user-menu .user-footer {
+  padding: 10px 16px;
+  background-color: #f9fafb;
+  border-top: 1px solid var(--vz-border);
+}
+
+.navbar-nav > .user-menu .user-footer .btn {
+  width: 100%;
+  border-radius: 999px;
+}
+
+/* botón que abre el dropdown */
+.navbar-nav > .user-menu > a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  color: #4b5563;
+  background-color: #ffffff;
+}
+
+.navbar-nav > .user-menu > a:hover {
+  background-color: #e5e7eb;
+  border-color: #d1d5db;
+}
+
+
+.navbar-nav > .user-menu > a:hover {
+  background-color: #e5e7eb;
+  border-color: #d1d5db;
+}
+
+
+/* Posicionamiento flotante tipo Velzon */
+.navbar-nav > .user-menu {
+  position: relative;
+}
+
+.navbar-nav > .user-menu .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: auto;
+  margin-top: 8px;
+  transform: none;
+  will-change: transform;
+  z-index: 2000;
+}
+
+/* Texto "Mi Cuenta" al lado del avatar */
+.navbar-nav > .user-menu > a .user-toggle-label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+
+/* eliminar fondo de imagen antigua en cabecera de usuario */
+.navbar-nav > .user-menu .user-header.bg-img {
+  background-image: none !important;
+  background-color: #ffffff;
+}
+
+
+/* logo: usar solo una versión (light) */
+.logo-lg .dark-logo {
+  display: none;
+}
+
+
+/* Icono de persona para el botón Mi Cuenta */
+.navbar-nav > .user-menu > a img {
+  display: none;
+}
+
+.navbar-nav > .user-menu > a::before {
+  content: "person";
+  font-family: 'Material Icons';
+  font-size: 20px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 6px;
+}
+
+
+/* Refuerzo de color para títulos y migas de pan */
+.content-header h1 {
+  color: #111827 !important;
+}
+
+.content-header .breadcrumb > li > a {
+  color: #6b7280 !important;
+}
+
+.content-header .breadcrumb > .active {
+  color: #111827 !important;
+  font-weight: 600;
+}
+
+
+/* ===== Página de perfil de usuario (Mi Perfil) ===== */
+
+.profile-page .box-profile {
+  border-radius: 16px;
+  border: 1px solid var(--vz-border);
+  box-shadow: 0 14px 35px rgba(15,23,42,0.08);
+  padding-top: 28px;
+  padding-bottom: 24px;
+}
+
+.profile-page .profile-username {
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.profile-page .profile-username + h4 {
+  font-size: 14px;
+  color: var(--vz-text-muted);
+}
+
+/* menú lateral de opciones (Mi Perfil, Editar, etc.) */
+.profile-page .media-list.media-list-hover {
+  margin-top: 24px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+
+.profile-page .media.media-single {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin: 0;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #ffffff;
+}
+
+.profile-page .media.media-single:last-child {
+  border-bottom: 0;
+}
+
+.profile-page .media.media-single .title a {
+  color: #111827;
+}
+
+.profile-page .media.media-single .title a:hover {
+  color: var(--vz-primary);
+}
+
+/* opción activa (Mi Perfil) */
+.profile-page .media.media-single.bg-info {
+  background-color: var(--vz-primary-soft) !important;
+  color: var(--vz-primary) !important;
+}
+
+.profile-page .media.media-single.bg-info .title a {
+  color: var(--vz-primary) !important;
+}
+
+/* panel derecho del perfil */
+.profile-page .box .box-header {
+  border-radius: 12px 12px 0 0;
+  border-bottom: 1px solid var(--vz-border);
+  background: linear-gradient(90deg, #2563eb, #22c55e);
+  color: #ffffff;
+}
+
+.profile-page .box .box-header h4,
+.profile-page .box .box-header h3,
+.profile-page .box .box-header h5 {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.profile-page .box .box-body {
+  border-radius: 0 0 12px 12px;
+}
+
+/* inputs más suaves */
+.profile-page .box .form-control {
+  border-radius: 8px;
+  border-color: #d1d5db;
+  font-size: 13px;
+}
+
+.profile-page .box .form-control[disabled],
+.profile-page .box .form-control[readonly] {
+  background-color: #f3f4f6;
+}
+
+/* botón Volver */
+.profile-page .box .btn {
+  border-radius: 999px;
+}

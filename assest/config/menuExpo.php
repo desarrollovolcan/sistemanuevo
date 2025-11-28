@@ -258,8 +258,7 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
     <ul class="sidebar-menu" data-widget="tree">
       <li>
         <a href="index.php">
-          <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/dashboard.svg" class="svg-icon" alt="">
-          <span>Inicio</span>
+          <i class="material-icons">home</i><span>Inicio</span>
         </a>
       </li>     
       <?php if($PEXPORTADORA=="1"){ ?>
@@ -294,8 +293,7 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php if($PEEXPORTACION=="1"){ ?>
           <li class="treeview">
             <a href="#">
-              <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/exchange.svg" class="svg-icon" alt="">
-              <span> Exportación</span>
+              <i class="material-icons">public</i><span> Exportación</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-right pull-right"></i>
               </span>
@@ -330,8 +328,7 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php if($PELIQUIDACION=="1"){ ?>
           <li class="treeview">
             <a href="#">
-              <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/transactions.svg" class="svg-icon" alt="">
-              <span> Liquidación</span>
+              <i class="material-icons">request_quote</i><span> Liquidación</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-right pull-right"></i>
               </span>
@@ -345,8 +342,7 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php  } ?>
           <li class="treeview">
               <a href="#">
-                  <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/transactions.svg" class="svg-icon" alt="">
-                  <span> Anticipo</span>
+                  <i class="material-icons">payments</i><span> Anticipo</span>
                   <span class="pull-right-container">
                 <i class="fa fa-angle-right pull-right"></i>
               </span>
@@ -359,8 +355,7 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php if($PEPAGO=="1"){ ?>
           <li class="treeview">
             <a href="#">
-              <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/transactions.svg" class="svg-icon" alt="">
-              <span> Pago</span>
+              <i class="material-icons">credit_score</i><span> Pago</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-right pull-right"></i>
               </span>
@@ -375,8 +370,7 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php if($PEFRUTA=="1"){ ?>
           <li class="treeview">
             <a href="#">
-              <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/apps.svg" class="svg-icon" alt="">
-              <span> Fruta</span>
+              <i class="material-icons">spa</i><span> Fruta</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-right pull-right"></i>
               </span>
@@ -391,8 +385,7 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php if($PEINFORMES=="1"){ ?>
           <li class="treeview">
             <a href="#">
-              <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/pages.svg" class="svg-icon" alt="">
-              <span> Informes</span>
+              <i class="material-icons">bar_chart</i><span> Informes</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-right pull-right"></i>
               </span>
@@ -555,8 +548,7 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <li class="header">Configuraciones</li>
         <li class="treeview">
           <a href="#">
-            <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/miscellaneous.svg" class="svg-icon" alt="">
-            <span>Mantenedores</span>
+            <i class="material-icons">build</i><span>Mantenedores</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-right pull-right"></i>
             </span>
@@ -762,8 +754,7 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php if($PADAVISO=="1"){ ?>
           <li>
             <a href="registroUsuarioAviso.php">
-              <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/miscellaneous.svg" class="svg-icon" alt="">
-              <span>Avisos</span>
+              <i class="material-icons">notifications</i><span>Avisos</span>
             </a>
           </li> 
         <?php  } ?>
