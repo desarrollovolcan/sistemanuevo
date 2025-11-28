@@ -114,57 +114,55 @@ if ($_POST) {
                 <section class="content">
                     <div class="row">
                         <div class="col-xl-4 col-lg-12">
-                            <div class="box box-solid bg-primary" style="border-radius: 14px;">
-                                <div class="box-header with-border">
-                                    <h4 class="box-title text-white mb-0"><?php echo $OP == "editar" ? "Editar notificación" : "Nueva notificación"; ?></h4>
+                            <div class="card card-velzon h-100">
+                                <div class="card-header d-flex align-items-center justify-content-between flex-wrap">
+                                    <div>
+                                        <p class="card-subtitle mb-1 text-muted">Centro de notificaciones</p>
+                                        <h4 class="card-title mb-0"><?php echo $OP == "editar" ? "Editar notificación" : "Nueva notificación"; ?></h4>
+                                    </div>
+                                    <span class="badge badge-soft-warning text-uppercase"><?php echo $OP == "editar" ? "Edición" : "Registro"; ?></span>
                                 </div>
-                                <div class="box-body" style="background: linear-gradient(135deg,#1e293b,#0f172a); color:#e2e8f0;">
-                                    <form class="form" method="post">
+                                <div class="card-body">
+                                    <form method="post">
                                         <div class="form-group">
                                             <label>Mensaje</label>
                                             <textarea class="form-control" name="MENSAJE" id="MENSAJE" rows="3" placeholder="Escribe el mensaje de la notificación" required><?php echo $MENSAJE; ?></textarea>
+                                            <p class="helper-text">Este texto se mostrará en el tablero y en la campana de alertas.</p>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Tipo de destino</label>
-                                            <select class="form-control" name="DESTINO_TIPO" id="DESTINO_TIPO" onchange="this.form.submit()">
-                                                <option value="usuario" <?php if ($DESTINO_TIPO=="usuario") {echo "selected";} ?>>Usuario específico</option>
-                                                <option value="planta" <?php if ($DESTINO_TIPO=="planta") {echo "selected";} ?>>Planta específica</option>
-                                                <option value="empresa" <?php if ($DESTINO_TIPO=="empresa") {echo "selected";} ?>>Empresa específica</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Destino</label>
-                                            <select class="form-control select2" name="DESTINO_ID" id="DESTINO_ID" required>
-                                                <option value="">Seleccione</option>
-                                                <?php if($DESTINO_TIPO=="usuario"){ foreach ($ARRAYUSUARIOS as $r) { ?>
-                                                    <option value="<?php echo $r['ID_USUARIO']; ?>" <?php if($DESTINO_ID==$r['ID_USUARIO']){ echo "selected"; } ?>><?php echo $r['NOMBRE_COMPLETO']; ?></option>
-                                                <?php }} ?>
-                                                <?php if($DESTINO_TIPO=="planta"){ foreach ($ARRAYPLANTAS as $r) { ?>
-                                                    <option value="<?php echo $r['ID_PLANTA']; ?>" <?php if($DESTINO_ID==$r['ID_PLANTA']){ echo "selected"; } ?>><?php echo $r['NOMBRE_PLANTA']; ?></option>
-                                                <?php }} ?>
-                                                <?php if($DESTINO_TIPO=="empresa"){ foreach ($ARRAYEMPRESAS as $r) { ?>
-                                                    <option value="<?php echo $r['ID_EMPRESA']; ?>" <?php if($DESTINO_ID==$r['ID_EMPRESA']){ echo "selected"; } ?>><?php echo $r['NOMBRE_EMPRESA']; ?></option>
-                                                <?php }} ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
+                                        <div class="form-grid">
+                                            <div class="form-group">
+                                                <label>Tipo de destino</label>
+                                                <select class="form-control" name="DESTINO_TIPO" id="DESTINO_TIPO">
+                                                    <option value="usuario" <?php if($DESTINO_TIPO=="usuario"){ echo "selected";} ?>>Usuario</option>
+                                                    <option value="planta" <?php if($DESTINO_TIPO=="planta"){ echo "selected";} ?>>Planta</option>
+                                                    <option value="empresa" <?php if($DESTINO_TIPO=="empresa"){ echo "selected";} ?>>Empresa</option>
+                                                </select>
+                                                <p class="helper-text">El sistema filtrará automáticamente según el usuario, planta o empresa de la sesión.</p>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>ID destino</label>
+                                                <input type="number" class="form-control" name="DESTINO_ID" id="DESTINO_ID" value="<?php echo $DESTINO_ID; ?>" placeholder="Ej: 12" required>
+                                                <p class="helper-text">Usa el identificador del usuario, planta o empresa seleccionado.</p>
+                                            </div>
+                                            <div class="form-group">
                                                 <label>Prioridad</label>
                                                 <select class="form-control" name="PRIORIDAD" id="PRIORIDAD">
                                                     <option value="1" <?php if($PRIORIDAD==1){ echo "selected";} ?>>Alta</option>
                                                     <option value="2" <?php if($PRIORIDAD==2){ echo "selected";} ?>>Media</option>
                                                     <option value="3" <?php if($PRIORIDAD==3){ echo "selected";} ?>>Baja</option>
                                                 </select>
+                                                <p class="helper-text">Las notificaciones de prioridad alta se destacan en rojo.</p>
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group">
                                                 <label>Vigencia</label>
-                                                <div class="d-flex gap-2 align-items-center">
+                                                <div class="d-flex flex-wrap" style="gap:8px;">
                                                     <input type="date" class="form-control" name="FECHA_INICIO" value="<?php echo $FECHA_INICIO; ?>">
                                                     <input type="date" class="form-control" name="FECHA_FIN" value="<?php echo $FECHA_FIN; ?>">
                                                 </div>
+                                                <p class="helper-text">Si no defines fecha fin la notificación permanecerá visible.</p>
                                             </div>
                                         </div>
-                                        <div class="text-right mt-3">
+                                        <div class="d-flex justify-content-end" style="gap:10px;">
                                             <a href="registroNotificacion.php" class="btn btn-secondary">Cancelar</a>
                                             <?php if($OP=="editar"){ ?>
                                                 <button type="submit" class="btn btn-warning" name="ACTUALIZAR" value="ACTUALIZAR">Actualizar</button>
@@ -177,13 +175,17 @@ if ($_POST) {
                             </div>
                         </div>
                         <div class="col-xl-8 col-lg-12">
-                            <div class="box">
-                                <div class="box-header with-border">
-                                    <h4 class="box-title">Notificaciones creadas</h4>
+                            <div class="card card-velzon table-velzon">
+                                <div class="card-header d-flex align-items-center justify-content-between flex-wrap">
+                                    <div>
+                                        <p class="card-subtitle mb-1 text-muted">Resumen</p>
+                                        <h4 class="card-title mb-0">Notificaciones creadas</h4>
+                                    </div>
+                                    <span class="badge badge-light text-uppercase">Totales: <?php echo count($ARRAYNOTIFICACIONES); ?></span>
                                 </div>
-                                <div class="box-body">
+                                <div class="card-body">
                                     <div class="table-responsive">
-                                        <table id="notificaciones" class="table table-hover" style="width: 100%;">
+                                        <table id="notificaciones" class="table table-hover align-middle mb-0" style="width: 100%;">
                                             <thead>
                                                 <tr>
                                                     <th>Mensaje</th>
@@ -198,14 +200,14 @@ if ($_POST) {
                                                 <?php foreach ($ARRAYNOTIFICACIONES as $r) : ?>
                                                     <?php
                                                         $prioridadTexto = $r['PRIORIDAD']==1 ? 'Alta' : ($r['PRIORIDAD']==3 ? 'Baja' : 'Media');
-                                                        $prioridadClase = $r['PRIORIDAD']==1 ? 'badge-danger' : ($r['PRIORIDAD']==3 ? 'badge-success' : 'badge-warning');
+                                                        $prioridadClase = $r['PRIORIDAD']==1 ? 'badge-soft-danger' : ($r['PRIORIDAD']==3 ? 'badge-soft-success' : 'badge-soft-warning');
                                                         $estado = $r['ESTADO_REGISTRO']==1 ? 'Activo' : 'Inactivo';
-                                                        $estadoClase = $r['ESTADO_REGISTRO']==1 ? 'bg-success' : 'bg-danger';
+                                                        $estadoClase = $r['ESTADO_REGISTRO']==1 ? 'badge-soft-success' : 'badge-soft-danger';
                                                         $destinoLabel = ucfirst($r['DESTINO_TIPO']).' #'.$r['DESTINO_ID'];
                                                     ?>
                                                     <tr>
                                                         <td><?php echo $r['MENSAJE']; ?></td>
-                                                        <td><?php echo $destinoLabel; ?></td>
+                                                        <td><span class="badge-destino text-uppercase"><?php echo $destinoLabel; ?></span></td>
                                                         <td><span class="badge <?php echo $prioridadClase; ?>"><?php echo $prioridadTexto; ?></span></td>
                                                         <td><?php echo $r['FECHA_INICIO']; ?> - <?php echo $r['FECHA_FIN']; ?></td>
                                                         <td><span class="badge <?php echo $estadoClase; ?>"><?php echo $estado; ?></span></td>
@@ -235,7 +237,14 @@ if ($_POST) {
     <?php include_once "../../assest/config/urlBase.php"; ?>
     <script>
       $(document).ready(function(){
-        $('#notificaciones').DataTable();
+        $('#notificaciones').DataTable({
+          pageLength: 10,
+          lengthMenu: [10,25,50],
+          deferRender: true,
+          autoWidth: false,
+          stateSave: true,
+          order: [[3,'desc']]
+        });
       });
     </script>
 </body>
