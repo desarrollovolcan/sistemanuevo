@@ -2,17 +2,17 @@
    TEMA CORPORATIVO OSCURO UNIFICADO
    ============================= */
 :root {
-  --app-bg: #0b1021;
-  --app-surface: #0f172a;
-  --app-surface-alt: #111827;
-  --app-card: #152238;
-  --app-border: #1f2937;
-  --app-border-soft: #243045;
-  --app-primary: #38bdf8;
-  --app-primary-strong: #6366f1;
-  --app-primary-soft: rgba(56, 189, 248, 0.16);
-  --app-text: #e5e7eb;
-  --app-text-muted: #94a3b8;
+  --app-bg: #0c1b16;
+  --app-surface: #0f271f;
+  --app-surface-alt: #123024;
+  --app-card: #15352a;
+  --app-border: #1b4434;
+  --app-border-soft: #1f4d3a;
+  --app-primary: #01a646;
+  --app-primary-strong: #014d73;
+  --app-primary-soft: rgba(1, 166, 70, 0.18);
+  --app-text: #e8f5ec;
+  --app-text-muted: #9bc3ac;
   --app-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
 }
 
@@ -23,5 +23,5 @@ body.light-skin {
 }
 
 .wrapper {
-  background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.12), rgba(14, 24, 42, 0.95) 40%, #020617 90%);
+  background: radial-gradient(circle at 10% 20%, rgba(1, 166, 70, 0.14), rgba(11, 43, 34, 0.95) 40%, #07140f 90%);
 }
