@@ -1,0 +1,19 @@
+
+/* ===============================
+   TEMA CORPORATIVO COMPLETO (AZUL/GRIS/NEGRO)
+   =============================== */
+:root {
+  --gc-bg-body: #020617;
+  --gc-bg-alt: #0b1120;
+  --gc-surface: #111827;
+  --gc-surface-alt: #1f2937;
+  --gc-primary: #2563EB;
+  --gc-primary-soft: rgba(37, 99, 235, 0.12);
+  --gc-border: #1f2937;
+  --gc-border-soft: #272e3b;
+  --gc-text: #E5E7EB;
+  --gc-text-muted: #9CA3AF;
+}
+/* Fondo, header, sidebar, tablas, formularios, botones, login... */
+body.light-skin { background-color: var(--gc-bg-body); color: var(--gc-text); }
+.wrapper { background: radial-gradient(circle at top left, #1e293b 0, #020617 45%, #000000 100%); }

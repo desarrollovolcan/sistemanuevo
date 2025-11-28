@@ -1,0 +1,7 @@
+
+/* Layout lite base */
+body.light-skin{background:#020617;color:#e5e7eb;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;}
+.wrapper{min-height:100vh;display:flex;flex-direction:row;}
+.main-sidebar{width:240px;background:#020617;border-right:1px solid #111827;}
+.content-wrapper{flex:1;background:#020617;padding-bottom:20px;}
+.box{background:#111827;border-radius:12px;border:1px solid #1f2937;margin-bottom:20px;}
