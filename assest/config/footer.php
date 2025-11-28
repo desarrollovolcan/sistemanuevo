@@ -24,29 +24,25 @@ $localVersion = "1.1.50";
 
 
 ?>
-<footer class="main-footer">
-    <div class="pull-right d-none d-sm-inline-block">
-        <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
-		  <li class="nav-item">
-			<a class="nav-link" href="javascript:void(0)">
-				<?php 
-
-if($remoteVersion === $localVersion){
-	echo '<span class="badge bg-success">Actualizado</span>';
-}else{
-	echo '<span class="badge bg-danger">Tiene una actualizaciòn pendiente!</span>';
-}
-				
-				?>
-			</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link" href="#">Version <?php echo $localVersion; ?></a>
-		  </li>
-		</ul>
+<footer class="main-footer footer-modern">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            &copy; 2025 <a href="#" class="text-muted">Desarrollado por CreativeAgro</a>. Todos los derechos reservados.
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <span class="version-chip">
+                <i class="material-icons" style="font-size:16px;">verified</i>
+                <?php
+                    if($remoteVersion === $localVersion){
+                        echo 'Versión '.$localVersion.' · Actualizado';
+                    }else{
+                        echo 'Versión '.$localVersion.' · Actualización disponible';
+                    }
+                ?>
+            </span>
+            <a href="https://wa.me/56952157840" target="_blank" class="support-pill">
+                <i class="ti-headphone-alt"></i> Soporte
+            </a>
+        </div>
     </div>
-	    &copy; 2025 <a href="#" class="text-muted">Desarrollado por CreativeAgro</a>. Todos los derechos reservados.
-      <a href="https://wa.me/56952157840" target="_blank" class="btn btn-success btn-sm btn-whatsapp-float">
-        <i class="ti-headphone-alt"></i> Soporte
-      </a>
-  </footer>
+</footer>

@@ -10,6 +10,7 @@
 <!--Estilo base-->
 <link rel="stylesheet" type="text/css" HREF="../../assest/css/reset.css" />
 <link rel="stylesheet" type="text/css" HREF="../../assest/css/style.css" />
+<link rel="stylesheet" type="text/css" HREF="../../assest/css/layout-custom.css" />
 
 
 <!--     bootstrap  -->        
@@ -21,7 +22,9 @@
 <!-- Style-->
 <link rel="stylesheet" type="text/css" href="../../assest/css/theme-corporativo.css" />
 <!--Api Datatables-->
-<link rel="stylesheet" type="text/css" href="../../api/DataTables/datatables.min.css"/> 
+<link rel="stylesheet" type="text/css" href="../../api/DataTables/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="../../api/DataTables/Buttons-2.1.1/css/buttons.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="../../api/DataTables/SearchBuilder-1.3.0/css/searchBuilder.bootstrap4.min.css"/>
 
 <!--Otros-->
 <!--JS -->

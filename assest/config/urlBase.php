@@ -8,6 +8,11 @@
 
     <!-- DataTables full bundle -->
     <script src="../../api/DataTables/datatables.min.js"></script>
+    <script src="../../api/DataTables/Buttons-2.1.1/js/dataTables.buttons.min.js"></script>
+    <script src="../../api/DataTables/Buttons-2.1.1/js/buttons.bootstrap4.min.js"></script>
+    <script src="../../api/DataTables/Buttons-2.1.1/js/buttons.html5.min.js"></script>
+    <script src="../../api/DataTables/SearchBuilder-1.3.0/js/dataTables.searchBuilder.min.js"></script>
+    <script src="../../api/DataTables/DateTime-1.1.1/js/dataTables.dateTime.min.js"></script>
 
     <!-- DataTables export deps -->
     <script src="../../api/DataTables/JSZip-2.5.0/jszip.min.js"></script>
