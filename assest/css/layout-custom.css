@@ -30,6 +30,48 @@ body {
   bottom: 0;
   width: calc(100% - 230px);
   z-index: 1030;
+  background: #0f271f;
+  color: #e6f3e9;
+  padding: 18px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.footer-modern .footer-links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+}
+
+.footer-modern .version-chip {
+  background: rgba(255, 255, 255, 0.08);
+  color: #a1c7b0;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-modern .support-pill {
+  background: #1f1f1f;
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+@media (max-width: 991.98px) {
+  .footer-modern {
+    left: 0;
+    width: 100%;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
 }
 
 /* Ajustes de cabecera y pie modernizados */
@@ -58,6 +100,7 @@ body {
   font-size: 11px;
 }
 
+/* Notificaciones */
 .dropdown-menu.notifications-modern {
   width: 360px;
   border-radius: 14px;
@@ -118,51 +161,6 @@ body {
   color: #5a7665;
 }
 
-.footer-modern {
-  background: #0f271f;
-  color: #e6f3e9;
-  padding: 18px 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.08);
-}
-
-.footer-modern .footer-links {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  align-items: center;
-  margin: 0;
-}
-
-.footer-modern .version-chip {
-  background: rgba(255, 255, 255, 0.08);
-  color: #a1c7b0;
-  border-radius: 999px;
-  padding: 6px 12px;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.footer-modern .support-pill {
-  background: #1f1f1f;
-  color: #ffffff;
-  border-radius: 999px;
-  padding: 8px 14px;
-  font-weight: 700;
-  box-shadow: none;
-}
-
-@media (max-width: 991.98px) {
-  .footer-modern {
-    left: 0;
-    width: 100%;
-    padding-left: 18px;
-    padding-right: 18px;
-  }
-}
-
 /* Filtros de columnas DataTables */
 .dt-column-filters input {
   width: 100%;
@@ -220,7 +218,9 @@ body {
   letter-spacing: 0.01em;
 }
 
-.table { margin-bottom: 0; }
+.table {
+  margin-bottom: 0;
+}
 
 .table thead th {
   background: var(--surface-alt);
@@ -239,6 +239,7 @@ body {
   background-color: #fbfdff;
 }
 
+/* Botones */
 .btn,
 button,
 input[type="submit"],
@@ -274,6 +275,7 @@ input[type="button"] {
   border-color: var(--border) !important;
 }
 
+/* Formularios */
 input.form-control,
 select.form-control,
 textarea.form-control,
@@ -298,11 +300,18 @@ textarea.form-control:focus,
   line-height: 38px;
 }
 
-.select2-container--default .select2-selection--single .select2-selection__arrow { height: 38px; }
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 38px;
+}
 
-.breadcrumb > li > a { color: var(--text-muted); }
+/* Navegación y alertas */
+.breadcrumb > li > a {
+  color: var(--text-muted);
+}
 
-.breadcrumb > li + li:before { color: var(--border); }
+.breadcrumb > li + li:before {
+  color: var(--border);
+}
 
 .alert {
   border-radius: 12px;
