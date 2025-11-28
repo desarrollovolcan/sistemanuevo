@@ -119,6 +119,10 @@ if ($kilosMpPorVariedad) {
     $TOTAL_VARIEDAD = array_sum(array_column($kilosMpPorVariedad, 'TOTAL'));
 }
 
+$kilosNoProcesados = max($kilosMpTotales - $mpProcesado, 0);
+$porcentajeProcesoSobreRecepcion = $kilosMpTotales > 0 ? round(($mpProcesado * 100) / $kilosMpTotales, 1) : 0;
+$porcentajeStockSobreRecepcion = $kilosMpTotales > 0 ? round(($TOTAL_EXISTENCIA_MP * 100) / $kilosMpTotales, 1) : 0;
+
 if ($ARRAYNOTIFICACIONESCABECERA) {
     foreach ($ARRAYNOTIFICACIONESCABECERA as $notificacion) {
         if ($notificacion['PRIORIDAD'] == 1) {
@@ -312,6 +316,13 @@ if($ARRAYREGISTROSABIERTOS){
             .gap-10 { gap: 10px; }
             .font-weight-600 { font-weight: 600; }
             .table-progress { width: 160px; }
+            .kilos-flow .flow-step {
+                border-right: 1px solid #edf1f7;
+            }
+            .kilos-flow .flow-step:last-child { border-right: none; }
+            .kilos-flow .flow-value { font-size: 22px; margin-bottom: 4px; }
+            .kilos-flow .progress-lite .bar.export { background: linear-gradient(90deg, #0ea5e9 0%, #22d3ee 100%); }
+            .kilos-flow .progress-lite .bar.stock { background: linear-gradient(90deg, #8b5cf6 0%, #a78bfa 100%); }
         </style>
 </head>
 <body class="hold-transition light-skin fixed sidebar-mini theme-primary module-fruta" >
@@ -384,6 +395,54 @@ if($ARRAYREGISTROSABIERTOS){
                                         <p class="kpi-meta mb-10">Equivale al <?php echo $porcentajeExistenciaSobreRecepcion; ?>% de lo recepcionado</p>
                                         <div class="progress-lite white">
                                             <div class="bar" style="width: <?php echo min(100, $porcentajeExistenciaSobreRecepcion); ?>%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-20">
+                            <div class="col-12">
+                                <div class="box">
+                                    <div class="box-header with-border" style="padding: 7px 1.5rem!important;">
+                                        <h4 class="box-title">Flujo de kilos netos</h4>
+                                        <div class="box-controls pull-right d-md-flex d-none align-items-center gap-10">
+                                            <span class="badge badge-primary-light">Recepción base</span>
+                                            <span class="badge badge-success-light">Procesado</span>
+                                            <span class="badge badge-info-light">Exportación</span>
+                                            <span class="badge badge-secondary-light">Stock</span>
+                                        </div>
+                                    </div>
+                                    <div class="box-body kilos-flow">
+                                        <div class="row text-center align-items-center">
+                                            <div class="col-md-3 col-6 flow-step mb-15 mb-md-0">
+                                                <p class="text-muted mb-5">Recepción acumulada</p>
+                                                <div class="flow-value text-primary mb-5"><?php echo number_format(round($kilosMpTotales, 0), 0, ",", "."); ?> kg</div>
+                                                <small class="text-muted">Base para los demás indicadores</small>
+                                            </div>
+                                            <div class="col-md-3 col-6 flow-step mb-15 mb-md-0">
+                                                <p class="text-muted mb-5">Procesado</p>
+                                                <div class="flow-value text-success mb-5"><?php echo number_format(round($mpProcesado, 0), 0, ",", "."); ?> kg</div>
+                                                <div class="progress-lite">
+                                                    <div class="bar" style="width: <?php echo $porcentajeProcesoSobreRecepcion; ?>%"></div>
+                                                </div>
+                                                <small class="text-muted">Equivale al <?php echo $porcentajeProcesoSobreRecepcion; ?>% de lo recepcionado</small>
+                                            </div>
+                                            <div class="col-md-3 col-6 flow-step mb-15 mb-md-0">
+                                                <p class="text-muted mb-5">Exportación PT</p>
+                                                <div class="flow-value text-info mb-5"><?php echo number_format(round($ptExportacion, 0), 0, ",", "."); ?> kg</div>
+                                                <div class="progress-lite">
+                                                    <div class="bar export" style="width: <?php echo $porcentajeExportacion; ?>%"></div>
+                                                </div>
+                                                <small class="text-muted"><?php echo $porcentajeExportacion; ?>% del total procesado</small>
+                                            </div>
+                                            <div class="col-md-3 col-6 mb-15 mb-md-0">
+                                                <p class="text-muted mb-5">Stock disponible</p>
+                                                <div class="flow-value mb-5" style="color:#8b5cf6;"><?php echo number_format(round($TOTAL_EXISTENCIA_MP, 0), 0, ",", "."); ?> kg</div>
+                                                <div class="progress-lite">
+                                                    <div class="bar stock" style="width: <?php echo $porcentajeStockSobreRecepcion; ?>%"></div>
+                                                </div>
+                                                <small class="text-muted"><?php echo number_format(round($kilosNoProcesados, 0), 0, ",", "."); ?> kg sin procesar aún</small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
