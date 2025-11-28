@@ -2,17 +2,17 @@
    TEMA CORPORATIVO OSCURO UNIFICADO
    ============================= */
 :root {
-  --app-bg: #0c1b16;
-  --app-surface: #0f271f;
-  --app-surface-alt: #123024;
-  --app-card: #15352a;
-  --app-border: #1b4434;
-  --app-border-soft: #1f4d3a;
-  --app-primary: #01a646;
-  --app-primary-strong: #014d73;
-  --app-primary-soft: rgba(1, 166, 70, 0.18);
-  --app-text: #e8f5ec;
-  --app-text-muted: #9bc3ac;
+  --app-bg: #0f201a;
+  --app-surface: #123024;
+  --app-surface-alt: #164133;
+  --app-card: #1b4a39;
+  --app-border: #2a5c49;
+  --app-border-soft: #2f6b54;
+  --app-primary: #0bc169;
+  --app-primary-strong: #0a9a55;
+  --app-primary-soft: rgba(11, 193, 105, 0.16);
+  --app-text: #f3f8f5;
+  --app-text-muted: #c4d9cd;
   --app-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
 }
 
@@ -24,4 +24,74 @@ body.light-skin {
 
 .wrapper {
   background: radial-gradient(circle at 10% 20%, rgba(1, 166, 70, 0.14), rgba(11, 43, 34, 0.95) 40%, #07140f 90%);
+}
+
+/* Contenedores principales */
+.content-wrapper,
+.container-full {
+  background: linear-gradient(180deg, rgba(15, 32, 26, 0.92) 0%, rgba(12, 28, 22, 0.94) 100%);
+  color: var(--app-text);
+}
+
+.box {
+  background: var(--app-card);
+  border: 1px solid var(--app-border);
+  box-shadow: var(--app-shadow);
+  color: var(--app-text);
+}
+
+.box .box-body {
+  background: transparent;
+  color: inherit;
+}
+
+.box .bg-light,
+.bg-light {
+  background-color: var(--app-surface-alt) !important;
+  color: var(--app-text-muted) !important;
+  border-top: 1px solid var(--app-border-soft);
+}
+
+.text-muted,
+.box small,
+.box p {
+  color: var(--app-text-muted) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+.page-title {
+  color: var(--app-text) !important;
+}
+
+.badge-primary {
+  background: linear-gradient(135deg, var(--app-primary), var(--app-primary-strong));
+  color: #f6fff9;
+}
+
+.badge-warning {
+  background: #f6c667;
+  color: #0c1f18;
+}
+
+.card,
+.box-header,
+.box-footer,
+.box-body:last-child {
+  border-color: var(--app-border-soft);
+}
+
+.table th,
+.table td {
+  color: var(--app-text);
+  border-color: var(--app-border-soft);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(43, 92, 74, 0.35);
 }
