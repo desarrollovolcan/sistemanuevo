@@ -1,3 +1,20 @@
+/* Estructura base y pie de página fijo */
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrapper {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-modern {
+  margin-top: auto;
+}
+
 /* Ajustes de cabecera y pie modernizados */
 .app-header-modern {
   background: #0f0f0f;
