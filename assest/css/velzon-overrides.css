@@ -41,13 +41,25 @@ h3.page-title,
 }
 
 .navbar-nav > .user-menu > a {
-  color: #374151 !important;
-  border-color: #d1d5db;
+  color: #0f172a !important;
+  background-color: #e8f7ef;
+  border-color: #a7d7bd;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.navbar-nav > .user-menu > a:hover,
+.navbar-nav > .user-menu > a:focus {
+  background-color: #d7f0e3;
+  border-color: #8cc7a9;
+  color: #0b2418 !important;
+  text-decoration: none;
 }
 
 .navbar-nav > .user-menu > a::before,
 .navbar-nav > .user-menu > a .user-toggle-label {
-  color: #374151 !important;
+  color: #0f172a !important;
+  text-decoration: none;
 }
 
 .btn-icon-label {
