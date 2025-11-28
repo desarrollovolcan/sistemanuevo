@@ -89,7 +89,7 @@
                   <li class="notification-item">
                     <div class="notification-icon <?php echo $color; ?>">!</div>
                     <div>
-                      <p class="notification-text"><?php echo $noti['MENSAJE']; ?></p>
+                      <p class="notification-text"><?php echo htmlspecialchars($noti['MENSAJE'], ENT_QUOTES, 'UTF-8'); ?></p>
                       <div class="notification-meta">Para: <?php echo $destino; ?> · Vigencia <?php echo $noti['FECHA_INICIO']; ?> <?php echo $noti['FECHA_FIN']? ' - '.$noti['FECHA_FIN'] : ''; ?></div>
                     </div>
                   </li>
