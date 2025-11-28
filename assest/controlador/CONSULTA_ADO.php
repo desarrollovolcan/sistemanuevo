@@ -329,7 +329,7 @@ class CONSULTA_ADO
     {
         try {
 
-            $datos = $this->conexion->prepare("SELECT SUM(P.KILOS_NETO_ENTRADA)AS TOTAL FROM fruta_proceso P 
+            $datos = $this->conexion->prepare("SELECT SUM(P.KILOS_NETO_ENTRADA)AS TOTAL FROM fruta_proceso P
             WHERE P.ID_PLANTA = '".$PLANTA."' AND P.ID_EMPRESA = '".$EMPRESA."' AND P.ESTADO = 0 AND P.ID_TEMPORADA = '".$TEMPORADA."' AND DATE_FORMAT(P.FECHA_PROCESO, '%Y-%m-%d') = DATE_FORMAT(date_sub(now(),interval 1 day), '%Y-%m-%d')");
             $datos->execute();
             $resultado = $datos->fetchAll();
@@ -338,6 +338,63 @@ class CONSULTA_ADO
             //	print_r($resultado);
             //	var_dump($resultado);
 
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function TotalKgMpProcesadoAgrupado($TEMPORADA, $EMPRESA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT TP.NOMBRE_TPROCESO, SUM(P.KILOS_NETO_ENTRADA) AS TOTAL FROM fruta_proceso P
+            JOIN fruta_tproceso TP ON TP.ID_TPROCESO = P.ID_TPROCESO
+            WHERE P.ID_PLANTA = '".$PLANTA."' AND P.ID_EMPRESA = '".$EMPRESA."' AND P.ESTADO = 0 AND P.ID_TEMPORADA = '".$TEMPORADA."'
+            GROUP BY P.ID_TPROCESO, TP.NOMBRE_TPROCESO");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function TotalKgPtExportacionPlanta($TEMPORADA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT SUM(EX.KILOS_NETO_EXIEXPORTACION) AS TOTAL FROM fruta_exiexportacion EX
+            WHERE EX.ESTADO_REGISTRO = 1
+            AND EX.ID_TEMPORADA = '".$TEMPORADA."'
+            AND EX.ID_PLANTA = '".$PLANTA."'");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function TotalExistenciaMpEmpresaPlanta($TEMPORADA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT E.NOMBRE_EMPRESA, SUM(EM.KILOS_NETO_EXIMATERIAPRIMA) AS TOTAL FROM fruta_eximateriaprima EM
+            JOIN principal_empresa E ON E.ID_EMPRESA = EM.ID_EMPRESA
+            WHERE EM.ESTADO_REGISTRO = 1
+            AND EM.ESTADO = 2
+            AND EM.ID_TEMPORADA = '".$TEMPORADA."'
+            AND EM.ID_PLANTA = '".$PLANTA."'
+            GROUP BY EM.ID_EMPRESA, E.NOMBRE_EMPRESA");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
 
             return $resultado;
         } catch (Exception $e) {
