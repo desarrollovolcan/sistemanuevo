@@ -67,6 +67,7 @@ h6,
 strong,
 .page-title {
   color: #000000 !important;
+  letter-spacing: 0.01em;
 }
 
 .badge-primary {
@@ -94,4 +95,58 @@ strong,
 
 .table-striped tbody tr:nth-of-type(odd) {
   background-color: #f7fafc;
+}
+
+.table-hover tbody tr:hover {
+  background: #e8f5ef;
+}
+
+.btn-primary,
+.btn-success,
+.btn-info {
+  background: linear-gradient(120deg, var(--app-primary) 0%, var(--app-primary-strong) 100%) !important;
+  border-color: var(--app-primary-strong) !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 20px rgba(11, 193, 105, 0.25);
+}
+
+.btn-default,
+.btn-secondary {
+  background: #ffffff !important;
+  border-color: var(--app-border) !important;
+  color: var(--app-text);
+}
+
+input.form-control,
+select.form-control,
+textarea.form-control,
+.select2-container--default .select2-selection--single {
+  border-radius: 10px;
+  border-color: var(--app-border);
+  background: #f8fafc;
+}
+
+input.form-control:focus,
+select.form-control:focus,
+textarea.form-control:focus,
+.select2-container--default .select2-selection--single:focus {
+  border-color: var(--app-primary);
+  box-shadow: 0 0 0 3px var(--app-primary-soft);
+}
+
+.badge,
+.label {
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-weight: 700;
+}
+
+.nav-tabs > li > a,
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+  border-radius: 10px 10px 0 0;
+  border-color: var(--app-border);
+  background: var(--app-surface-alt);
+  color: var(--app-text);
 }

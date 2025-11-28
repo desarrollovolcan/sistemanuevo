@@ -16,6 +16,7 @@ $kilosMpTotales = 0;
 $nombrePlanta = "";
 $kilosMpTotalesEmpresaPlanta = [];
 $kilosMpProcesadosAgrupado = [];
+$kilosMpPorVariedad = [];
 $RECEPCION = 0;
 $RECEPCIONMP = 0;
 $RECEPCIONIND = 0;
@@ -33,6 +34,7 @@ $query_kilosMpTotales = $CONSULTA_ADO->TotalKgMpRecepcionadosPlanta($TEMPORADAS,
 $query_datosPlanta = $CONSULTA_ADO->verPlanta($PLANTAS);
 $query_kilosMpTotalesEmpresaPlanta = $CONSULTA_ADO->TotalKgMpRecepcionadosEmpresaPlanta($TEMPORADAS, $PLANTAS);
 $query_kilosMpProcesadosAgrupado = $CONSULTA_ADO->TotalKgMpProcesadoAgrupado($TEMPORADAS, $EMPRESAS, $PLANTAS);
+$query_kilosMpPorVariedad = $CONSULTA_ADO->TotalKgMpPorVariedad($TEMPORADAS, $EMPRESAS, $PLANTAS);
 $query_totalPtExportacion = $CONSULTA_ADO->TotalKgPtExportacionPlanta($TEMPORADAS, $PLANTAS);
 $query_existenciaMpEmpresa = $CONSULTA_ADO->TotalExistenciaMpEmpresaPlanta($TEMPORADAS, $PLANTAS);
 
@@ -69,6 +71,10 @@ if ($query_kilosMpTotalesEmpresaPlanta) {
 
 if ($query_kilosMpProcesadosAgrupado) {
     $kilosMpProcesadosAgrupado = $query_kilosMpProcesadosAgrupado;
+}
+
+if ($query_kilosMpPorVariedad) {
+    $kilosMpPorVariedad = $query_kilosMpPorVariedad;
 }
 
 $recepcionesMpAbiertas = $query_recepcionAbiertaMP ? $query_recepcionAbiertaMP[0]["NUMERO"] : 0;
@@ -454,6 +460,44 @@ if($ARRAYREGISTROSABIERTOS){
                                                     <?php else : ?>
                                                         <tr>
                                                             <td colspan="2" class="text-center text-muted">Sin existencia de materia prima para la planta seleccionada.</td>
+                                                        </tr>
+                                                    <?php endif; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-12">
+                                <div class="box">
+                                    <div class="box-header with-border" style="padding: 7px 1.5rem!important;">
+                                        <h4 class="box-title">Distribución de kilos por variedad</h4>
+                                    </div>
+                                    <div class="box-body">
+                                        <?php $totalVariedad = array_sum(array_column($kilosMpPorVariedad, 'TOTAL')); ?>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Variedad</th>
+                                                        <th class="text-right">Kilos netos</th>
+                                                        <th class="text-right">Participación</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php if ($kilosMpPorVariedad) : ?>
+                                                        <?php foreach ($kilosMpPorVariedad as $rowsVariedad) :
+                                                            $porcentajeVariedad = $totalVariedad > 0 ? round((round($rowsVariedad["TOTAL"], 0) * 100) / round($totalVariedad, 0), 1) : 0;
+                                                        ?>
+                                                            <tr>
+                                                                <td><?php echo $rowsVariedad["NOMBRE_VESPECIES"]; ?></td>
+                                                                <td class="text-right"><?php echo number_format(round($rowsVariedad["TOTAL"], 0), 0, ",", "."); ?> kg</td>
+                                                                <td class="text-right"><?php echo $porcentajeVariedad; ?>%</td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    <?php else : ?>
+                                                        <tr>
+                                                            <td colspan="3" class="text-center text-muted">Sin registros de recepción por variedad para la planta seleccionada.</td>
                                                         </tr>
                                                     <?php endif; ?>
                                                 </tbody>
