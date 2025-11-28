@@ -16,10 +16,11 @@
     <!-- Style-->
     <link rel="stylesheet" href="api/cryptioadmin10/html/main/css/style.css">
     <link rel="stylesheet" href="api/cryptioadmin10/html/main/css/skin_color.css">
+    <link rel="stylesheet" href="assest/css/landing-overrides.css">
 
 </head>
 
-<body class="hold-transition theme-primary bg-gradient-primary">
+<body class="hold-transition landing-neutral">
     <div class="container h-p100">
         <div class="row align-items-center justify-content-md-center h-p100">
             <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 col-xs-12">
