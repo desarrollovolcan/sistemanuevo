@@ -2,18 +2,18 @@
    TEMA CORPORATIVO OSCURO UNIFICADO
    ============================= */
 :root {
-  --app-bg: #0f201a;
-  --app-surface: #123024;
-  --app-surface-alt: #164133;
-  --app-card: #1b4a39;
-  --app-border: #2a5c49;
-  --app-border-soft: #2f6b54;
+  --app-bg: #ffffff;
+  --app-surface: #f5f7fa;
+  --app-surface-alt: #eef1f6;
+  --app-card: #ffffff;
+  --app-border: #d0d7de;
+  --app-border-soft: #e2e8f0;
   --app-primary: #0bc169;
   --app-primary-strong: #0a9a55;
-  --app-primary-soft: rgba(11, 193, 105, 0.16);
-  --app-text: #f3f8f5;
-  --app-text-muted: #c4d9cd;
-  --app-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+  --app-primary-soft: rgba(11, 193, 105, 0.12);
+  --app-text: #2f343a;
+  --app-text-muted: #5a6169;
+  --app-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
 body.light-skin {
@@ -23,13 +23,13 @@ body.light-skin {
 }
 
 .wrapper {
-  background: radial-gradient(circle at 10% 20%, rgba(1, 166, 70, 0.14), rgba(11, 43, 34, 0.95) 40%, #07140f 90%);
+  background: var(--app-bg);
 }
 
 /* Contenedores principales */
 .content-wrapper,
 .container-full {
-  background: linear-gradient(180deg, rgba(15, 32, 26, 0.92) 0%, rgba(12, 28, 22, 0.94) 100%);
+  background: var(--app-bg);
   color: var(--app-text);
 }
 
@@ -66,12 +66,12 @@ h5,
 h6,
 strong,
 .page-title {
-  color: var(--app-text) !important;
+  color: #000000 !important;
 }
 
 .badge-primary {
   background: linear-gradient(135deg, var(--app-primary), var(--app-primary-strong));
-  color: #f6fff9;
+  color: #0b0b0b;
 }
 
 .badge-warning {
@@ -93,5 +93,5 @@ strong,
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: rgba(43, 92, 74, 0.35);
+  background-color: #f7fafc;
 }
