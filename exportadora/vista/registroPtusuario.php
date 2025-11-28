@@ -839,24 +839,44 @@ if (isset($_POST)) {
                 document.getElementById('MAOCAR').disabled = true;    
             }
         }  
-        function mkardex(){            
+        function mkardex(){
             MKARDEX = document.getElementById('MKARDEX').checked;
-            if(MKARDEX==true){     
-                document.getElementById('MKMATERIAL').disabled = false;   
-                document.getElementById('MKENVASE').disabled = false; 
-            }else{                
-                document.getElementById('MKMATERIAL').disabled = true;   
-                document.getElementById('MKENVASE').disabled = true; 
-                
-                document.getElementById('MKMATERIAL').disabled = true;   
-                document.getElementById('MKENVASE').disabled = true;    
+            if(MKARDEX==true){
+                document.getElementById('MKMATERIAL').disabled = false;
+                document.getElementById('MKENVASE').disabled = false;
+            }else{
+                document.getElementById('MKMATERIAL').disabled = true;
+                document.getElementById('MKENVASE').disabled = true;
+
+                document.getElementById('MKMATERIAL').disabled = true;
+                document.getElementById('MKENVASE').disabled = true;
             }
-        }          
-        function exportadora(){              
+        }
+        function activarExportadora(){
+            const exportadoraCheckbox = document.getElementById('EXPORTADORA');
+            if(exportadoraCheckbox.checked==false && exportadoraCheckbox.disabled==false){
+                exportadoraCheckbox.checked = true;
+                exportadora();
+            }
+        }
+        function actualizarExportadoraFruta(){
+            const exportadoraActiva = document.getElementById('EXPORTADORA').checked;
+            const frutaActiva = document.getElementById('EFRUTA').checked && exportadoraActiva && document.getElementById('EFRUTA').disabled==false;
+            const cambioCarga = document.getElementById('EFCICARGA');
+            if(cambioCarga){
+                if(frutaActiva){
+                    cambioCarga.disabled = false;
+                }else{
+                    cambioCarga.checked = false;
+                    cambioCarga.disabled = true;
+                }
+            }
+        }
+        function exportadora(){
             EXPORTADORA = document.getElementById('EXPORTADORA').checked;
-            if(EXPORTADORA==true){    
-                document.getElementById('EXPORTADORATODO').disabled = false;   
-                document.getElementById('EMATERIALES').disabled = false;   
+            if(EXPORTADORA==true){
+                document.getElementById('EXPORTADORATODO').disabled = false;
+                document.getElementById('EMATERIALES').disabled = false;
                 document.getElementById('EEXPORTACION').disabled = false;  
                 document.getElementById('ELIQUIDACION').disabled = false;  
                 document.getElementById('EPAGO').disabled = false;   
@@ -877,18 +897,19 @@ if (isset($_POST)) {
                 document.getElementById('EXPORTADORATODO').checked = false; 
                 document.getElementById('EXPORTADORA').checked = false;   
                 document.getElementById('EMATERIALES').checked = false;   
-                document.getElementById('EEXPORTACION').checked = false;  
-                document.getElementById('ELIQUIDACION').checked = false;  
-                document.getElementById('EPAGO').checked = false;   
-                document.getElementById('EFRUTA').checked = false;   
-                document.getElementById('EFCICARGA').checked = false;     
-                document.getElementById('EINFORMES').checked = false;   
+                document.getElementById('EEXPORTACION').checked = false;
+                document.getElementById('ELIQUIDACION').checked = false;
+                document.getElementById('EPAGO').checked = false;
+                document.getElementById('EFRUTA').checked = false;
+                document.getElementById('EFCICARGA').checked = false;
+                document.getElementById('EINFORMES').checked = false;
             }
-        }         
-        function estadistica(){              
+            actualizarExportadoraFruta();
+        }
+        function estadistica(){
             ESTADISTICA = document.getElementById('ESTADISTICA').checked;
-            if(ESTADISTICA==true){    
-                document.getElementById('ESTADISTICATODO').disabled = false; 
+            if(ESTADISTICA==true){
+                document.getElementById('ESTADISTICATODO').disabled = false;
                 document.getElementById('ESTARVSP').disabled = false;   
                 document.getElementById('ESTASTOPMP').disabled = false;   
                 document.getElementById('ESTAINFORME').disabled = false;   
@@ -1125,26 +1146,27 @@ if (isset($_POST)) {
             EXPORTADORATODO = document.getElementById('EXPORTADORATODO').checked;
             if(EXPORTADORATODO==true){    
                 document.getElementById('EMATERIALES').checked = true;   
-                document.getElementById('EEXPORTACION').checked = true;    
-                document.getElementById('ELIQUIDACION').checked = true;    
-                document.getElementById('EPAGO').checked = true;  
-                document.getElementById('EFRUTA').checked = true;  
-                document.getElementById('EFCICARGA').checked = true; 
-                document.getElementById('EINFORMES').checked = true;  
+                document.getElementById('EEXPORTACION').checked = true;
+                document.getElementById('ELIQUIDACION').checked = true;
+                document.getElementById('EPAGO').checked = true;
+                document.getElementById('EFRUTA').checked = true;
+                document.getElementById('EFCICARGA').checked = true;
+                document.getElementById('EINFORMES').checked = true;
             }else{
-                document.getElementById('EMATERIALES').checked = false;   
-                document.getElementById('EEXPORTACION').checked = false;    
-                document.getElementById('ELIQUIDACION').checked = false;   
-                document.getElementById('EPAGO').checked = false;   
-                document.getElementById('EFRUTA').checked = false;   
-                document.getElementById('EFCICARGA').checked = false; 
-                document.getElementById('EINFORMES').checked = false;   
+                document.getElementById('EMATERIALES').checked = false;
+                document.getElementById('EEXPORTACION').checked = false;
+                document.getElementById('ELIQUIDACION').checked = false;
+                document.getElementById('EPAGO').checked = false;
+                document.getElementById('EFRUTA').checked = false;
+                document.getElementById('EFCICARGA').checked = false;
+                document.getElementById('EINFORMES').checked = false;
             }
-        }          
-        function estadisticatodo(){              
+            actualizarExportadoraFruta();
+        }
+        function estadisticatodo(){
             ESTADISTICATODO = document.getElementById('ESTADISTICATODO').checked;
-            if(ESTADISTICATODO==true){    
-                document.getElementById('ESTARVSP').checked = true;   
+            if(ESTADISTICATODO==true){
+                document.getElementById('ESTARVSP').checked = true;
                 document.getElementById('ESTASTOPMP').checked = true;   
                 document.getElementById('ESTAINFORME').checked = true;  
                 document.getElementById('ESTAEXISTENCIA').checked = true;  
@@ -1226,6 +1248,8 @@ if (isset($_POST)) {
             location.href = "" + url;
         }
 
+
+        window.addEventListener('load', actualizarExportadoraFruta);
 
   
     </script>
@@ -1544,61 +1568,113 @@ if (isset($_POST)) {
                                             </fieldset>
                                         </fieldset>       
                                         <fieldset>
-                                            <legend>Exportadora </legend> 
-                                            <div class="row">
-                                                <div class="col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-6 col-6 col-xs-6">
-                                                    <input type="checkbox" id="EXPORTADORA"  name="EXPORTADORA" class="filled-in chk-col-info"      <?php if ($EXPORTADORA == "1") { echo "checked"; } ?>  onchange="exportadora();"  <?php echo $DISABLED;?> >
-                                                    <label for="EXPORTADORA">Exportadora</label>                                        
-                                                </div>
-                                                <div class="col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-6 col-6 col-xs-6">
-                                                    <input type="checkbox" id="EXPORTADORATODO"  name="EXPORTADORATODO" class="filled-in chk-col-danger"      <?php echo $EXPORTADORATODO;?>  onchange="exportadoratodo();"  <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?>>
-                                                    <label for="EXPORTADORATODO">Selecionar Todo</label>                                        
-                                                </div>
-                                            </div>                  
-                                            <hr>                    
-                                            <div class="row">                                            
-                                                <div class="col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-6 col-6 col-xs-6">
-                                                    <input type="checkbox" id="EMATERIALES"  name="EMATERIALES" class="filled-in chk-col-success"   <?php if ($EMATERIALES == "1") { echo "checked"; } ?>  <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?>>
-                                                    <label for="EMATERIALES">Materiales</label>	
-                                                </div>
-                                                <div class="col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-6 col-6 col-xs-6">
-                                                    <input type="checkbox" id="EEXPORTACION"  name="EEXPORTACION" class="filled-in chk-col-success"     <?php if ($EEXPORTACION == "1") { echo "checked"; } ?>  <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?>>
-                                                    <label for="EEXPORTACION">Exportación</label>                                        
-                                                </div>
-                                                <div class="col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-6 col-6 col-xs-6">
-                                                    <input type="checkbox" id="ELIQUIDACION"  name="ELIQUIDACION" class="filled-in chk-col-success"     <?php if ($ELIQUIDACION == "1") { echo "checked"; } ?>  <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?>>
-                                                    <label for="ELIQUIDACION">Liquidación</label>                                        
-                                                </div>     
-                                                <div class="col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-6 col-6 col-xs-6">
-                                                    <input type="checkbox" id="EPAGO"  name="EPAGO" class="filled-in chk-col-success"     <?php if ($EPAGO == "1") { echo "checked"; } ?>  <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?>>
-                                                    <label for="EPAGO">Pago</label>                                        
-                                                </div>        
-                                                <div class="col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-6 col-6 col-xs-6">
-                                                    <input type="checkbox" id="EINFORMES"  name="EINFORMES" class="filled-in chk-col-success"     <?php if ($EINFORMES == "1") { echo "checked"; } ?>  <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?>>
-                                                    <label for="EINFORMES">Informes</label>                                        
-                                                </div>
-                                            </div>          
-                                            <div class="row">       
-                                                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 col-xs-12">                                                                        
-                                                    <fieldset>     
-                                                        <legend>Fruta </legend> 
-                                                        <div class="row">                                            
-                                                            <div class="col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-6 col-6 col-xs-6">
-                                                                <input type="checkbox" id="EFRUTA"  name="EFRUTA" class="filled-in chk-col-success"   <?php if ($EFRUTA == "1") { echo "checked"; } ?>   <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?>>
-                                                                <label for="EFRUTA">Fruta</label>	
-                                                            </div>
-                                                        </div> 
-                                                        <hr>
-                                                        <div class="row">                                             
-                                                            <div class="col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-6 col-6 col-xs-6">
-                                                                <input type="checkbox" id="EFCICARGA"  name="EFCICARGA" class="filled-in chk-col-success"   <?php if ($EFCICARGA == "1") { echo "checked"; } ?>  <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?>>
-                                                                <label for="EFCICARGA">Cambio Instructivo Carga</label>	
-                                                            </div>   
+                                            <legend>Exportadora </legend>
+                                            <div class="row mb-10">
+                                                <div class="col-xxl-8 col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12 col-xs-12">
+                                                    <div class="d-flex align-items-center flex-wrap">
+                                                        <div class="mr-20 mb-5">
+                                                            <input type="checkbox" id="EXPORTADORA"  name="EXPORTADORA" class="filled-in chk-col-info"      <?php if ($EXPORTADORA == "1") { echo "checked"; } ?>  onchange="exportadora();"  <?php echo $DISABLED;?> >
+                                                            <label for="EXPORTADORA" class="mb-0">Exportadora</label>
                                                         </div>
-                                                    </fieldset>
+                                                        <div class="mr-20 mb-5">
+                                                            <input type="checkbox" id="EXPORTADORATODO"  name="EXPORTADORATODO" class="filled-in chk-col-danger"      <?php echo $EXPORTADORATODO;?>  onchange="exportadoratodo();"  <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?>>
+                                                            <label for="EXPORTADORATODO" class="mb-0">Selecionar Todo</label>
+                                                        </div>
+                                                        <small class="text-muted">Activa el módulo y luego ajusta cada menú con los controles individuales.</small>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </fieldset>                                          
+                                            <div class="row">
+                                                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 col-xs-12">
+                                                    <div class="box mb-15">
+                                                        <div class="box-body">
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <h5 class="mb-0">Materiales</h5>
+                                                                <div>
+                                                                    <input type="checkbox" id="EMATERIALES"  name="EMATERIALES" class="filled-in chk-col-success"   <?php if ($EMATERIALES == "1") { echo "checked"; } ?>  <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?> onchange="activarExportadora();">
+                                                                    <label for="EMATERIALES" class="mb-0">Habilitar</label>
+                                                                </div>
+                                                            </div>
+                                                            <small class="text-muted">Permite gestionar materiales vinculados a exportadora.</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 col-xs-12">
+                                                    <div class="box mb-15">
+                                                        <div class="box-body">
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <h5 class="mb-0">Exportación</h5>
+                                                                <div>
+                                                                    <input type="checkbox" id="EEXPORTACION"  name="EEXPORTACION" class="filled-in chk-col-success"     <?php if ($EEXPORTACION == "1") { echo "checked"; } ?>  <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?> onchange="activarExportadora();">
+                                                                    <label for="EEXPORTACION" class="mb-0">Habilitar</label>
+                                                                </div>
+                                                            </div>
+                                                            <small class="text-muted">Controla accesos para los procesos de exportación.</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 col-xs-12">
+                                                    <div class="box mb-15">
+                                                        <div class="box-body">
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <h5 class="mb-0">Liquidación</h5>
+                                                                <div>
+                                                                    <input type="checkbox" id="ELIQUIDACION"  name="ELIQUIDACION" class="filled-in chk-col-success"     <?php if ($ELIQUIDACION == "1") { echo "checked"; } ?>  <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?> onchange="activarExportadora();">
+                                                                    <label for="ELIQUIDACION" class="mb-0">Habilitar</label>
+                                                                </div>
+                                                            </div>
+                                                            <small class="text-muted">Ajusta el acceso a la sección de liquidaciones.</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 col-xs-12">
+                                                    <div class="box mb-15">
+                                                        <div class="box-body">
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <h5 class="mb-0">Pago</h5>
+                                                                <div>
+                                                                    <input type="checkbox" id="EPAGO"  name="EPAGO" class="filled-in chk-col-success"     <?php if ($EPAGO == "1") { echo "checked"; } ?>  <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?> onchange="activarExportadora();">
+                                                                    <label for="EPAGO" class="mb-0">Habilitar</label>
+                                                                </div>
+                                                            </div>
+                                                            <small class="text-muted">Privilegios para administración de pagos.</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 col-xs-12">
+                                                    <div class="box mb-15">
+                                                        <div class="box-body">
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <h5 class="mb-0">Informes</h5>
+                                                                <div>
+                                                                    <input type="checkbox" id="EINFORMES"  name="EINFORMES" class="filled-in chk-col-success"     <?php if ($EINFORMES == "1") { echo "checked"; } ?>  <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?> onchange="activarExportadora();">
+                                                                    <label for="EINFORMES" class="mb-0">Habilitar</label>
+                                                                </div>
+                                                            </div>
+                                                            <small class="text-muted">Reportes y consultas vinculadas a exportadora.</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 col-xs-12">
+                                                    <div class="box mb-15">
+                                                        <div class="box-body">
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <h5 class="mb-0">Fruta</h5>
+                                                                <div>
+                                                                    <input type="checkbox" id="EFRUTA"  name="EFRUTA" class="filled-in chk-col-success"   <?php if ($EFRUTA == "1") { echo "checked"; } ?>   <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?> onchange="activarExportadora();actualizarExportadoraFruta();">
+                                                                    <label for="EFRUTA" class="mb-0">Habilitar</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mt-10">
+                                                                <input type="checkbox" id="EFCICARGA"  name="EFCICARGA" class="filled-in chk-col-success"   <?php if ($EFCICARGA == "1") { echo "checked"; } ?>  <?php echo $DISABLED;?> <?php echo $DISABLEDEXPORTADORA;?> onchange="activarExportadora();">
+                                                                <label for="EFCICARGA">Cambio Instructivo Carga</label>
+                                                            </div>
+                                                            <small class="text-muted d-block mt-5">Controles específicos de fruta para exportadora.</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
                                         <fieldset>
                                             <legend>Estadistica </legend> 
                                             <div class="row">
