@@ -756,7 +756,7 @@ $html = $html . '
                     <td class="center">'.$s['NOMBRE'].'</td>
                     <td class="center">'.$s['TMANEJO'].'</td>
                     <td class="center">'.$s['NETO'].'</td>
-                    <td class="center">'.$s['BRUTO'].'</td>
+                    <td class="center">'.$s['BRUTOF'].'</td>
                     <td class="center" style="text-transform: uppercase;">'.$s['TMONEDA'].'</td>
                     <td class="center">'.$s['US'].'</td>
                     <td class="center">'.$s['TOTALUS'].'</td>
@@ -764,7 +764,7 @@ $html = $html . '
             ';
             $TOTALENVASEV+=$s['ENVASESF'];
             $TOTALNETOV+=$s['NETOSF'];
-            $TOTALBRUTOV+=$s['BRUTOSF'];
+            $TOTALBRUTOV+=$s['BRUTOSRF'];
             $TOTALUSV+=$s['TOTALUSSF'];
             endforeach;
 
