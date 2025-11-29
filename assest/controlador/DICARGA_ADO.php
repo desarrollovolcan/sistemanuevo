@@ -569,8 +569,9 @@ class DICARGA_ADO
                                                     (select FORMAT(IFNULL(SUM(existencia.CANTIDAD_ENVASE_EXIEXPORTACION),0) *PESO_BRUTO_ECOMERCIAL,2,'de_DE')
                                                     FROM estandar_ecomercial
                                                     WHERE ID_ECOMERCIAL=comercial.ID_ECOMERCIAL
-                                                    ) AS 'BRUTO',   
-                                                    (  SELECT               
+                                                    ) AS 'BRUTO',
+                                                    IFNULL(SUM(existencia.KILOS_BRUTO_EXIEXPORTACION),0) AS 'BRUTOSRF',
+                                                    (  SELECT
                                                                 (	SELECT NOMBRE_TMONEDA
                                                                     FROM fruta_tmoneda
                                                                     WHERE ID_TMONEDA=detalle.ID_TMONEDA   
