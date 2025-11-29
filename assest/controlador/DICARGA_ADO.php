@@ -387,6 +387,19 @@ class DICARGA_ADO
                                                     FROM estandar_ecomercial
                                                     WHERE ID_ECOMERCIAL=comercial.ID_ECOMERCIAL
                                                     ) AS 'BRUTO',  
+                                                    (  SELECT
+                                                                (       SELECT NOMBRE_TMANEJO
+                                                                    FROM fruta_tmanejo
+                                                                    WHERE ID_TMANEJO=detalle.ID_TMANEJO
+                                                                )
+                                                            FROM fruta_dicarga detalle, estandar_eexportacion estandar2, estandar_ecomercial comercial2
+                                                            WHERE   detalle.ID_ESTANDAR=estandar2.ID_ESTANDAR
+                                                            AND estandar2.ID_ECOMERCIAL = comercial2.ID_ECOMERCIAL
+                                                            AND detalle.ID_ICARGA = icarga.ID_ICARGA
+                                                            AND comercial2.ID_ECOMERCIAL =comercial.ID_ECOMERCIAL
+                                                            AND detalle.ESTADO_REGISTRO = 1
+                                                                LIMIT 1
+                                                        ) AS 'TMANEJO',
                                                     (SELECT NOMBRE_TMONEDA
                                                     FROM fruta_tmoneda
                                                     WHERE ID_TMONEDA=detalle.ID_TMONEDA     
@@ -569,8 +582,22 @@ class DICARGA_ADO
                                                     (select FORMAT(IFNULL(SUM(existencia.CANTIDAD_ENVASE_EXIEXPORTACION),0) *PESO_BRUTO_ECOMERCIAL,2,'de_DE')
                                                     FROM estandar_ecomercial
                                                     WHERE ID_ECOMERCIAL=comercial.ID_ECOMERCIAL
-                                                    ) AS 'BRUTO',   
-                                                    (  SELECT               
+                                                    ) AS 'BRUTO',
+                                                    (  SELECT
+                                                                (       SELECT NOMBRE_TMANEJO
+                                                                    FROM fruta_tmanejo
+                                                                    WHERE ID_TMANEJO=detalle.ID_TMANEJO
+                                                                )
+                                                            FROM fruta_dicarga detalle, estandar_eexportacion estandar2, estandar_ecomercial comercial2
+                                                            WHERE   detalle.ID_ESTANDAR=estandar2.ID_ESTANDAR
+                                                            AND estandar2.ID_ECOMERCIAL = comercial2.ID_ECOMERCIAL
+                                                            AND detalle.ID_ICARGA = icarga.ID_ICARGA
+                                                            AND comercial2.ID_ECOMERCIAL =comercial.ID_ECOMERCIAL
+                                                            AND detalle.ESTADO_REGISTRO = 1
+                                                                LIMIT 1
+                                                        ) AS 'TMANEJO',
+                                                    IFNULL(SUM(existencia.KILOS_BRUTO_EXIEXPORTACION),0) AS 'BRUTOSRF',
+                                                    (  SELECT
                                                                 (	SELECT NOMBRE_TMONEDA
                                                                     FROM fruta_tmoneda
                                                                     WHERE ID_TMONEDA=detalle.ID_TMONEDA   
@@ -696,6 +723,19 @@ class DICARGA_ADO
                                                     FROM estandar_ecomercial
                                                     WHERE ID_ECOMERCIAL=comercial.ID_ECOMERCIAL
                                                     ) AS 'BRUTO',   
+                                                    (  SELECT
+                                                                (       SELECT NOMBRE_TMANEJO
+                                                                    FROM fruta_tmanejo
+                                                                    WHERE ID_TMANEJO=detalle.ID_TMANEJO
+                                                                )
+                                                            FROM fruta_dicarga detalle, estandar_eexportacion estandar2, estandar_ecomercial comercial2
+                                                            WHERE   detalle.ID_ESTANDAR=estandar2.ID_ESTANDAR
+                                                            AND estandar2.ID_ECOMERCIAL = comercial2.ID_ECOMERCIAL
+                                                            AND detalle.ID_ICARGA = icarga.ID_ICARGA
+                                                            AND comercial2.ID_ECOMERCIAL =comercial.ID_ECOMERCIAL
+                                                            AND detalle.ESTADO_REGISTRO = 1
+                                                                LIMIT 1
+                                                        ) AS 'TMANEJO',
                                                     (  SELECT               
                                                                 (	SELECT NOMBRE_TMONEDA
                                                                     FROM fruta_tmoneda
