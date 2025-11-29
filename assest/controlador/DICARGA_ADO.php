@@ -376,8 +376,7 @@ class DICARGA_ADO
                                                     FROM estandar_ecomercial
                                                     WHERE ID_ECOMERCIAL=comercial.ID_ECOMERCIAL
                                                     ) AS 'BRUTOSF',  
-                                                    IFNULL(detalle.PRECIO_US_DICARGA,0) AS 'US',
-                                                    IFNULL(SUM(detalle.CANTIDAD_ENVASE_DICARGA),0) * IFNULL(detalle.PRECIO_US_DICARGA,0) AS 'TOTALUSSF',                   
+                                                    IFNULL(SUM(detalle.CANTIDAD_ENVASE_DICARGA),0) * IFNULL(detalle.PRECIO_US_DICARGA,0) AS 'TOTALUSSF',
                                                     FORMAT(IFNULL(SUM(detalle.CANTIDAD_ENVASE_DICARGA),0),2,'de_DE')  AS 'ENVASE',                                
                                                     (select FORMAT(IFNULL(SUM(detalle.CANTIDAD_ENVASE_DICARGA),0) *PESO_NETO_ECOMERCIAL,2,'de_DE')
                                                     FROM estandar_ecomercial
@@ -402,7 +401,7 @@ class DICARGA_ADO
                                                         ) AS 'TMANEJO',
                                                     (SELECT NOMBRE_TMONEDA
                                                     FROM fruta_tmoneda
-                                                    WHERE ID_TMONEDA=detalle.ID_TMONEDA     
+                                                    WHERE ID_TMONEDA=detalle.ID_TMONEDA
                                                     LIMIT 1
                                                     ) AS 'TMONEDA',
                                                     FORMAT(IFNULL(detalle.PRECIO_US_DICARGA,0),2,'de_DE') AS 'US',
@@ -468,8 +467,7 @@ class DICARGA_ADO
                                                         FROM estandar_ecomercial
                                                         WHERE ID_ECOMERCIAL=comercial.ID_ECOMERCIAL
                                                         ) AS 'BRUTOSF',  
-                                                        IFNULL(detalle.PRECIO_US_DICARGA,0) AS 'US',
-                                                        IFNULL(SUM(detalle.CANTIDAD_ENVASE_DICARGA),0) * IFNULL(detalle.PRECIO_US_DICARGA,0) AS 'TOTALUSSF',                   
+                                                        IFNULL(SUM(detalle.CANTIDAD_ENVASE_DICARGA),0) * IFNULL(detalle.PRECIO_US_DICARGA,0) AS 'TOTALUSSF',
                                                         FORMAT(IFNULL(SUM(detalle.CANTIDAD_ENVASE_DICARGA),0),2,'de_DE')  AS 'ENVASE',                                
                                                         (select FORMAT(IFNULL(SUM(detalle.CANTIDAD_ENVASE_DICARGA),0) *PESO_NETO_ECOMERCIAL,2,'de_DE')
                                                         FROM estandar_ecomercial
