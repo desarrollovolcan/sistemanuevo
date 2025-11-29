@@ -322,13 +322,13 @@ class DICARGA_ADO
                                                         SELECT
                                                             (SELECT NOMBRE_TMANEJO
                                                              FROM fruta_tmanejo
-                                                             WHERE ID_TMANEJO=detalle.ID_TMANEJO)
-                                                        FROM fruta_dicarga detalle, estandar_eexportacion estandar2, estandar_ecomercial comercial2
-                                                        WHERE detalle.ID_ESTANDAR=estandar2.ID_ESTANDAR
+                                                             WHERE ID_TMANEJO=detalle2.ID_TMANEJO)
+                                                        FROM fruta_dicarga detalle2, estandar_eexportacion estandar2, estandar_ecomercial comercial2
+                                                        WHERE   detalle2.ID_ESTANDAR=estandar2.ID_ESTANDAR
                                                           AND estandar2.ID_ECOMERCIAL = comercial2.ID_ECOMERCIAL
-                                                          AND detalle.ID_ICARGA = '".$IDICARGA."'
+                                                          AND detalle2.ID_ICARGA = '".$IDICARGA."'
                                                           AND comercial2.ID_ECOMERCIAL =comercial.ID_ECOMERCIAL
-                                                          AND detalle.ESTADO_REGISTRO = 1
+                                                          AND detalle2.ESTADO_REGISTRO = 1
                                                         LIMIT 1
                                                     ) AS 'TMANEJO',
                                                     (SELECT NOMBRE_TMONEDA
