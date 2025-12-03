@@ -1036,6 +1036,34 @@ if (isset($_POST)) {
     <meta name="author" content="">
     <!- LLAMADA DE LOS ARCHIVOS NECESARIOS PARA DISEÑO Y FUNCIONES BASE DE LA VISTA -!>
     <?php include_once "../../assest/config/urlHead.php"; ?>
+    <style>
+        .rounded-steps .btn,
+        .rounded-actions .btn,
+        .rounded-reports .btn {
+            border-radius: 12px !important;
+            padding: 0.4rem 0.9rem;
+            line-height: 1.25;
+        }
+
+        .rounded-steps .btn {
+            padding: 0.35rem 0.7rem;
+        }
+
+        .rounded-actions,
+        .rounded-reports {
+            gap: 0.35rem;
+        }
+
+        .rounded-reports {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .rounded-reports .btn i,
+        .rounded-actions .btn i {
+            margin-right: 0.35rem;
+        }
+    </style>
     <!- FUNCIONES BASES -!>
         <script type="text/javascript">
             //VALIDACION DE FORMULARIO
@@ -2340,7 +2368,7 @@ if (isset($_POST)) {
                                             </div>
                                             
                                     </div>
-                                    <div class="btn-group btn-block">
+                                    <div class="btn-group btn-group-sm btn-block rounded-steps">
                                         <button class="btn btn-success" id="btnHeaderSection1" type="button">Paso 1</button>
                                         <button class="btn btn-secondary" id="btnHeaderSection2" type="button">Paso 2</button>
                                         <!-- <button class="btn btn-secondary" id="btnHeaderSection3" type="button">Datos Contenedor y Comercial</button> -->
@@ -5133,7 +5161,7 @@ if (isset($_POST)) {
                                             </div>
                                         </div>
                                     </div> -->
-                                    <div class="btn-group btn-group-sm col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12 col-xs-12 float-right" id="botonesSteps" role="group">
+                                    <div class="btn-group btn-group-sm col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12 col-xs-12 float-right rounded-steps" id="botonesSteps" role="group">
                                         <button type="button" class="btn btn-primary" id="btnPaso1">Paso 1</button>
                                         <button type="button" class="btn btn-info" id="btnPaso2">Paso 2</button>
                                         <!-- <button type="button" class="btn btn-info" id="btnPaso3"><strong>Paso 3</strong></button> -->
@@ -5142,7 +5170,7 @@ if (isset($_POST)) {
                                 </div>                                                     
                                 <div class="card-footer">
                                     <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="toolbar">
-                                        <div class="btn-group btn-group-sm col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 col-xs-12" role="group" aria-label="Acciones generales">
+                                        <div class="btn-group btn-group-sm col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 col-xs-12 rounded-actions" role="group" aria-label="Acciones generales">
                                             <?php if ($OP == "") { ?>
                                                 <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Guardar" name="CREAR" value="CREAR" onclick="return validacion()">
                                                     <i class="ti-save-alt"></i> Guardar
@@ -5163,9 +5191,8 @@ if (isset($_POST)) {
                                                 </button>
                                             <?php } ?>
                                         </div>
-                                        <div class="btn-group btn-group-sm col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 col-xs-12 float-right flex-wrap" role="group" aria-label="Informes y Reportes">
+                                        <div class="btn-group btn-group-sm col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 col-xs-12 float-right flex-wrap rounded-reports" role="group" aria-label="Informes y Reportes">
                                             <?php if ($OP != ""): ?>
-                                                <div class="d-flex flex-wrap" style="gap: 0.25rem;">
                                                     <button type="button" class="btn btn-primary" data-toggle="tooltip" title="Instructivo Español" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeIcargaEspanol.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
                                                         <i class="fa fa-file-pdf-o mr-1"></i> Instructivo Español
                                                     </button>
@@ -5190,7 +5217,6 @@ if (isset($_POST)) {
                                                     <button type="button" class="btn  btn-success" id="defecto" name="tarjas" title="Reporte Packing List" Onclick="abrirPestana('../../assest/reporte/reporteICargaPackingList.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>'); ">
                                                         <i class="fa fa-file-excel-o mr-1"></i> Packing  List
                                                     </button>
-                                                </div>
                                             <?php endif ?>
                                         </div>
                                     </div>
