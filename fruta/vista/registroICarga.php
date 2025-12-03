@@ -757,11 +757,12 @@ if (isset($id_dato) && isset($accion_dato)) {
             $FDA = $r['FDA_ICARGA'];
             $TEMBARQUE = $r['TEMBARQUE_ICARGA'];
             $COSTOFLETE = $r['COSTO_FLETE_ICARGA'];
+            $LCARGA = $r['ID_LCARGA'];
+            $PLANTA = $r['ID_PLANTA'];
             if ($TEMBARQUE) {
                 if ($TEMBARQUE == "1") {
                     $TRANSPORTE = $r['ID_TRANSPORTE'];
                     $CRT = $r['CRT_ICARGA'];
-                    $LCARGA = $r['ID_LCARGA'];
                     $LDESTINO = $r['ID_LDESTINO'];
                 }
                 if ($TEMBARQUE == "2") {
