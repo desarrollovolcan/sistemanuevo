@@ -87,6 +87,13 @@ include_once "../../assest/config/datosUrLP.php";
     <meta name="author" content="">
     <!- LLAMADA DE LOS ARCHIVOS NECESARIOS PARA DISEÑO Y FUNCIONES BASE DE LA VISTA -!>
         <?php include_once "../../assest/config/urlHead.php"; ?>
+        <style>
+            .action-btn-compact {
+                border-radius: 12px;
+                padding: 0.35rem 0.75rem;
+                line-height: 1.25;
+            }
+        </style>
         <!- FUNCIONES BASES -!>
             <script type="text/javascript">
                 //REDIRECCIONAR A LA PAGINA SELECIONADA
@@ -153,8 +160,8 @@ include_once "../../assest/config/datosUrLP.php";
                                                         <th>Estado</th>
                                                         <th>Fecha Instructivo</th>
                                                         <th class="text-center">Operaciónes </th>
-                                                        <!-- <th class="text-center">Operaciónes </th> -->
-                                                        <th></th>
+                                                        <th class="text-center">Duplicar</th>
+                                                        <th class="text-center">Eliminar</th>
                                                         
                                                         <th>Fecha Corte Documental</th>
                                                         <th>Tipo Emarque</th>
@@ -386,16 +393,26 @@ include_once "../../assest/config/datosUrLP.php";
                                                                </form> -->
                                                             </td>
                                                             <td>
-                                                                <form  method="post" id="form1">
-                                                                <div class="list-icons d-inline-flex">
-                                                                    <input type="hidden" class="form-control" placeholder="ID" id="ID" name="ID" value="<?php echo $r['ID_ICARGA']; ?>" />
+                                                                <form method="get" action="registroICarga.php" class="mb-0">
+                                                                    <input type="hidden" name="id" value="<?php echo $r['ID_ICARGA']; ?>" />
+                                                                    <input type="hidden" name="op" value="duplicar" />
+                                                                    <input type="hidden" name="auto" value="1" />
+                                                                    <button type="submit" class="btn btn-block btn-success btn-sm action-btn-compact" data-toggle="tooltip" title="Duplicar Instructivo Carga">
+                                                                        <i class="fa fa-copy"></i> Duplicar
+                                                                    </button>
+                                                                </form>
+                                                            </td>
+                                                            <td>
+                                                                <form  method="post" id="form1" class="mb-0">
+                                                                    <div class="list-icons d-inline-flex">
+                                                                        <input type="hidden" class="form-control" placeholder="ID" id="ID" name="ID" value="<?php echo $r['ID_ICARGA']; ?>" />
                                                                         <input type="hidden" class="form-control" placeholder="URL" id="URL" name="URL" value="registroICarga" />
-                                                                        <input type="hidden" class="form-control" placeholder="URLO" id="URLO" name="URLO" value="listarICarga" /> 
-                                                                        <button type="submit" class="btn btn-block btn-danger" id="ELIMINAR" name="ELIMINAR" data-toggle="tooltip" title="Eliminar Instructivo Carga" >
-                                                                                <i class="fa fa-copy "></i> Eliminar
-                                                                            </button>
+                                                                        <input type="hidden" class="form-control" placeholder="URLO" id="URLO" name="URLO" value="listarICarga" />
+                                                                        <button type="submit" class="btn btn-block btn-danger btn-sm action-btn-compact" id="ELIMINAR" name="ELIMINAR" data-toggle="tooltip" title="Eliminar Instructivo Carga" >
+                                                                            <i class="fa fa-trash"></i> Eliminar
+                                                                        </button>
                                                                     </div>
-                                                                    </form>
+                                                                </form>
                                                             </td>
                                     
                                                             <td> <?php echo $ESTADOICARGA; ?> </td>
