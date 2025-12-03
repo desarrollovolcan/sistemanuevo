@@ -1036,6 +1036,34 @@ if (isset($_POST)) {
     <meta name="author" content="">
     <!- LLAMADA DE LOS ARCHIVOS NECESARIOS PARA DISEÑO Y FUNCIONES BASE DE LA VISTA -!>
     <?php include_once "../../assest/config/urlHead.php"; ?>
+    <style>
+        .rounded-steps .btn,
+        .rounded-actions .btn,
+        .rounded-reports .btn {
+            border-radius: 12px !important;
+            padding: 0.4rem 0.9rem;
+            line-height: 1.25;
+        }
+
+        .rounded-steps .btn {
+            padding: 0.35rem 0.7rem;
+        }
+
+        .rounded-actions,
+        .rounded-reports {
+            gap: 0.35rem;
+        }
+
+        .rounded-reports {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .rounded-reports .btn i,
+        .rounded-actions .btn i {
+            margin-right: 0.35rem;
+        }
+    </style>
     <!- FUNCIONES BASES -!>
         <script type="text/javascript">
             //VALIDACION DE FORMULARIO
@@ -2340,7 +2368,7 @@ if (isset($_POST)) {
                                             </div>
                                             
                                     </div>
-                                    <div class="btn-group btn-block">
+                                    <div class="btn-group btn-group-sm btn-block rounded-steps">
                                         <button class="btn btn-success" id="btnHeaderSection1" type="button">Paso 1</button>
                                         <button class="btn btn-secondary" id="btnHeaderSection2" type="button">Paso 2</button>
                                         <!-- <button class="btn btn-secondary" id="btnHeaderSection3" type="button">Datos Contenedor y Comercial</button> -->
@@ -5133,70 +5161,62 @@ if (isset($_POST)) {
                                             </div>
                                         </div>
                                     </div> -->
-                                    <div class="btn-group  col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12 col-xs-12 float-right" id="botonesSteps" role="group">
-                                        <button type="button" class="btn btn-primary" id="btnPaso1"><strong>Paso 1</strong></button>
-                                        <button type="button" class="btn btn-info" id="btnPaso2"><strong>Paso 2</strong></button>
+                                    <div class="btn-group btn-group-sm col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12 col-xs-12 float-right rounded-steps" id="botonesSteps" role="group">
+                                        <button type="button" class="btn btn-primary" id="btnPaso1">Paso 1</button>
+                                        <button type="button" class="btn btn-info" id="btnPaso2">Paso 2</button>
                                         <!-- <button type="button" class="btn btn-info" id="btnPaso3"><strong>Paso 3</strong></button> -->
                                     </div>
                                     <br>
                                 </div>                                                     
                                 <div class="card-footer">
                                     <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="toolbar">
-                                        <div class="btn-group  col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 col-xs-12" role="group" aria-label="Acciones generales">
+                                        <div class="btn-group btn-group-sm col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 col-xs-12 rounded-actions" role="group" aria-label="Acciones generales">
                                             <?php if ($OP == "") { ?>
-                                                <button type="button" class="btn btn-warning btn-md" data-toggle="tooltip" title="Cancelar" name="CANCELAR" value="CANCELAR" Onclick="irPagina('registroICarga.php');">
-                                                    <i class="ti-trash"></i> Cancelar
-                                                </button>
-                                                <button type="submit" class="btn btn-primary btn-md" data-toggle="tooltip" title="Guardar" name="CREAR" value="CREAR"   onclick="return validacion()">
+                                                <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Guardar" name="CREAR" value="CREAR" onclick="return validacion()">
                                                     <i class="ti-save-alt"></i> Guardar
+                                                </button>
+                                                <button type="button" class="btn btn-secondary" data-toggle="tooltip" title="Cancelar" name="CANCELAR" value="CANCELAR" Onclick="irPagina('registroICarga.php');">
+                                                    <i class="ti-trash"></i> Cancelar
                                                 </button>
                                             <?php } ?>
                                             <?php if ($OP != "") { ?>
-                                                <button type="button" class="btn  btn-success btn-md" data-toggle="tooltip" title="Volver" name="VOLVER" value="VOLVER" Onclick="irPagina('listarICarga.php'); ">
-                                                    <i class="ti-back-left "></i> Volver
-                                                </button>
-                                                <button type="submit" class="btn btn-warning btn-md" data-toggle="tooltip" title="Guardar" name="GUARDAR" value="GUARDAR"  <?php echo $DISABLED2; ?> onclick="return validacion()">
+                                                <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Guardar" name="GUARDAR" value="GUARDAR"  <?php echo $DISABLED2; ?> onclick="return validacion()">
                                                     <i class="ti-pencil-alt"></i> Guardar
                                                 </button>
-                                                <button type="submit" class="btn btn-danger btn-md" data-toggle="tooltip" title="Cerrar" name="CERRAR" value="CERRAR"  <?php echo $DISABLED2; ?> onclick="return validacionCerrar()">
+                                                <button type="submit" class="btn btn-danger" data-toggle="tooltip" title="Cerrar" name="CERRAR" value="CERRAR"  <?php echo $DISABLED2; ?> onclick="return validacionCerrar()">
                                                     <i class="ti-save-alt"></i> Cerrar
                                                 </button>
-                                                <button type="submit" name="DUPLICAR" class="btn btn-primary btn-md" data-toggle="tooltip" title="DUPLICAR" value="DUPLICAR" onclick="return validacion()">
-                                                    <i class = "ti-pencil-alt"></i> Duplicar
+                                                <button type="button" class="btn btn-secondary" data-toggle="tooltip" title="Volver" name="VOLVER" value="VOLVER" Onclick="irPagina('listarICarga.php'); ">
+                                                    <i class="ti-back-left "></i> Volver
                                                 </button>
-
                                             <?php } ?>
                                         </div>
-                                        <div class="btn-group   col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 col-xs-12 float-right" role="group" aria-label="Informes y Reportes">
+                                        <div class="btn-group btn-group-sm col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 col-xs-12 float-right flex-wrap rounded-reports" role="group" aria-label="Informes y Reportes">
                                             <?php if ($OP != ""): ?>
-                                                <div class="row">
-                                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 col-xs-12 ">
-                                                        <button type="button" class="btn btn-primary  btn-sm" data-toggle="tooltip" title="Instructivo Español" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeIcargaEspanol.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
-                                                            <i class="fa fa-file-pdf-o"></i><br> Instructivo Español
-                                                        </button>
-                                                        <button type="button" class="btn btn-primary  btn-sm" data-toggle="tooltip" title=" Instruction English" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeIcargaEnglish.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
-                                                            <i class="fa fa-file-pdf-o"></i><br>  Instruction English
-                                                        </button>
-                                                        <button type="button" class="btn btn-info  btn-sm" data-toggle="tooltip" title="Report Invoice" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeIcargaInvoice.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
-                                                            <i class="fa fa-file-pdf-o"></i><br> Invoice
-                                                        </button>
-                                                        <button type="button" class="btn btn-info  btn-sm" data-toggle="tooltip" title="Report Invoice v2" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeIcargaInvoicev2.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
-                                                            <i class="fa fa-file-pdf-o"></i><br> Invoice 2
-                                                        </button>
-                                                        <button type="button" class="btn btn-info  btn-sm" data-toggle="tooltip" title="Report Invoice EU" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeIcargaInvoiceEU.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
-                                                            <i class="fa fa-file-pdf-o"></i><br> Invoice EU
-                                                        </button>
-                                                        <button type="button" class="btn btn-info  btn-sm" data-toggle="tooltip" title="Informe Carga Real" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeICargaReal.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
-                                                        <i class="fa fa-file-pdf-o"></i><br> Carga Real
-                                                        </button>
-                                                        <button type="button" class="btn  btn-success btn-sm" id="defecto" name="tarjas" title="Reporte Carga Real" Onclick="abrirPestana('../../assest/reporte/reporteCargaRealcarga.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>'); ">
-                                                            <i class="fa fa-file-excel-o"></i><br> Carga Real
-                                                        </button>
-                                                        <button type="button" class="btn  btn-success btn-sm" id="defecto" name="tarjas" title="Reporte Packing List" Onclick="abrirPestana('../../assest/reporte/reporteICargaPackingList.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>'); ">
-                                                            <i class="fa fa-file-excel-o"></i><br> Packing  List
-                                                        </button>
-                                                    </div>                                                    
-                                                </div>
+                                                    <button type="button" class="btn btn-primary" data-toggle="tooltip" title="Instructivo Español" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeIcargaEspanol.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
+                                                        <i class="fa fa-file-pdf-o mr-1"></i> Instructivo Español
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary" data-toggle="tooltip" title=" Instruction English" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeIcargaEnglish.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
+                                                        <i class="fa fa-file-pdf-o mr-1"></i> Instruction English
+                                                    </button>
+                                                    <button type="button" class="btn btn-info" data-toggle="tooltip" title="Report Invoice" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeIcargaInvoice.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
+                                                        <i class="fa fa-file-pdf-o mr-1"></i> Invoice
+                                                    </button>
+                                                    <button type="button" class="btn btn-info" data-toggle="tooltip" title="Report Invoice v2" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeIcargaInvoicev2.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
+                                                        <i class="fa fa-file-pdf-o mr-1"></i> Invoice 2
+                                                    </button>
+                                                    <button type="button" class="btn btn-info" data-toggle="tooltip" title="Report Invoice EU" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeIcargaInvoiceEU.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
+                                                        <i class="fa fa-file-pdf-o mr-1"></i> Invoice EU
+                                                    </button>
+                                                    <button type="button" class="btn btn-info" data-toggle="tooltip" title="Informe Carga Real" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeICargaReal.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
+                                                        <i class="fa fa-file-pdf-o mr-1"></i> Carga Real
+                                                    </button>
+                                                    <button type="button" class="btn  btn-success" id="defecto" name="tarjas" title="Reporte Carga Real" Onclick="abrirPestana('../../assest/reporte/reporteCargaRealcarga.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>'); ">
+                                                        <i class="fa fa-file-excel-o mr-1"></i> Carga Real
+                                                    </button>
+                                                    <button type="button" class="btn  btn-success" id="defecto" name="tarjas" title="Reporte Packing List" Onclick="abrirPestana('../../assest/reporte/reporteICargaPackingList.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>'); ">
+                                                        <i class="fa fa-file-excel-o mr-1"></i> Packing  List
+                                                    </button>
                                             <?php endif ?>
                                         </div>
                                     </div>
@@ -5342,17 +5362,14 @@ if (isset($_POST)) {
                                                                                 <i class="ti-eye"></i><br> Ver
                                                                             </button>
                                                                         <?php } ?>
-                                                                        <?php if ($ESTADO == "1") { ?>
-                                                                            <button type="submit" class="btn btn-warning btn-sm " id="EDITARDURL" name="EDITARDURL" data-toggle="tooltip" title="Editar Detalle Instructivo"   <?php echo $DISABLED2; ?>>
-                                                                                <i class="ti-pencil-alt"></i><br> Editar
-                                                                            </button>
-                                                                            <button type="submit" class="btn btn-secondary btn-sm " id="DUPLICARDURL" name="DUPLICARDURL" data-toggle="tooltip" title="Duplicar Detalle Instructivo"   <?php echo $DISABLED2; ?>>
-                                                                                <i class="fa fa-fw fa-copy"></i><br> Duplicar
-                                                                            </button>
-                                                                            <button type="submit" class="btn btn-danger btn-sm" id="ELIMINARDURL" name="ELIMINARDURL" data-toggle="tooltip" title="Eliminar Detalle Instructivo" <?php echo $DISABLED2; ?>>
-                                                                                <i class="ti-close"></i><br> Eliminar
-                                                                            </button>
-                                                                        <?php } ?>
+                                                                          <?php if ($ESTADO == "1") { ?>
+                                                                              <button type="submit" class="btn btn-warning btn-sm " id="EDITARDURL" name="EDITARDURL" data-toggle="tooltip" title="Editar Detalle Instructivo"   <?php echo $DISABLED2; ?>>
+                                                                                  <i class="ti-pencil-alt"></i><br> Editar
+                                                                              </button>
+                                                                              <button type="submit" class="btn btn-danger btn-sm" id="ELIMINARDURL" name="ELIMINARDURL" data-toggle="tooltip" title="Eliminar Detalle Instructivo" <?php echo $DISABLED2; ?>>
+                                                                                  <i class="ti-close"></i><br> Eliminar
+                                                                              </button>
+                                                                          <?php } ?>
                                                                     </div>
                                                             </form>
                                                         </td>
