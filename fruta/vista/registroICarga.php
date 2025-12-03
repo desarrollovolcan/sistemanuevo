@@ -807,6 +807,112 @@ if (isset($id_dato) && isset($accion_dato)) {
             $ESTADO = $r['ESTADO'];
 
         endforeach;
+
+        if (isset($_REQUEST['auto']) && $_REQUEST['auto'] == "1") {
+            $ARRAYNUMERO = $ICARGA_ADO->obtenerNumero($EMPRESA,  $TEMPORADA);
+            $NUMERO = $ARRAYNUMERO[0]['NUMERO'] + 1;
+            $PUBLICAINSTRUCTIVO = $NETOINSTRUCTIVO + $REBATEINSTRUCTIVO;
+
+            $ICARGA->__SET('NUMERO_ICARGA', $NUMERO);
+            $ICARGA->__SET('FECHA_ICARGA', $FECHAINSTRUCTIVO);
+            $ICARGA->__SET('FECHA_CDOCUMENTAL_ICARGA', $FECHACDOCUMENTALICARGA);
+            $ICARGA->__SET('BOOKING_ICARGA', $BOOKINGINSTRUCTIVO);
+            $ICARGA->__SET('NREFERENCIA_ICARGA', $NUMEROREFERENCIAINSTRUCTIVO);
+            $ICARGA->__SET('FECHAETD_ICARGA', $FECHAETD);
+            $ICARGA->__SET('FECHAETA_ICARGA', $FECHAETA);
+            $ICARGA->__SET('FECHAETAREAL_ICARGA', $FECHAETAREAL);
+            $ICARGA->__SET('FECHAETDREAL_ICARGA', $FECHAETDREAL);
+            $ICARGA->__SET('NCONTENEDOR_ICARGA', $NCONTENEDOR);
+            $ICARGA->__SET('NCOURIER_ICARGA', $NCOURIER);
+            $ICARGA->__SET('FDA_ICARGA', $FDA);
+            $ICARGA->__SET('TEMBARQUE_ICARGA', $TEMBARQUE);
+            $ICARGA->__SET('FUMIGADO_ICARGA', $FUMIGADO);
+            $ICARGA->__SET('T_ICARGA', $TINSTRUCTIVO);
+            $ICARGA->__SET('O2_ICARGA', $O2INSTRUCTIVO);
+            $ICARGA->__SET('C02_ICARGA', $CO2INSTRUCTIVO);
+            $ICARGA->__SET('ALAMPA_ICARGA', $ALAMPAINSTRUCTIVO);
+            $ICARGA->__SET('COSTO_FLETE_ICARGA', $COSTOFLETE);
+            $ICARGA->__SET('DUS_ICARGA', $DUSINSTRUCTIVO);
+            $ICARGA->__SET('BOLAWBCRT_ICARGA', $BOLAWBCRTINSTRUCTIVO);
+            $ICARGA->__SET('NETO_ICARGA', $NETOINSTRUCTIVO);
+            $ICARGA->__SET('REBATE_ICARGA', $REBATEINSTRUCTIVO);
+            $ICARGA->__SET('PUBLICA_ICARGA', $PUBLICAINSTRUCTIVO);
+            $ICARGA->__SET('ID_SEGURO', $SEGURO);
+            $ICARGA->__SET('OBSERVACION_ICARGA', $OBSERVACIONINSTRUCTIVO);
+            $ICARGA->__SET('OBSERVACIONI_ICARGA', $OBSERVACIONIINSTRUCTIVO);
+            $ICARGA->__SET('ID_TSERVICIO', $TSERVICIO);
+            $ICARGA->__SET('ID_EXPPORTADORA', $EXPORTADORA);
+            $ICARGA->__SET('ID_CONSIGNATARIO', $CONSIGNATARIO);
+            $ICARGA->__SET('ID_EMISIONBL', $EMISIONBL);
+            $ICARGA->__SET('ID_NOTIFICADOR', $NOTIFICADOR);
+            $ICARGA->__SET('ID_BROKER', $BROKER);
+            $ICARGA->__SET('ID_RFINAL', $RFINAL);
+            $ICARGA->__SET('ID_MERCADO', $MERCADO);
+            $ICARGA->__SET('ID_AADUANA', $AADUANA);
+            $ICARGA->__SET('ID_AGCARGA', $AGCARGA);
+            $ICARGA->__SET('ID_DFINAL', $DFINAL);
+            $ICARGA->__SET('ID_FPAGO', $FPAGO);
+            $ICARGA->__SET('ID_CVENTA', $CVENTA);
+            $ICARGA->__SET('ID_MVENTA', $MVENTA);
+            $ICARGA->__SET('ID_TFLETE', $TFLETE);
+            $ICARGA->__SET('ID_TCONTENEDOR', $TCONTENEDOR);
+            $ICARGA->__SET('ID_ATMOSFERA', $ATMOSFERA);
+
+            if ($TEMBARQUE == "1") {
+                $ICARGA->__SET('ID_TRANSPORTE', $TRANSPORTE);
+                $ICARGA->__SET('CRT_ICARGA', $CRT);
+                $ICARGA->__SET('ID_LCARGA', $LCARGA);
+                $ICARGA->__SET('ID_LDESTINO', $LDESTINO);
+            }
+            if ($TEMBARQUE == "2") {
+                $ICARGA->__SET('ID_LAREA', $LAEREA);
+                $ICARGA->__SET('NAVE_ICARGA', $NAVE);
+                $ICARGA->__SET('NVIAJE_ICARGA', $NVIAJE);
+                $ICARGA->__SET('ID_ACARGA', $ACARGA);
+                $ICARGA->__SET('ID_ADESTINO', $ADESTINO);
+            }
+            if ($TEMBARQUE == "3") {
+                $ICARGA->__SET('ID_NAVIERA', $NAVIERA);
+                $ICARGA->__SET('NAVE_ICARGA', $NAVE);
+                $ICARGA->__SET('FECHASTACKING_ICARGA', $FECHASTACKING);
+                $ICARGA->__SET('FECHASTACKINGF_ICARGA', $FECHASTACKINGF);
+                $ICARGA->__SET('NVIAJE_ICARGA', $NVIAJE);
+                $ICARGA->__SET('ID_PCARGA', $PCARGA);
+                $ICARGA->__SET('ID_PDESTINO', $PDESTINO);
+            }
+
+            $ICARGA->__SET('ID_PAIS',  $PAIS);
+            $ICARGA->__SET('ID_EMPRESA',  $EMPRESA);
+            $ICARGA->__SET('ID_PLANTA',  $PLANTA);
+            $ICARGA->__SET('ID_TEMPORADA',  $TEMPORADA);
+            $ICARGA->__SET('ID_USUARIOI', $IDUSUARIOS);
+            $ICARGA->__SET('ID_USUARIOM', $IDUSUARIOS);
+
+            $ICARGA_ADO->agregarIcarga($ICARGA);
+            $ARRYAOBTENERID = $ICARGA_ADO->obtenerId(
+                $FECHAINSTRUCTIVO,
+                $OBSERVACIONINSTRUCTIVO,
+                $EMPRESA,
+                $TEMPORADA
+            );
+            $AUSUARIO_ADO->agregarAusuario2($NUMERO,1,1,"".$_SESSION["NOMBRE_USUARIO"].", Duplicar Instructivo Carga","fruta_icarga",$ARRYAOBTENERID[0]['ID_ICARGA'],$_SESSION["ID_USUARIO"],$_SESSION['ID_EMPRESA'],$_SESSION['ID_PLANTA'],$_SESSION['ID_TEMPORADA'] );
+
+            $id_dato = $ARRYAOBTENERID[0]['ID_ICARGA'];
+            $accion_dato = "duplicar";
+            echo '<script>
+                Swal.fire({
+                    icon:"success",
+                    title:"Registro Duplicado",
+                    text:"El registro de Instructivo se ha duplicado correctamente",
+                    showConfirmButton: true,
+                    confirmButtonText:"Cerrar",
+                    closeOnConfirm:false
+                }).then((result)=>{
+                    location.href = "registroICarga.php?op&id='.$id_dato.'&a='.$accion_dato.'";
+                })
+            </script>';
+            die();
+        }
     }
 }
 

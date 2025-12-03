@@ -161,8 +161,7 @@ include_once "../../assest/config/datosUrLP.php";
                                                         <th>Fecha Instructivo</th>
                                                         <th class="text-center">Operaciónes </th>
                                                         <!-- <th class="text-center">Operaciónes </th> -->
-                                                        <th class="text-center">Duplicar</th>
-                                                        <th class="text-center">Eliminar</th>
+                                                        <th class="text-center">Duplicar / Eliminar</th>
                                                         
                                                         <th>Fecha Corte Documental</th>
                                                         <th>Tipo Emarque</th>
@@ -394,25 +393,26 @@ include_once "../../assest/config/datosUrLP.php";
                                                                </form> -->
                                                             </td>
                                                             <td>
-                                                                <form method="get" action="registroICarga.php" class="mb-0">
-                                                                    <input type="hidden" name="id" value="<?php echo $r['ID_ICARGA']; ?>" />
-                                                                    <input type="hidden" name="op" value="duplicar" />
-                                                                    <button type="submit" class="btn btn-block btn-success btn-sm action-btn-compact" data-toggle="tooltip" title="Duplicar Instructivo Carga">
-                                                                        <i class="fa fa-copy"></i> Duplicar
-                                                                    </button>
-                                                                </form>
-                                                            </td>
-                                                            <td>
-                                                                <form  method="post" id="form1">
-                                                                <div class="list-icons d-inline-flex">
-                                                                    <input type="hidden" class="form-control" placeholder="ID" id="ID" name="ID" value="<?php echo $r['ID_ICARGA']; ?>" />
-                                                                        <input type="hidden" class="form-control" placeholder="URL" id="URL" name="URL" value="registroICarga" />
-                                                                        <input type="hidden" class="form-control" placeholder="URLO" id="URLO" name="URLO" value="listarICarga" />
-                                                                        <button type="submit" class="btn btn-block btn-danger btn-sm action-btn-compact" id="ELIMINAR" name="ELIMINAR" data-toggle="tooltip" title="Eliminar Instructivo Carga" >
+                                                                <div class="d-flex flex-column gap-1">
+                                                                    <form method="get" action="registroICarga.php" class="mb-1">
+                                                                        <input type="hidden" name="id" value="<?php echo $r['ID_ICARGA']; ?>" />
+                                                                        <input type="hidden" name="op" value="duplicar" />
+                                                                        <input type="hidden" name="auto" value="1" />
+                                                                        <button type="submit" class="btn btn-block btn-success btn-sm action-btn-compact" data-toggle="tooltip" title="Duplicar Instructivo Carga">
+                                                                            <i class="fa fa-copy"></i> Duplicar
+                                                                        </button>
+                                                                    </form>
+                                                                    <form  method="post" id="form1" class="mb-0">
+                                                                        <div class="list-icons d-inline-flex">
+                                                                            <input type="hidden" class="form-control" placeholder="ID" id="ID" name="ID" value="<?php echo $r['ID_ICARGA']; ?>" />
+                                                                            <input type="hidden" class="form-control" placeholder="URL" id="URL" name="URL" value="registroICarga" />
+                                                                            <input type="hidden" class="form-control" placeholder="URLO" id="URLO" name="URLO" value="listarICarga" />
+                                                                            <button type="submit" class="btn btn-block btn-danger btn-sm action-btn-compact" id="ELIMINAR" name="ELIMINAR" data-toggle="tooltip" title="Eliminar Instructivo Carga" >
                                                                                 <i class="fa fa-trash"></i> Eliminar
                                                                             </button>
-                                                                    </div>
+                                                                        </div>
                                                                     </form>
+                                                                </div>
                                                             </td>
                                     
                                                             <td> <?php echo $ESTADOICARGA; ?> </td>
