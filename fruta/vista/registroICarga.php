@@ -707,7 +707,6 @@ if (isset($id_dato) && isset($accion_dato)) {
         endforeach;
 
         // Limpiar valores únicos
-        $IDOP = "";
         $NUMEROVER = ""; // para evitar repetir el número
     }
     //ver =  OBTENCION DE DATOS PARA LA VISUALIZACION DEL REGISTRO
