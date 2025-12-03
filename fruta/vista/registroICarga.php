@@ -5144,27 +5144,23 @@ if (isset($_POST)) {
                                     <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="toolbar">
                                         <div class="btn-group  col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 col-xs-12" role="group" aria-label="Acciones generales">
                                             <?php if ($OP == "") { ?>
-                                                <button type="button" class="btn btn-warning btn-md" data-toggle="tooltip" title="Cancelar" name="CANCELAR" value="CANCELAR" Onclick="irPagina('registroICarga.php');">
-                                                    <i class="ti-trash"></i> Cancelar
-                                                </button>
-                                                <button type="submit" class="btn btn-primary btn-md" data-toggle="tooltip" title="Guardar" name="CREAR" value="CREAR"   onclick="return validacion()">
+                                                <button type="submit" class="btn btn-primary btn-md" data-toggle="tooltip" title="Guardar" name="CREAR" value="CREAR" onclick="return validacion()">
                                                     <i class="ti-save-alt"></i> Guardar
+                                                </button>
+                                                <button type="button" class="btn btn-secondary btn-md" data-toggle="tooltip" title="Cancelar" name="CANCELAR" value="CANCELAR" Onclick="irPagina('registroICarga.php');">
+                                                    <i class="ti-trash"></i> Cancelar
                                                 </button>
                                             <?php } ?>
                                             <?php if ($OP != "") { ?>
-                                                <button type="button" class="btn  btn-success btn-md" data-toggle="tooltip" title="Volver" name="VOLVER" value="VOLVER" Onclick="irPagina('listarICarga.php'); ">
-                                                    <i class="ti-back-left "></i> Volver
-                                                </button>
-                                                <button type="submit" class="btn btn-warning btn-md" data-toggle="tooltip" title="Guardar" name="GUARDAR" value="GUARDAR"  <?php echo $DISABLED2; ?> onclick="return validacion()">
+                                                <button type="submit" class="btn btn-primary btn-md" data-toggle="tooltip" title="Guardar" name="GUARDAR" value="GUARDAR"  <?php echo $DISABLED2; ?> onclick="return validacion()">
                                                     <i class="ti-pencil-alt"></i> Guardar
                                                 </button>
                                                 <button type="submit" class="btn btn-danger btn-md" data-toggle="tooltip" title="Cerrar" name="CERRAR" value="CERRAR"  <?php echo $DISABLED2; ?> onclick="return validacionCerrar()">
                                                     <i class="ti-save-alt"></i> Cerrar
                                                 </button>
-                                                <button type="submit" name="DUPLICAR" class="btn btn-primary btn-md" data-toggle="tooltip" title="DUPLICAR" value="DUPLICAR" onclick="return validacion()">
-                                                    <i class = "ti-pencil-alt"></i> Duplicar
+                                                <button type="button" class="btn btn-secondary btn-md" data-toggle="tooltip" title="Volver" name="VOLVER" value="VOLVER" Onclick="irPagina('listarICarga.php'); ">
+                                                    <i class="ti-back-left "></i> Volver
                                                 </button>
-
                                             <?php } ?>
                                         </div>
                                         <div class="btn-group   col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 col-xs-12 float-right" role="group" aria-label="Informes y Reportes">
@@ -5342,17 +5338,14 @@ if (isset($_POST)) {
                                                                                 <i class="ti-eye"></i><br> Ver
                                                                             </button>
                                                                         <?php } ?>
-                                                                        <?php if ($ESTADO == "1") { ?>
-                                                                            <button type="submit" class="btn btn-warning btn-sm " id="EDITARDURL" name="EDITARDURL" data-toggle="tooltip" title="Editar Detalle Instructivo"   <?php echo $DISABLED2; ?>>
-                                                                                <i class="ti-pencil-alt"></i><br> Editar
-                                                                            </button>
-                                                                            <button type="submit" class="btn btn-secondary btn-sm " id="DUPLICARDURL" name="DUPLICARDURL" data-toggle="tooltip" title="Duplicar Detalle Instructivo"   <?php echo $DISABLED2; ?>>
-                                                                                <i class="fa fa-fw fa-copy"></i><br> Duplicar
-                                                                            </button>
-                                                                            <button type="submit" class="btn btn-danger btn-sm" id="ELIMINARDURL" name="ELIMINARDURL" data-toggle="tooltip" title="Eliminar Detalle Instructivo" <?php echo $DISABLED2; ?>>
-                                                                                <i class="ti-close"></i><br> Eliminar
-                                                                            </button>
-                                                                        <?php } ?>
+                                                                          <?php if ($ESTADO == "1") { ?>
+                                                                              <button type="submit" class="btn btn-warning btn-sm " id="EDITARDURL" name="EDITARDURL" data-toggle="tooltip" title="Editar Detalle Instructivo"   <?php echo $DISABLED2; ?>>
+                                                                                  <i class="ti-pencil-alt"></i><br> Editar
+                                                                              </button>
+                                                                              <button type="submit" class="btn btn-danger btn-sm" id="ELIMINARDURL" name="ELIMINARDURL" data-toggle="tooltip" title="Eliminar Detalle Instructivo" <?php echo $DISABLED2; ?>>
+                                                                                  <i class="ti-close"></i><br> Eliminar
+                                                                              </button>
+                                                                          <?php } ?>
                                                                     </div>
                                                             </form>
                                                         </td>
