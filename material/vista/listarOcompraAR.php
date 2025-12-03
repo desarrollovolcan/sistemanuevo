@@ -139,7 +139,7 @@ include_once "../../assest/config/datosUrLP.php";
                                                     <th>Número Orden </th>
                                                     <th>Número Interno </th>
                                                     <th>Estado</th>
-                                                    <th>Operaciónes</th>
+                                                    <th>Operaciones</th>
                                                     <th>Estado Orden</th>
                                                     <th>Fecha Orden </th>
                                                     <th>Proveedor</th>

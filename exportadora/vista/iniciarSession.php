@@ -1,279 +1,249 @@
 <?php
-
 require_once '../../api/vendor/autoload.php';
 $detect = new Mobile_Detect;
+
+// Cabeceras de seguridad
+header('X-Frame-Options: DENY');
+header('X-Content-Type-Options: nosniff');
+header('X-XSS-Protection: 1; mode=block');
+
 session_start();
 if (isset($_SESSION["NOMBRE_USUARIO"])) {
     header('Location: iniciarSessionSeleccion.php');
+    exit;
 }
 
-//LLAMADA ARCHIVOS NECESARIOS PARA LAS OPERACIONES
 include_once '../../assest/controlador/USUARIO_ADO.php';
 include_once '../../assest/controlador/PTUSUARIO_ADO.php';
 include_once "../../assest/controlador/AUSUARIO_ADO.php";
-
-//include_once '../controlador/EMPRESA_ADO.php';
-//include_once '../controlador/PLANTA_ADO.php';
-//include_once '../controlador/TEMPORADA_ADO.php';
-
-
 include_once '../../assest/modelo/USUARIO.php';
 
-//INCIALIZAR LAS VARIBLES
-//INICIALIZAR CONTROLADOR
 $USUARIO_ADO = new USUARIO_ADO();
 $PTUSUARIO_ADO = new PTUSUARIO_ADO();
-$AUSUARIO_ADO =  NEW AUSUARIO_ADO;
+$AUSUARIO_ADO = new AUSUARIO_ADO;
+$USUARIO = new USUARIO;
 
+// Generar token CSRF si no existe
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
-$USUARIO =  NEW USUARIO;
+// Claves reCAPTCHA (CORRECTAS Y UNIFICADAS)
+$recaptchaSiteKey = '6LcZrukrAAAAAGikMJAF8utszcdOin0XCpDSPWRp';
+$recaptchaSecretKey = '6LcZrukrAAAAAHC10OqwnsRaVjBT28xWovsfUgyE';
 
+// Helper para escapar salida
+function h($string) {
+    return htmlspecialchars($string ?? '', ENT_QUOTES, 'UTF-8');
+}
 
-//INCIALIZAR VARIBALES A OCUPAR PARA LA FUNCIONALIDAD
-
-$NOMBRE = "";
-$EMPRESA = "";
-$PLANTA = "";
-$TEMPORADA = "";
-
-
-$CONTRASENA = "";
-$MENSAJE = "";
-$MENSAJE2 = "";
-
-$PEXPORTADORA="";
-$NINTENTONUEVO="";
-$NINTENTORESTANTE=0;
-
-
-//INICIALIZAR ARREGLOS
-
-
-$ARRAYINICIOSESSION = "";
-$ARRAYINICIOSESSIONINTENTOS = "";
-$ARRAYEMPRESA = "";
-$ARRAYPLANTA = "";
-$ARRAYTEMPORADA = "";
-$ARRAYVERPTUSUARIO="";
-
-//DEFINIR ARREGLOS CON LOS DATOS OBTENIDOS DE LAS FUNCIONES DE LOS CONTROLADORES
-
+// Helper para verificar reCAPTCHA
+function verifyRecaptcha($token, $secret) {
+    if (empty($token)) return false;
+    $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secret) . '&response=' . urlencode($token);
+    if (function_exists('file_get_contents') && ini_get('allow_url_fopen')) {
+        $resp = @file_get_contents($url);
+        if ($resp !== false) {
+            $data = json_decode($resp, true);
+            return !empty($data['success']);
+        }
+    }
+    if (function_exists('curl_init')) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        $resp = curl_exec($ch);
+        curl_close($ch);
+        if ($resp !== false) {
+            $data = json_decode($resp, true);
+            return !empty($data['success']);
+        }
+    }
+    return false;
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Fruticola Volcan</title>
-        <!--        icono de  las pestaña  del navegado    -->
-        <link rel="icon" href="../../assest/img/favicon.png">
-
-        <!--Estilo base-->
-        <link rel="stylesheet" type="text/css" HREF="../../assest/css/reset.css" />
-        <link rel="stylesheet" type="text/css" HREF="../../assest/css/style.css" />
-
-        <!--Custom styles-->
-        <link rel="stylesheet" href="../../assest/css/loginv2.css">
-        <!--     bootstrap  -->        
-        <link rel="stylesheet" href="../../api/bootstrap/css/bootstrap.css" />
-        <link rel="stylesheet" href="../../api/bootstrap/css/bootstrap.min.css" />
-        
-
-        <!--JS -->
-        <script src="../../assest/js/jquery.min.js"></script>    
-        <!--sweetalert-->
-        <script src="../../assest/js/sweetalert2@11.js"></script>
-
-    </head>
-    <body class="hold-transition sidebar-collapse sidebar-mini login-page-exportadora">
-        <div class="login-box">
-            <div class="login-logo">
-                <img src="../../assest/img/volcan-foods-logo-original.png" alt="" height="50px">
-            </div>
-            <div class="card border-0">
-                <div class="card-header bg-info text-white text-center text-uppercase">
-                    <img src="../../img/favicon.png" alt="" height="20px">
-                    Inicio de sesion <strong id="title_section"></strong>
-                </div>
-                <div class="card-body login-card-body">
-                    <form class="form" role="form" method="post" name="form_reg_dato">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="NOMBRE USUARIO" id="NOMBRE" name="NOMBRE" value="<?php echo $NOMBRE; ?>" autocomplete="on" required>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-user"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="password" class="form-control" placeholder="CONTRASE&Ntilde;A" id="CONTRASENA" name="CONTRASENA" value="<?php echo $CONTRASENA; ?>" required>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-user"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="btn-group col-12 d-flex">
-                                    <a href="../../" class="btn btn-danger w-100"> VOLVER</a>
-                                    <button type="submit" class="btn btn-success w-100" id="ENTRAR" name="ENTRAR">ENTRAR</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceso Intranet - Volcan Foods</title>
+  <link rel="icon" href="../../assest/img/favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="../../assest/js/sweetalert2@11.js"></script>
+  <!-- reCAPTCHA -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+    body,html{height:100%}
+    .container{display:flex;min-height:100vh}
+    .left-panel{flex:1;max-width:420px;background:#fff;padding:40px;display:flex;flex-direction:column;justify-content:center}
+    .logo{text-align:center;margin-bottom:30px}
+    .logo img{max-width:200px}
+    .logo p{margin-top:8px;color:#555;font-size:14px}
+    h2{text-align:center;margin-bottom:20px;color:#1a2b4c;font-weight:700}
+    .card{border:1px solid #e0e6ef;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
+    .card h3{font-size:16px;margin-bottom:15px;color:#1a2b4c}
+    .form-input{width:100%;padding:14px;border:1px solid #ccd4e0;border-radius:8px;margin-bottom:15px;font-size:14px}
+    .btn{width:100%;padding:14px;border:none;border-radius:8px;font-weight:600;cursor:pointer}
+    .btn-login{background:#28a745;color:#fff}
+    .btn-login:hover{background:#218838}
+    .btn-link{display:block;text-align:center;color:#1a2b4c;text-decoration:none;padding:12px;border:1px solid #ccd4e0;border-radius:8px;margin-top:10px}
+    .economics{margin-top:20px}
+    .economics h4{font-size:14px;margin-bottom:12px;color:#1a2b4c}
+    .eco-list{display:flex;gap:20px}
+    .eco-item{font-size:14px;color:#1a2b4c}
+    .eco-item span{display:block;color:#c62828;font-weight:700;margin-top:4px}
+    .eco-date{text-align:center;font-size:12px;color:#666;margin-top:10px}
+    .right-panel{flex:2;position:relative;overflow:hidden}
+    .slide{position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;opacity:0;transition:opacity 1.5s}
+    .slide.active{opacity:1}
+    .recaptcha-note{font-size:.8rem;color:#666;margin-top:6px;text-align:center}
+    .ssl-legend {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 15px;
+      color: #2e7d32;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .ssl-legend .material-icons {
+      margin-right: 6px;
+      font-size: 20px;
+    }
+    @media(max-width:768px){
+       .container{flex-direction:column}
+       .left-panel{max-width:none;width:100%}
+       .right-panel{min-height:300px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-panel">
+      <div class="logo">
+        <img src="../../assest/img/volcan-foods-logo-original.png" alt="Volcan Foods">
+        <p>www.volcanfoods.cl</p>
+      </div>
+      <h2>SELECCIÓN INTRANET</h2>
+      <div class="card">
+        <h3>Acceso Interno</h3>
+        <form method="post">
+          <input type="hidden" name="csrf_token" value="<?= h($_SESSION['csrf_token']) ?>" />
+          <input type="text" class="form-input" placeholder="Usuario" name="NOMBRE" required>
+          <input type="password" class="form-input" placeholder="Contraseña (mín. 6 caracteres)" name="CONTRASENA" minlength="6" required>
+          <div style="margin:8px 0;">
+            <!-- reCAPTCHA corregido -->
+            <div class="g-recaptcha" data-sitekey="<?= h($recaptchaSiteKey) ?>"></div>
+            <div class="recaptcha-note">Protección humana mediante reCAPTCHA</div>
+          </div>
+          <div class="ssl-legend">
+            <span class="material-icons">lock</span>
+            Conexión segura por SSL
+          </div>
+          <button type="submit" name="ENTRAR" class="btn btn-login" style="margin-top:20px">Entrar</button>
+        </form>
+      </div>
+      <a href="/smartberry/estadistica/vista/iniciarSession.php" class="btn-link">Portal Productores</a>
+      <div class="economics card">
+        <h4>Indicadores Económicos</h4>
+        <div class="eco-list">
+          <div class="eco-item">UF <span id="uf">...</span></div>
+          <div class="eco-item">Dólar <span id="dolar">...</span></div>
+          <div class="eco-item">Euro <span id="euro">...</span></div>
         </div>
-        <?php
-        if (isset($_REQUEST['ENTRAR'])) {
-            if ($_REQUEST['NOMBRE']=="" || $_REQUEST['CONTRASENA'] == "") {
-                echo '<script>
-                    Swal.fire({
-                        icon:"info",
-                        title:"Alerta de inicio de sesion",
-                        text:"El usuario o contraseña se encuentra vacio, por favor llena los datos minimos para iniciar sesion",
-                        showConfirmButton:true,
-                        confirmButtonText:"OK"
-                    }).then((result)=>{
-                        if(result.value){
-                            location.href = "iniciarSession.php";
-                        }
-                    })
-                </script>';
-            } else {
-                $NOMBRE = $_REQUEST['NOMBRE'];
-                $CONTRASENA = $_REQUEST['CONTRASENA'];
-                $ARRAYINICIOSESSION = $USUARIO_ADO->iniciarSession($NOMBRE, $CONTRASENA);
-                if (empty($ARRAYINICIOSESSION) ||  sizeof($ARRAYINICIOSESSION) == 0) {
-                    $ARRAYINICIOSESSIONINTENTOS=$USUARIO_ADO->iniciarSessionNIntentos($NOMBRE);
-                    if($ARRAYINICIOSESSIONINTENTOS){
-                        if($ARRAYINICIOSESSIONINTENTOS[0]["NINTENTO"] >= 3){                                      
-                            $USUARIO->__SET('NOMBRE_USUARIO', $NOMBRE);
-                            $USUARIO_ADO->deshabilitar2($USUARIO);        
-                            
-                            $AUSUARIO_ADO->agregarAusuario2('NULL',3,0, "".$_REQUEST['NOMBRE'].", Usuario bloquiado, se supero los numeros de intentos permitidos." , "usuario_usuario" , 'NULL' ,'NULL','NULL','NULL','NULL' );                                        
+        <div class="eco-date" id="fechaIndicadores">Cargando...</div>
+      </div>
+    </div>
+    <div class="right-panel">
+      <div class="slide active" style="background-image:url('../../assest/img/abeja.jpg')"></div>
+      <div class="slide" style="background-image:url('../../assest/img/arandano.jpg')"></div>
+      <div class="slide" style="background-image:url('../../assest/img/esparragos.jpg')"></div>
+    </div>
+  </div>
 
-                            echo
-                                '<script>
-                                    Swal.fire({
-                                        icon:"error",
-                                        title:"Usuario bloquiado.",
-                                        text:"Se supero los numeros de intentos permitidos, contactarse con el administrador."
-                                    }).then((result)=>{
-                                        if(result.value){
-                                            location.href = "iniciarSession.php";
-                                        }
-                                    })
-                                </script>';    
+  <script>
+    const slides=document.querySelectorAll('.slide');let idx=0;
+    setInterval(()=>{slides[idx].classList.remove('active');idx=(idx+1)%slides.length;slides[idx].classList.add('active');},5000);
 
-                        }else{
-                            $NINTENTONUEVO = $ARRAYINICIOSESSIONINTENTOS[0]["NINTENTO"]+1;  
-                            $NINTENTORESTANTE= 4 - $NINTENTONUEVO;
-                                                              
-                            $USUARIO->__SET('NINTENTO', $NINTENTONUEVO);
-                            $USUARIO->__SET('NOMBRE_USUARIO', $NOMBRE);
-                            $USUARIO_ADO->NintentoSuma($USUARIO);         
-                            
-                            $AUSUARIO_ADO->agregarAusuario2('NULL',3,0, "".$_REQUEST['NOMBRE'].", Los datos ingresados son erróneos, numero de intentos restante ".$NINTENTORESTANTE."." , "usuario_usuario" , 'NULL' ,'NULL','NULL','NULL','NULL' );                                        
+    async function cargarIndicadores() {
+      try {
+        const resp = await fetch("https://mindicador.cl/api");
+        const data = await resp.json();
+        document.getElementById("uf").innerText = "$" + new Intl.NumberFormat("es-CL", { maximumFractionDigits: 1 }).format(data.uf.valor);
+        document.getElementById("dolar").innerText = "$" + new Intl.NumberFormat("es-CL", { maximumFractionDigits: 1 }).format(data.dolar.valor);
+        document.getElementById("euro").innerText = "$" + new Intl.NumberFormat("es-CL", { maximumFractionDigits: 1 }).format(data.euro.valor);
+        document.getElementById("fechaIndicadores").innerText = "Actualizado: " + new Date(data.fecha).toLocaleDateString("es-CL");
+      } catch (e) {
+        document.getElementById("uf").innerText = "N/D";
+        document.getElementById("dolar").innerText = "N/D";
+        document.getElementById("euro").innerText = "N/D";
+        document.getElementById("fechaIndicadores").innerText = "Sin conexión";
+      }
+    }
+    cargarIndicadores();
+    setInterval(cargarIndicadores, 60000);
+  </script>
 
-                            echo
-                                '<script>
-                                    Swal.fire({
-                                        icon:"warning",
-                                        title:"Error de acceso",
-                                        text:"Los datos ingresados erróneos, numero de intentos restante '.$NINTENTORESTANTE.'"
-                                    }).then((result)=>{
-                                        if(result.value){
-                                            location.href = "iniciarSession.php";
-                                        }
-                                    })
-                                </script>';   
+<?php
+// ==== LÓGICA LOGIN ====
+if (isset($_POST['ENTRAR'])) {
 
-                        }
-                    }else{
-                        $AUSUARIO_ADO->agregarAusuario2('NULL',3,0, "".$_REQUEST['NOMBRE'].", los datos ingresados no coinciden con el usuario." , "usuario_usuario" , 'NULL' ,'NULL','NULL','NULL','NULL' );                                        
-                        echo
-                        '<script>
-                                Swal.fire({
-                                    icon:"warning",
-                                    title:"Error de acceso",
-                                    text:"Los datos ingresados no coinciden con nuestros registros, reintente"
-                                }).then((result)=>{
-                                    if(result.value){
-                                        location.href = "iniciarSession.php";
-                                    }
-                                })
-                            </script>';          
-                    }     
-                }  else {
-                    $ARRAYVERPTUSUARIO  =$PTUSUARIO_ADO->listarPtusuarioPorTusuarioCBX($ARRAYINICIOSESSION[0]['ID_TUSUARIO']);
-                    if($ARRAYVERPTUSUARIO){        
-                        $PEXPORTADORA = $ARRAYVERPTUSUARIO[0]['EXPORTADORA'];
-                        if($PEXPORTADORA=="1"){                            
-                            $_SESSION["ID_USUARIO"] = $ARRAYINICIOSESSION[0]['ID_USUARIO'];
-                            $_SESSION["NOMBRE_USUARIO"] = $ARRAYINICIOSESSION[0]['NOMBRE_USUARIO'];
-                            $_SESSION["TIPO_USUARIO"] = $ARRAYINICIOSESSION[0]['ID_TUSUARIO'];
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        echo '<script>Swal.fire({ icon:"error", title:"Error de seguridad", text:"Token CSRF inválido. Recarga la página." });</script>';
+        exit;
+    }
 
-                            $USUARIO->__SET('ID_USUARIO', $ARRAYINICIOSESSION[0]['ID_USUARIO']);
-                            $USUARIO_ADO->NintentoZero($USUARIO);   
-                            
-                            $AUSUARIO_ADO->agregarAusuario2('NULL',3,0,"".$ARRAYINICIOSESSION[0]['NOMBRE_USUARIO'].", Inicio Sesion","usuario_usuario",$ARRAYINICIOSESSION[0]['ID_USUARIO'],$ARRAYINICIOSESSION[0]['ID_USUARIO'],'NULL','NULL','NULL' );
-                            echo
-                            '<script>
-                                const Toast = Swal.mixin({
-                                    position: "top-end",
-                                    showConfirmButton: false,
-                                    timer: 2000,
-                                    timerProgressBar: true,
-                                    didOpen: (toast) => {
-                                        toast.addEventListener("mouseenter", Swal.stopTimer);
-                                        toast.addEventListener("mouseleave", Swal.resumeTimer);
-                                    }
-                                });
-                                Toast.fire({
-                                    icon: "success",
-                                    title: "Credenciales correctas",
-                                    text:"cargando modulo seleccion"
-                                }).then((result)=>{
-                                        location.href = "iniciarSessionSeleccion.php";
-                                })
-                            </script>';
+    $NOMBRE = trim($_POST['NOMBRE'] ?? '');
+    $CONTRASENA = $_POST['CONTRASENA'] ?? '';
+    $recaptchaToken = $_POST['g-recaptcha-response'] ?? '';
 
-                            //echo "<script type='text/javascript'> location.href ='../../';</script>";
-                        }else{                            
-                            echo '<script>
-                                Swal.fire({
-                                    icon:"warning",
-                                    title:"Error de acceso",
-                                    text:"El Usuario no cuenta con los privilegios para acceder al modulo.",
-                                    showConfirmButton: true,
-                                    confirmButtonText:"Cerrar",
-                                    closeOnConfirm:false
-                                }).then((result)=>{
-                                    location.href = "../../";                                    
-                                })
-                            </script>';
-                        }  
-                    }else{      
-                        echo '<script>
-                            Swal.fire({
-                                icon:"warning",
-                                title:"Error de acceso",
-                                text:"El Usuario no cuenta con los privilegios asociados.",
-                                showConfirmButton: true,
-                                confirmButtonText:"Cerrar",
-                                closeOnConfirm:false
-                            }).then((result)=>{
-                                location.href = "../../";                                    
-                            })
-                        </script>';
-                    }
+    if ($NOMBRE === '' || $CONTRASENA === '') {
+        echo '<script>Swal.fire({ icon:"warning", title:"Alerta", text:"Debes ingresar usuario y contraseña" });</script>';
+        exit;
+    }
 
-                }
-            }
-        }
-        ?>
-    </body>
+    if (mb_strlen($CONTRASENA) < 6) {
+        echo '<script>Swal.fire({ icon:"warning", title:"Contraseña inválida", text:"Debe tener al menos 6 caracteres." });</script>';
+        exit;
+    }
+
+    if (empty($recaptchaToken)) {
+        echo '<script>Swal.fire({ icon:"error", title:"Captcha requerido", text:"Por favor verifica que no eres un robot." });</script>';
+        exit;
+    }
+    if (!verifyRecaptcha($recaptchaToken, $recaptchaSecretKey)) {
+        echo '<script>Swal.fire({ icon:"error", title:"Captcha inválido", text:"La verificación captcha falló. Intenta nuevamente." });</script>';
+        exit;
+    }
+
+    $ARRAYINICIOSESSION = $USUARIO_ADO->iniciarSession($NOMBRE, $CONTRASENA);
+    if (!$ARRAYINICIOSESSION) {
+        echo '<script>Swal.fire({ icon:"error", title:"Error", text:"Usuario o contraseña incorrectos" });</script>';
+        exit;
+    }
+
+    $_SESSION["ID_USUARIO"] = $ARRAYINICIOSESSION[0]['ID_USUARIO'];
+    $_SESSION["NOMBRE_USUARIO"] = $ARRAYINICIOSESSION[0]['NOMBRE_USUARIO'];
+    $_SESSION["TIPO_USUARIO"] = $ARRAYINICIOSESSION[0]['ID_TUSUARIO'];
+    session_regenerate_id(true);
+
+    echo '<script>
+      Swal.fire({
+        icon:"success",
+        title:"Éxito",
+        text:"Inicio de sesión correcto",
+        timer:2000,
+        timerProgressBar:true,
+        showConfirmButton:false,
+        willClose:()=>{ window.location.href="iniciarSessionSeleccion.php"; }
+      });
+    </script>';
+    exit;
+}
+?>
+</body>
 </html>

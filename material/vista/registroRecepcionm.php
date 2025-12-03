@@ -1209,7 +1209,6 @@ if (isset($_POST)) {
                                                     <tr>
                                                         <th class="text-center">Operaciónes</th>
                                                         <th>Codigo Producto </th>
-                                                        <th>Código Manual</th>
                                                         <th>Producto </th>
                                                         <th>Unidad Medida</th>
                                                         <th>Cantidad</th>
@@ -1229,11 +1228,9 @@ if (isset($_POST)) {
                                                             $ARRAYPRODUCTO = $PRODUCTO_ADO->verProducto($s['ID_PRODUCTO']);
                                                             if ($ARRAYPRODUCTO) {
                                                                 $CODIGOPRODUCTO = $ARRAYPRODUCTO[0]['CODIGO_PRODUCTO'];
-                                                                $CODIGOMANUAL = $ARRAYPRODUCTO[0]['CODIGO_MANUAL'];
                                                                 $NOMBREPRODUCTO = $ARRAYPRODUCTO[0]['NOMBRE_PRODUCTO'];
                                                             } else {
                                                                 $CODIGOPRODUCTO = "Sin Dato";
-                                                                $CODIGOMANUAL = "Sin Dato";
                                                                 $NOMBREPRODUCTO = "Sin Dato";
                                                             }
                                                             $ARRAYTUMEDIDA = $TUMEDIDA_ADO->verTumedida($s['ID_TUMEDIDA']);
@@ -1276,7 +1273,6 @@ if (isset($_POST)) {
                                                                     </form>
                                                                 </td>
                                                                 <td><?php echo $CODIGOPRODUCTO; ?></td>
-                                                                <td><?php echo $CODIGOMANUAL; ?></td>
                                                                 <td><?php echo $NOMBREPRODUCTO; ?></td>
                                                                 <td><?php echo $NOMBRETUMEDIDA; ?></td>
                                                                 <td><?php echo $s['CANTIDAD']; ?></td>
@@ -1296,11 +1292,9 @@ if (isset($_POST)) {
                                                             $ARRAYPRODUCTO = $PRODUCTO_ADO->verProducto($s['ID_PRODUCTO']);
                                                             if ($ARRAYPRODUCTO) {
                                                                 $CODIGOPRODUCTO = $ARRAYPRODUCTO[0]['CODIGO_PRODUCTO'];
-                                                                $CODIGOMANUAL = $ARRAYPRODUCTO[0]['CODIGO_MANUAL'];
                                                                 $NOMBREPRODUCTO = $ARRAYPRODUCTO[0]['NOMBRE_PRODUCTO'];
                                                             } else {
                                                                 $CODIGOPRODUCTO = "Sin Dato";
-                                                                $CODIGOMANUAL = "Sin Dato";
                                                                 $NOMBREPRODUCTO = "Sin Dato";
                                                             }
                                                             $ARRAYTUMEDIDA = $TUMEDIDA_ADO->verTumedida($s['ID_TUMEDIDA']);
@@ -1339,7 +1333,6 @@ if (isset($_POST)) {
                                                                     </form>
                                                                 </td>
                                                                 <td><?php echo $CODIGOPRODUCTO; ?></td>
-                                                                <td><?php echo $CODIGOMANUAL; ?></td>
                                                                 <td><?php echo $NOMBREPRODUCTO; ?></td>
                                                                 <td><?php echo $NOMBRETUMEDIDA; ?></td>
                                                                 <td><?php echo $s['CANTIDAD']; ?></td>

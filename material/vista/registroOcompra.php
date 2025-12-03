@@ -393,6 +393,8 @@ if (isset($_POST)) {
                     }
                     document.form_reg_dato.FPAGO.style.borderColor = "#4AF575";
 
+                   
+
                     if (TMONEDA == null || TMONEDA == 0) {
                         document.form_reg_dato.TMONEDA.focus();
                         document.form_reg_dato.TMONEDA.style.borderColor = "#FF0000";
@@ -741,7 +743,6 @@ if (isset($_POST)) {
                                                     <tr>
                                                         <th class="text-center">Operaciónes</th>
                                                         <th>Producto </th>
-                                                        <th>Código Manual</th>
                                                         <th>Unidad Medida</th>
                                                         <th>Cantidad</th>
                                                         <th>Valor Unitario</th>
@@ -756,10 +757,8 @@ if (isset($_POST)) {
                                                             $ARRAYPRODUCTO = $PRODUCTO_ADO->verProducto($s['ID_PRODUCTO']);
                                                             if ($ARRAYPRODUCTO) {
                                                                 $NOMBREPRODUCTO = $ARRAYPRODUCTO[0]['NOMBRE_PRODUCTO'];
-                                                                $CODIGOMANUALPRODUCTO = $ARRAYPRODUCTO[0]['CODIGO_MANUAL'];
                                                             } else {
                                                                 $NOMBREPRODUCTO = "Sin Dato";
-                                                                $CODIGOMANUALPRODUCTO = "Sin Dato";
                                                             }
                                                             $ARRAYTUMEDIDA = $TUMEDIDA_ADO->verTumedida($s['ID_TUMEDIDA']);
                                                             if ($ARRAYTUMEDIDA) {
@@ -797,7 +796,6 @@ if (isset($_POST)) {
                                                                     </form>
                                                                 </td>
                                                                 <td><?php echo $NOMBREPRODUCTO; ?></td>
-                                                                <td><?php echo $CODIGOMANUALPRODUCTO; ?></td>
                                                                 <td><?php echo $NOMBRETUMEDIDA; ?></td>
                                                                 <td><?php echo $s['CANTIDAD']; ?></td>
                                                                 <td><?php echo $s['VALOR']; ?></td>
@@ -855,7 +853,7 @@ if (isset($_POST)) {
                     $_REQUEST['OBSERVACION'],
                     $_REQUEST['EMPRESA'],
                     $_REQUEST['PLANTA'],
-                    $_REQUEST['TEMPORADA']
+                    $_REQUEST['TEMPORADA'],
                 );
 
                 $AUSUARIO_ADO->agregarAusuario2($NUMERO,2,1,"".$_SESSION["NOMBRE_USUARIO"].", Registro de Orden Compra.","material_ocompra", $ARRYAOBTENERID[0]['ID_OCOMPRA'],$_SESSION["ID_USUARIO"],$_SESSION['ID_EMPRESA'], $_SESSION['ID_PLANTA'],$_SESSION['ID_TEMPORADA'] );  

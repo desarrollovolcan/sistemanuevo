@@ -6,18 +6,18 @@ include_once "../../assest/config/validarUsuarioMaterial.php";
 
 //LLAMADA ARCHIVOS NECESARIOS PARA LAS OPERACIONES
 
-include_once '../../assest/controlador/TMONEDAM_ADO.php';
+include_once '../../assest/controlador/TMONEDA_ADO.php';
 
 
-include_once '../../assest/modelo/TMONEDAM.php';
+include_once '../../assest/modelo/TMONEDA.php';
 
 //INCIALIZAR LAS VARIBLES
 //INICIALIZAR CONTROLADOR
-$TMONEDAM_ADO =  new TMONEDAM_ADO();
+$TMONEDA_ADO =  new TMONEDA_ADO();
 
 //INIICIALIZAR MODELO
 
-$TMONEDAM =  new TMONEDAM();
+$TMONEDA =  new TMONEDA();
 
 
 //INCIALIZAR VARIBALES A OCUPAR PARA LA FUNCIONALIDAD
@@ -40,7 +40,7 @@ $ARRAYNUMERO = "";
 
 
 //DEFINIR ARREGLOS CON LOS DATOS OBTENIDOS DE LAS FUNCIONES DE LOS CONTROLADORES
-$ARRAYTMONEDAS = $TMONEDAM_ADO->listarTmonedaPorEmpresaCBX($EMPRESAS);
+$ARRAYTMONEDAS = $TMONEDA_ADO->listarTmonedaPorEmpresaCBX($EMPRESAS);
 $ARRAYEMPRESA = $EMPRESA_ADO->listarEmpresaCBX();
 include_once "../../assest/config/validarDatosUrl.php";
 include_once "../../assest/config/datosUrl.php";

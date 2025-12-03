@@ -318,11 +318,10 @@ $html = $html . '
       <table border="0" cellspacing="0" cellpadding="0">
         <thead>
           <tr>
-            <th colspan="7" class="center">DETALLE DE RECEPCIÓN.</th>
+            <th colspan="6" class="center">DETALLE DE RECEPCIÓN.</th>
           </tr>
           <tr>
             <th class="color left">Codigo Producto</th>
-            <th class="color left">Código Manual</th>
             <th class="color left">Producto</th>
             <th class="color left">Unidad Medida</th>
             <th class="color left">Cantidad</th>
@@ -336,12 +335,7 @@ foreach ($ARRAYDRECEPCION as $d) :
   $ARRAYVERPRODUCTO = $PRODUCTO_ADO->verProducto($d['ID_PRODUCTO']);
   if ($ARRAYVERPRODUCTO) {
     $CODIGOPRODUCTO = $ARRAYVERPRODUCTO[0]["CODIGO_PRODUCTO"];
-    $CODIGOMANUAL = $ARRAYVERPRODUCTO[0]["CODIGO_MANUAL"];
     $NOMBREPRODUCTO = $ARRAYVERPRODUCTO[0]["NOMBRE_PRODUCTO"];
-  } else {
-    $CODIGOPRODUCTO = "Sin Dato";
-    $CODIGOMANUAL = "Sin Dato";
-    $NOMBREPRODUCTO = "Sin Dato";
   }
   $ARRAYVERTUMEDIDA = $TUMEDIDA_ADO->verTumedida($d['ID_TUMEDIDA']);
   if ($ARRAYVERTUMEDIDA) {
@@ -354,7 +348,6 @@ foreach ($ARRAYDRECEPCION as $d) :
           
                       <tr >
                           <th class="left">' . $CODIGOPRODUCTO . '</th>
-                          <th class="left">' . $CODIGOMANUAL . '</th>
                           <th class="left">' . $NOMBREPRODUCTO . '</th>
                           <td class="left">' . $NOMBRETUMEDIDA . '</td>
                           <td class="left">' . $d['CANTIDAD'] . '</td>
@@ -368,7 +361,6 @@ endforeach;
 $html = $html . '
               
                   <tr class="bt">
-                      <th class="color left">&nbsp;</th>
                       <th class="color left">&nbsp;</th>
                       <th class="color left">&nbsp;</th>
                       <th class="color right">SUB TOTAL</th>
@@ -392,12 +384,11 @@ $html = $html . '
   <table border="0" cellspacing="0" cellpadding="0">
       <thead>
         <tr>
-          <th colspan="7" class="center">FOLIOS.</th>
+          <th colspan="6" class="center">FOLIOS.</th>
         </tr>
         <tr>
           <th class="color left">Número Folio</th>
           <th class="color left">Codigo Producto</th>
-          <th class="color left">Código Manual</th>
           <th class="color left">Producto</th>
           <th class="color left">Tipo Contenedor</th>
           <th class="color left">Unidad Medida</th>
@@ -412,12 +403,7 @@ $html = $html . '
       $ARRAYVERPRODUCTO = $PRODUCTO_ADO->verProducto($s['ID_PRODUCTO']);
       if ($ARRAYVERPRODUCTO) {
         $CODIGOPRODUCTO = $ARRAYVERPRODUCTO[0]["CODIGO_PRODUCTO"];
-        $CODIGOMANUAL = $ARRAYVERPRODUCTO[0]["CODIGO_MANUAL"];
         $NOMBREPRODUCTO = $ARRAYVERPRODUCTO[0]["NOMBRE_PRODUCTO"];
-      } else {
-        $CODIGOPRODUCTO = "Sin Dato";
-        $CODIGOMANUAL = "Sin Dato";
-        $NOMBREPRODUCTO = "Sin Dato";
       }
       $ARRAYVERTCONTENDOR = $TCONTENEDOR_ADO->verTcontenedor($s['ID_TCONTENEDOR']);
       if ($ARRAYVERTCONTENDOR) {
@@ -433,7 +419,6 @@ $html = $html . '
       <tr >
           <td class="left">' . $s['FOLIO_TARJA'] . '</td>
           <td class="left">' . $CODIGOPRODUCTO . '</td>
-          <td class="left">' . $CODIGOMANUAL . '</td>
           <td class="left">' . $NOMBREPRODUCTO . '</td>
           <td class="left">' . $NOMBRETCONTEDOR . '</td>
           <td class="left">' . $NOMBRETUMEDIDA . '</td>

@@ -88,11 +88,11 @@ if (isset($_SESSION["ID_TEMPORADA"])) {
             <script type="text/javascript">
                 function validacion() {
 
-                    var valid = true;
+
+                    var retorno = 1;
                     EMPRESA = document.getElementById("EMPRESA").selectedIndex;
                     PLANTA = document.getElementById("PLANTA").selectedIndex;
-                    // Para temporada, verificamos el valor directamente ya que está preseleccionada
-                    TEMPORADA_VALUE = document.getElementById("TEMPORADA").value;
+                    TEMPORADA = document.getElementById("TEMPORADA").selectedIndex;
 
                     document.getElementById('val_select_empresa').innerHTML = "";
                     document.getElementById('val_select_planta').innerHTML = "";
@@ -102,28 +102,30 @@ if (isset($_SESSION["ID_TEMPORADA"])) {
                         document.form_reg_dato.EMPRESA.focus();
                         document.form_reg_dato.EMPRESA.style.borderColor = "#FF0000";
                         document.getElementById('val_select_empresa').innerHTML = "NO HA SELECCIONADO  NINGUNA ALTERNATIVA";
-                        valid = false;
+                        retorno = 1;
                     }else{
+                        retorno = 0;
                         document.form_reg_dato.EMPRESA.style.borderColor = "#4AF575";
                     }
                     if (PLANTA == null || PLANTA == 0) {
                         document.form_reg_dato.PLANTA.focus();
                         document.form_reg_dato.PLANTA.style.borderColor = "#FF0000";
                         document.getElementById('val_select_planta').innerHTML = "NO HA SELECCIONADO  NINGUNA ALTERNATIVA";
-                        valid = false;
+                        retorno = 1;
                     }else{
+                        retorno = 0;
                         document.form_reg_dato.PLANTA.style.borderColor = "#4AF575";
                     }
-                    // Para temporada verificamos que tenga un valor (ya está preseleccionada)
-                    if (TEMPORADA_VALUE == null || TEMPORADA_VALUE == "") {
+                    if (TEMPORADA == null || TEMPORADA == 0) {
                         document.form_reg_dato.TEMPORADA.focus();
                         document.form_reg_dato.TEMPORADA.style.borderColor = "#FF0000";
                         document.getElementById('val_select_temporada').innerHTML = "NO HA SELECCIONADO  NINGUNA ALTERNATIVA";
-                        valid = false;
+                        retorno = 1;
                     }else{
+                        retorno = 0;
                         document.form_reg_dato.TEMPORADA.style.borderColor = "#4AF575";
                     }
-                    if(!valid){
+                    if(retorno==1){
                         return false;
                     }
                
@@ -170,18 +172,18 @@ if (isset($_SESSION["ID_TEMPORADA"])) {
                     </select>
                 </div>
                 <label id="val_select_planta" class="validacion"> <?php echo  $MENSAJE; ?></label>
-                <div class="input-group mb-3" id="input" style="display: none;">
+                <div class="input-group mb-3" id="input">
                     <label id="label" for="TEMPORADA">Selecionar Temporada</label>
                     <select class="form-control" id="TEMPORADA" name="TEMPORADA" style="width: 100%;">
-                        <option value="4" selected>2024 - 2025</option>
-                        <?php //foreach ($ARRAYTEMPORADA as $r) : ?>
-                            <?php //if ($ARRAYTEMPORADA) {    ?>
-                                <!--<option value="<?php //echo $r['ID_TEMPORADA']; ?>" <?php //if ($TEMPORADA == $r['ID_TEMPORADA']) { echo "selected"; } ?>>-->
-                                <?php //echo $r['NOMBRE_TEMPORADA'] ?> <!--</option>-->
-                            <?php //} else { ?>
-                                <!--<option>No Hay Datos Registrados </option>-->
-                            <?php //} ?>
-                        <?php //endforeach; ?>
+                        <option></option>
+                        <?php foreach ($ARRAYTEMPORADA as $r) : ?>
+                            <?php if ($ARRAYTEMPORADA) {    ?>
+                                <option value="<?php echo $r['ID_TEMPORADA']; ?>" <?php if ($TEMPORADA == $r['ID_TEMPORADA']) { echo "selected"; } ?>> 
+                                <?php echo $r['NOMBRE_TEMPORADA'] ?> </option>
+                            <?php } else { ?>
+                                <option>No Hay Datos Registrados </option>
+                            <?php } ?>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <label id="val_select_temporada" class="validacion"> <?php echo  $MENSAJE; ?></label>

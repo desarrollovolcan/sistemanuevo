@@ -382,8 +382,8 @@ $html = $html . '
           <tr>
             <th class="color left">Folio</th>
             <th class="color center">Fecha Ingreso</th>
-            <th class="color center">Código Estandar</th>
-            <th class="color center">Envase/Estandar</th>
+            <th class="color center">Código Estándar</th>
+            <th class="color center">Envase/Estándar</th>
             <th class="color center">Cant. Envase</th>
             <th class="color center">Kilos Neto</th>
             <th class="color center ">Variedad </th>
@@ -467,18 +467,18 @@ $html = $html . '
           </tr>
           <tr>
             <th class="color left">Folio</th>
-            <th class="color center">Fecha Embalado</th>
-            <th class="color center">Código Estandar</th>
-            <th class="color center">Envase/Estandar</th>
+            <th class="color center">Código Estándar</th>
+            <th class="color center">Envase/Estándar</th>
             <th class="color center">Cant. Envase</th>
             <th class="color center">Kilos Neto</th>
             <th class="color center">% Deshi.</th>
             <th class="color center">Kilos Con Deshi.</th>
             <th class="color center">%</th>
-            <th class="color center">Embolsado</th>
+            <th class="color center"></th>
             <th class="color center">Calibre</th>
-            <th class="color center">Categoria</th>
-            <th class="color center ">Variedad </th>
+            <th class="color center"></th>
+            <th class="color center"></th>
+            <th class="color center"></th>
           </tr>
         </thead>
          <tbody>
@@ -525,9 +525,8 @@ foreach ($ARRAYDEXPORTACION as $r) :
 
 
   $html = $html . '    
-        <tr>
+        <tr> 
             <th class=" left"> ' . $r['FOLIO_DPEXPORTACION'] . '</th>
-            <td class=" center"> ' . $r['EMBALADO'] . '</td>
             <td class=" center"> ' . $CODIGOESTANDAR . '</td>
             <td class=" center"> ' . $NOMBREESTANDAR . '</td>
             <td class=" center">' . $r['ENVASE'] . ' </td>
@@ -535,10 +534,11 @@ foreach ($ARRAYDEXPORTACION as $r) :
             <td class=" center"> ' . $r['PORCENTAJE'] .   '%</td>
             <td class=" center "> ' . $r['DESHIDRATACION'] . ' </td>
             <td class=" center"> ' . $NETOEXPOR . '%</td>
-            <td class=" center "> ' . $EMBOLSADO . ' </td>
-            <td class=" center "> ' . $NOMBRETCALIBRE . ' </td>
-            <td class=" center "> ' . $NOMBRETCATEGORIA . ' </td>
-            <td class=" center "> ' . $NOMBREVARIEDAD . ' </td>
+            <td class=" center ">  </td>
+            <td class=" center "> ' . $NOMBRETCALIBRE . '  </td>
+            <td class=" center "> </td>
+            <td class=" center "> </td>
+            <td class=" center "> </td>
         </tr>
         ';
 endforeach;
@@ -546,7 +546,7 @@ $html = $html . '
             <tr>
                 <th class="color left"> </th>
                 <th class="color center"> </th>
-                <th class="color center"> </th>
+                
                 
                 <th class="color right">Sub Total </th>
                 <th class="color center"> ' . $TOTALENVASEEXV . '</th>
@@ -555,6 +555,8 @@ $html = $html . '
                 <th class="color center"> </th>
                 <th class="color center "> ' . $TOTALDESHIDRATACIONEXV . ' </th>
                 <th class="color center "> ' . number_format($PEXPORTACIONEXPOEXDESHI, 2, ",", ".") . '% </th>
+                
+                <th class="color center"> </th>
                 <th class="color center ">  </th>
                 <th class="color center ">  </th>
                 <th class="color center ">  </th>
@@ -577,13 +579,11 @@ $html = $html . '
           </tr>
           <tr>
             <th class="color left">Folio</th>
-            <th class="color center">Fecha Embalado</th>
-            <th class="color center">Código Estandar</th>
-            <th class="color center">Envase/Estandar</th>
-            
+            <th class="color center"></th>
+            <th class="color center">Código Estándar</th>
+            <th class="color center">Envase/Estándar</th>
             <th class="color center">Kilos Neto</th>
             <th class="color center">%</th>
-            <th class="color center">Variedad </th>
           </tr>
         </thead>
          <tbody>
@@ -621,13 +621,12 @@ foreach ($ARRAYDINDUSTRIAL as $r) :
   $html = $html . '    
         <tr>
             <th class=" left"> ' . $r['FOLIO_DPINDUSTRIAL'] . '</th>
-            <td class=" center"> ' . $r['EMBALADO'] . '</td>
+            <td class=" center"> </td>
             <td class=" center"> ' . $CODIGOESTANDAR . '</td>
             <td class=" center"> ' . $NOMBREESTANDAR . '</td>
            
             <td class=" center"> ' . $r['NETO'] . '</td>
             <td class=" center"> ' . $NETOINDU . '%</td>
-            <td class=" center "> ' . $NOMBREVARIEDAD . ' </td>
         </tr>
         ';
 
@@ -641,7 +640,7 @@ $html = $html . '
             <th class="color right">Sub Total </th>
             <th class="color center"> ' . $TOTALNETOINDV . '</th>
             <th class="color center "> ' . number_format($PDINDUSTRIAL, 2, ",", ".") . '% </th>
-            <th class="color center ">  </th>
+
         </tr>
         ';
 
@@ -651,17 +650,22 @@ $html = $html . '
       ';
   
 $html = $html . '   
-    <div id="details" class="clearfix">
-        <div id="client">
-          <div class="address"><b>Observaciones</b></div>
-          <div class="address">  ' . $OBSERVACIONES . ' </div>
-        </div>
-        <div id="invoice">
-          <div class="date"><b><hr></b></div>
-          <div class="date center">  Firma Responsable</div>
-          <div class="date center">  ' . $NOMBRERESPONSABLE . '</div>
-      </div>
-    </div>  
+      <div id="details" class="clearfix">
+          <div id="client">
+            <div class="address"><b>Observaciones</b></div>
+            <div class="address">  ' . $OBSERVACIONES . ' </div>
+          </div>
+
+          <div class="color">|</div>
+          <div class="color">|</div>
+          <div class="color">|</div>
+          
+          <div id="invoice">
+            <div class="date"><b><hr></b></div>
+            <div class="date center">  Firma Responsable</div>
+            <div class="date center">  ' . $NOMBRERESPONSABLE . '</div>
+          </div>
+      </div>  
     </main> 
   </body>
 </html>

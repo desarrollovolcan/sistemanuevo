@@ -486,7 +486,8 @@ if($ARRAYICARGA){
               $NOMBRETEMBARQUE="Marítimo";
               $NAVE  = $ARRAYICARGA[0]['NAVE_ICARGA'];
               $NVIAJE = $ARRAYICARGA[0]['NVIAJE_ICARGA'];
-              $FECHASTACKING = $ARRAYICARGA[0]['FECHAESTACKING'];
+              $FECHASTACKING = $ARRAYICARGA[0]['FECHASTACKING'];
+              $FECHASTACKINGF = $ARRAYICARGA[0]['FECHASTACKINGF'];
               $ARRAYNAVIERA =$NAVIERA_ADO->verNaviera( $ARRAYICARGA[0]['ID_NAVIERA']);   
               if($ARRAYNAVIERA){
                 $NOMBRETRANSPORTE=$ARRAYNAVIERA[0]["NOMBRE_NAVIERA"];
@@ -677,27 +678,27 @@ $html='
     <br>
       <div id="details" class="clearfix">            
         <div id="invoice">
-          <div class="date"><b>Fecha Instructivo: </b> '.$FECHA.'</div>
-          <div class="date"><b> Número Instructivo </b>: '.$NUMEROICARGA.'  </div>
-          <div class="date"><b> Número Referencia </b>: '.$NUMEROIREFERENCIA.'  </div>
-          <div class="date"><b> Estado Instructivo </b>: '.$ESTADO.' </div>
-          <div class="date"><b>Temporada: </b> '.$NOMBRETEMPORADA.'</div>
+          <div class="color2"><b>Fecha Instructivo: </b> '.$FECHA.'</div>
+          <div class="color2"><b> Número Instructivo </b>: '.$NUMEROICARGA.'  </div>
+          <div class="color2"><b> Número Referencia </b>: '.$NUMEROIREFERENCIA.'  </div>
+          <div class="color2"><b> Estado Instructivo </b>: '.$ESTADO.' </div>
+          <div class="color2"><b>Temporada: </b> '.$NOMBRETEMPORADA.'</div>
         </div>
         <div id="invoicer"> 
-          <div class="dater"> <b> Consignatario  </b></div>
-          <div class="dater"> <b> Nombre: </b>'.$NOMBRECONSIGNATARIO.'  </div>
-          <div class="dater"> <b> Dirección: </b>'.$DIRECCIONCONSIGNATARIO.'  </div>
-          <div class="dater"> <b> Id Tributario: </b>'.$EORICONSIGNATARIO.'  </div>
-          <div class="dater"> <b> Teléfono / Fax: </b>'.$TELEFONOCONSIGNATARIO.'  </div>
-          <div class="dater"> <b> Email: </b>'.$EMAIL1CONSIGNATARIO.'  </div>
+          <div class="color2"> <b> Consignatario  </b></div>
+          <div class="color2"> <b> Nombre: </b>'.$NOMBRECONSIGNATARIO.'  </div>
+          <div class="color2"> <b> Dirección: </b>'.$DIRECCIONCONSIGNATARIO.'  </div>
+          <div class="color2"> <b> Id Tributario: </b>'.$EORICONSIGNATARIO.'  </div>
+          <div class="color2"> <b> Teléfono / Fax: </b>'.$TELEFONOCONSIGNATARIO.'  </div>
+          <div class="color2"> <b> Email: </b>'.$EMAIL1CONSIGNATARIO.'  </div>
         </div> 
         <div id="invoicer"> 
-          <div class="dater"> <b> Notificador  </b></div>
-          <div class="dater"> <b> Nombre: </b>'.$NOMBRENOTIFICADOR.'  </div>
-          <div class="dater"> <b> Dirección: </b>'.$DIRECCIONNOTIFICADOR.'  </div>
-          <div class="dater"> <b> Id Tributario: </b>'.$EORINOTIFICADOR.'  </div>
-          <div class="dater"> <b> Teléfono / Fax: </b>'.$TELEFONONOTIFICADOR.'  </div>
-          <div class="dater"> <b> Email: </b>'.$EMAIL1NOTIFICADOR.'  </div>
+          <div class="color2"> <b> Notificador  </b></div>
+          <div class="color2"> <b> Nombre: </b>'.$NOMBRENOTIFICADOR.'  </div>
+          <div class="color2"> <b> Dirección: </b>'.$DIRECCIONNOTIFICADOR.'  </div>
+          <div class="color2"> <b> Id Tributario: </b>'.$EORINOTIFICADOR.'  </div>
+          <div class="color2"> <b> Teléfono / Fax: </b>'.$TELEFONONOTIFICADOR.'  </div>
+          <div class="color2"> <b> Email: </b>'.$EMAIL1NOTIFICADOR.'  </div>
         </div>     
       </div> 
 
@@ -798,8 +799,10 @@ $html='
              <td class="color2 left">'.$NVIAJE.'</td>       
            </tr>   
            <tr>
-             <th class="color2 left">Fecha Cierre Stacking: </th>   
+             <th class="color2 left">Fecha inicio Stacking: </th>   
              <td class="color2 left">'.$FECHASTACKING.'</td>    
+             <th class="color2 left">Fecha Cierre Stacking: </th>   
+             <td class="color2 left">'.$FECHASTACKINGF.'</td>   
             
            </tr>    
            ';
@@ -876,7 +879,7 @@ $html=$html.'
 <table  border="0" cellspacing="0" cellpadding="0">
   <thead>
     <tr>
-      <th colspan="4" class="center color">Otros Datos del Embarque</th>
+      <th colspan="7" class="center color">Otros Datos del Embarque</th>
     </tr>
   </thead>
   <tbody>
@@ -884,7 +887,9 @@ $html=$html.'
       <th class="color2 left">Tipo Embarque: </th> 
       <td class="color2 left">'.$NOMBRETEMBARQUE.'</td>        
       <th class="color2 left">Destino Final: </th> 
-      <td class="color2 left">'.$NOMBREDFINAL.'</td>         
+      <td class="color2 left">'.$NOMBREDFINAL.'</td>    
+      <th class="color2 left">&nbsp;</th>       
+      <td class="color2 left">&nbsp;</td>        
     </tr>  
     
     ';
@@ -895,7 +900,9 @@ $html=$html.'
         <th class="color2 left">Lugar Carga: </th>     
         <td class="color2 left">'.$NOMBREORIGEN.'</td>      
         <th class="color2 left">Lugar Destino: </th>  
-        <td class="color2 left">'.$NOMBREDESTINO.'</td>      
+        <td class="color2 left">'.$NOMBREDESTINO.'</td>    
+        <th class="color2 left">&nbsp;</th>       
+        <td class="color2 left">&nbsp;</td>     
       </tr>    
       ';
     }
@@ -907,7 +914,9 @@ $html=$html.'
       <th class="color2 left">Aeropuerto Carga: </th>     
       <td class="color2 left">'.$NOMBREORIGEN.'</td>  
       <th class="color2 left">Aeropuerto Destino: </th>  
-      <td class="color2 left">'.$NOMBREDESTINO.'</td>      
+      <td class="color2 left">'.$NOMBREDESTINO.'</td>    
+      <th class="color2 left">&nbsp;</th>       
+      <td class="color2 left">&nbsp;</td>     
       </tr>    
       ';
     }
@@ -915,6 +924,8 @@ $html=$html.'
       $html = $html . '
       
       <tr>
+      <th class="color2 left">Lugar Carga: </th>     
+      <td class="color2 left">'.$LUGARDECARGA.'</td>  
       <th class="color2 left">Puerto Carga: </th>     
       <td class="color2 left">'.$NOMBREORIGEN.'</td>  
       <th class="color2 left">Puerto Destino: </th>  

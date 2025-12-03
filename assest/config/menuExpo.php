@@ -1,4 +1,4 @@
-<header class="main-header shared-app-header">
+<header class="main-header">
   <div class="d-flex align-items-center logo-box pl-20">
     <a href="#" class="waves-effect waves-light nav-link rounded d-none d-md-inline-block push-btn" data-toggle="push-menu" role="button">
       <img src="../../api/cryptioadmin10/html/images/svg-icon/collapse.svg" class="img-fluid svg-icon" alt="">
@@ -13,7 +13,7 @@
     </a>    
   </div>
   <!-- Header Navbar -->
-  <nav class="navbar navbar-static-top pl-10 shared-app-navbar">
+  <nav class="navbar navbar-static-top pl-10">
     <!-- Sidebar toggle button-->
     <div class="app-menu">
       <ul class="header-megamenu nav">
@@ -29,70 +29,108 @@
         </li>
         <li class="btn-group nav-item">
           <div class="search-bx ml-10">
-            <div class="session-meta">
-              <div class="meta-block">
-                <span class="meta-label">Empresa</span>
-                <span class="meta-value">
-                  <?php
-                  if (isset($_SESSION["NOMBRE_USUARIO"])) {
-                    $ARRAYEMPRESAS = $EMPRESA_ADO->verEmpresa($EMPRESAS);
-                    if ($ARRAYEMPRESAS) {
-                      echo $ARRAYEMPRESAS[0]['NOMBRE_EMPRESA'];
-                    } else {
-                      echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
-                    }
-                  } else {
-                    echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
-                  }
-                  ?>
-                </span>
-              </div>
-              <div class="meta-block">
-                <span class="meta-label">Planta</span>
-                <span class="meta-value">
-                  <?php
-                  if (isset($_SESSION["NOMBRE_USUARIO"])) {
-                    $ARRAYPLANTAS = $PLANTA_ADO->verPlanta($PLANTAS);
-                    if ($ARRAYPLANTAS) {
-                      echo $ARRAYPLANTAS[0]['NOMBRE_PLANTA'];
-                    } else {
-                      echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
-                    }
-                  } else {
-                    echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
-                  }
-                  ?>
-                </span>
-              </div>
-              <div class="meta-block">
-                <span class="meta-label">Temporada</span>
-                <span class="meta-value">
-                  <?php
-                  if (isset($_SESSION["NOMBRE_USUARIO"])) {
-                    $ARRAYTEMPORADAS = $TEMPORADA_ADO->verTemporada($TEMPORADAS);
-                    if ($ARRAYTEMPORADAS) {
-                      echo $ARRAYTEMPORADAS[0]['NOMBRE_TEMPORADA'];
-                    } else {
-                      echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
-                    }
-                  } else {
-                    echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
-                  }
-                  ?>
-                </span>
-              </div>
+            <div class="input-group" style="font-size: 12px;">
+              <?php
+              if (isset($_SESSION["NOMBRE_USUARIO"])) {
+                $ARRAYEMPRESAS = $EMPRESA_ADO->verEmpresa($EMPRESAS);
+                if ($ARRAYEMPRESAS) {
+                  echo $ARRAYEMPRESAS[0]['NOMBRE_EMPRESA'];
+                  //$EMPRESA = $ARRAYEMPRESAS[0]['ID_EMPRESA'];
+                } else {
+                  echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
+                }
+              } else {
+                echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
+              }
+              ?>
+              <br>
+              <?php
+              if (isset($_SESSION["NOMBRE_USUARIO"])) {
+                $ARRAYTEMPORADAS = $TEMPORADA_ADO->verTemporada($TEMPORADAS);
+                if ($ARRAYTEMPORADAS) {
+                  echo $ARRAYTEMPORADAS[0]['NOMBRE_TEMPORADA'];
+                  //$TEMPORADA = $ARRAYTEMPORADAS[0]['ID_TEMPORADA'];
+                } else {
+                  echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
+                }
+              } else {
+                echo "<script type='text/javascript'> location.href ='iniciarSession.php';</script>";
+              }
+              ?>
             </div>
           </div>
-        </li>
+        </li>  
       </ul>
     </div>
     <div class="navbar-custom-menu r-side">
       <ul class="nav navbar-nav">
+        <!-- Notifications -->   
+        <li class="dropdown notifications-menu">
+          <a href="#" class="waves-effect waves-light dropdown-toggle" data-toggle="dropdown" title="Notifications">
+            <img src="../../api/cryptioadmin10/html/images/svg-icon/notifications.svg" class="img-fluid svg-icon" alt="">
+          </a>
+          <ul class="dropdown-menu animated bounceIn">
+            <li class="header">
+              <div class="p-20">
+                <div class="flexbox">
+                  <div>
+                    <h4 class="mb-0 mt-0">Notificaciones</h4>
+                  </div>
+                  <div>
+                    <a href="#" class="text-danger">Limpiar Todo</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <!-- inner menu: contains the actual data -->
+              <ul class="menu sm-scrol">
+                <li>
+                  <a href="#">
+                    <i class="fa fa-users text-info"></i> Curabitur id eros quis nunc suscipit blandit.
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-warning text-warning"></i> Duis malesuada justo eu sapien elementum, in semper diam posuere.
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-users text-danger"></i> Donec at nisi sit amet tortor commodo porttitor pretium a erat.
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-shopping-cart text-success"></i> In gravida mauris et nisi
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-user text-danger"></i> Praesent eu lacus in libero dictum fermentum.
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-user text-primary"></i> Nunc fringilla lorem
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-user text-success"></i> Nullam euismod dolor ut quam interdum, at scelerisque ipsum imperdiet.
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="footer">
+              <a href="#">Ver Todo</a>
+            </li>
+          </ul>
+        </li>
         <!-- User Account-->
         <li class="dropdown user user-menu">
-          <a href="#" class="waves-effect waves-light dropdown-toggle" data-toggle="dropdown" title="Mi Cuenta">
+          <a href="#" class="waves-effect waves-light dropdown-toggle" data-toggle="dropdown" title="User">
             <img src="../../api/cryptioadmin10/html/images/svg-icon/user.svg" class="rounded svg-icon" alt="" />
-            <span class="user-toggle-label">Mi Cuenta</span>
           </a>
           <ul class="dropdown-menu animated flipInX">
             <!-- User image -->
@@ -141,15 +179,6 @@
                 <i class="ti-settings"></i>Cambiar Empresa
               </a>
               <div class="dropdown-divider"></div>
-              <div class="dropdown-header text-muted" style="font-size: 11px; text-transform: uppercase; letter-spacing: .04em;">
-                Cambiar de módulo
-              </div>
-              <a class="dropdown-item" href="../../fruta/"><i class="ti-angle-right"></i> Fruta</a>
-              <a class="dropdown-item" href="../../exportadora/"><i class="ti-angle-right"></i> Exportador</a>
-              <a class="dropdown-item" href="../../estadistica/"><i class="ti-angle-right"></i> Estadísticas</a>
-              <a class="dropdown-item" href="../../material/"><i class="ti-angle-right"></i> Materiales</a>
-              <div class="dropdown-divider"></div>
-
               <div class="p-10">
                 <center>
                   <form method="post">
@@ -229,7 +258,8 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
     <ul class="sidebar-menu" data-widget="tree">
       <li>
         <a href="index.php">
-          <i class="material-icons">home</i><span>Inicio</span>
+          <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/dashboard.svg" class="svg-icon" alt="">
+          <span>Inicio</span>
         </a>
       </li>     
       <?php if($PEXPORTADORA=="1"){ ?>
@@ -264,14 +294,15 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php if($PEEXPORTACION=="1"){ ?>
           <li class="treeview">
             <a href="#">
-              <i class="material-icons">public</i><span> Exportación</span>
+              <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/exchange.svg" class="svg-icon" alt="">
+              <span> Exportación</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-right pull-right"></i>
               </span>
             </a>
             <ul class="treeview-menu">
               <li class="treeview">
-                <!--<a href="#">Inst. Carga
+                <a href="#">Inst. Carga
                   <span class="pull-left-container">
                     <i class=" fa fa-angle-right pull-right"></i>
                   </span>
@@ -280,7 +311,7 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
                   <li><a href="registroICarga.php">Registro Inst. Carga</i></a></li>
                   <li><a href="listarICarga.php">Agrupado Inst. Carga</i></a></li>
                   <li><a href="listarICargaDetallado.php">Detallado Inst. Carga</i></a></li>
-                </ul>-->
+                </ul>
               </li> 
               <li class="treeview">
                 <a href="#">Nota D/C
@@ -299,7 +330,8 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php if($PELIQUIDACION=="1"){ ?>
           <li class="treeview">
             <a href="#">
-              <i class="material-icons">request_quote</i><span> Liquidación</span>
+              <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/transactions.svg" class="svg-icon" alt="">
+              <span> Liquidación</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-right pull-right"></i>
               </span>
@@ -313,7 +345,8 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php  } ?>
           <li class="treeview">
               <a href="#">
-                  <i class="material-icons">payments</i><span> Anticipo</span>
+                  <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/transactions.svg" class="svg-icon" alt="">
+                  <span> Anticipo</span>
                   <span class="pull-right-container">
                 <i class="fa fa-angle-right pull-right"></i>
               </span>
@@ -326,7 +359,8 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php if($PEPAGO=="1"){ ?>
           <li class="treeview">
             <a href="#">
-              <i class="material-icons">credit_score</i><span> Pago</span>
+              <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/transactions.svg" class="svg-icon" alt="">
+              <span> Pago</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-right pull-right"></i>
               </span>
@@ -341,7 +375,8 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php if($PEFRUTA=="1"){ ?>
           <li class="treeview">
             <a href="#">
-              <i class="material-icons">spa</i><span> Fruta</span>
+              <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/apps.svg" class="svg-icon" alt="">
+              <span> Fruta</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-right pull-right"></i>
               </span>
@@ -356,7 +391,8 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php if($PEINFORMES=="1"){ ?>
           <li class="treeview">
             <a href="#">
-              <i class="material-icons">bar_chart</i><span> Informes</span>
+              <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/pages.svg" class="svg-icon" alt="">
+              <span> Informes</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-right pull-right"></i>
               </span>
@@ -519,7 +555,8 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <li class="header">Configuraciones</li>
         <li class="treeview">
           <a href="#">
-            <i class="material-icons">build</i><span>Mantenedores</span>
+            <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/miscellaneous.svg" class="svg-icon" alt="">
+            <span>Mantenedores</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-right pull-right"></i>
             </span>
@@ -725,14 +762,10 @@ $ARRAYPLANTACAMBIAR = $PLANTA_ADO->listarPlantaPropiaCBX();
         <?php if($PADAVISO=="1"){ ?>
           <li>
             <a href="registroUsuarioAviso.php">
-              <i class="material-icons">notifications</i><span>Avisos</span>
+              <img src="../../api/cryptioadmin10/html/images/svg-icon/sidebar-menu/miscellaneous.svg" class="svg-icon" alt="">
+              <span>Avisos</span>
             </a>
-          </li>
-          <li>
-            <a href="registroNotificacion.php">
-              <i class="material-icons">notifications_active</i><span>Notificaciones</span>
-            </a>
-          </li>
+          </li> 
         <?php  } ?>
       <?php  } ?>
     </ul>

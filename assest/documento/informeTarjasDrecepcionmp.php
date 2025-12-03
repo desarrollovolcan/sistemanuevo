@@ -8,7 +8,6 @@ include_once '../../assest/controlador/EMPRESA_ADO.php';
 include_once '../../assest/controlador/VESPECIES_ADO.php';
 include_once '../../assest/controlador/ERECEPCION_ADO.php';
 include_once '../../assest/controlador/PRODUCTOR_ADO.php';
-include_once '../../assest/controlador/TMANEJO_ADO.php';
 
 
 //INCIALIZAR LAS VARIBLES
@@ -20,7 +19,6 @@ $EMPRESA_ADO = new EMPRESA_ADO();
 $ERECEPCION_ADO =  new ERECEPCION_ADO();
 $VESPECIES_ADO = new VESPECIES_ADO();
 $PRODUCTOR_ADO =  new PRODUCTOR_ADO();
-$TMANEJO_ADO = new TMANEJO_ADO();
 
 //INCIALIZAR VARIBALES A OCUPAR PARA LA FUNCIONALIDAD
 $IDOP="";
@@ -194,7 +192,6 @@ foreach ($ARRAYDRECEPCION as $s) :
     
     $ARRAYVESPECIES=$VESPECIES_ADO->verVespecies($s['ID_VESPECIES']);
     $ARRAYEEXPORTACION=$ERECEPCION_ADO->verEstandar($s['ID_ESTANDAR']);
-    $ARRAYTMANEJO=$TMANEJO_ADO->verTManejo($s['ID_TMANEJO']);
 
 
     $html=$html.'
@@ -263,8 +260,7 @@ foreach ($ARRAYDRECEPCION as $s) :
 		<div class="info2 justify">
 			<b class="f11"> Kilos Brutos : </b> <span class="f13"> '.$s['BRUTO'].'</span>
 		</div>
-        <br/>
-       
+		<br>
 		<div class="subtitulo2"></div>
 	
         <div class=" center">
@@ -286,13 +282,6 @@ foreach ($ARRAYDRECEPCION as $s) :
         </div>	
         <div class="f20 center">
             <b> '.$ARRAYVESPECIES[0]['NOMBRE_VESPECIES'].' </b> 
-        </div>
-
-        <div class=" center">
-             Manejo  
-        </div>	
-        <div class="f20 center">
-            <b> '.$ARRAYTMANEJO[0]['NOMBRE_TMANEJO'].' </b> 
         </div>
 
         <br>

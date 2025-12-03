@@ -14,7 +14,6 @@ $ARRAYTEMPORADAS = "";
 $ARRAYTUSUARIO = "";
 $ARRAYNOMBRESUSUARIOSLOGIN = "";
 $ARRAYAVISOS="";
-$ARRAYNOTIFICACIONESCABECERA="";
 
 
 $PMATERIALES="";
@@ -59,7 +58,6 @@ include_once '../../assest/controlador/TUSUARIO_ADO.php';
 include_once '../../assest/controlador/PTUSUARIO_ADO.php';
 include_once "../../assest/controlador/AUSUARIO_ADO.php";
 include_once '../../assest/controlador/AVISO_ADO.php';
-include_once '../../assest/controlador/NOTIFICACION_ADO.php';
 
 include_once '../../assest/controlador/EMPRESA_ADO.php';
 include_once '../../assest/controlador/PLANTA_ADO.php';
@@ -71,7 +69,6 @@ $TUSUARIO_ADO = new TUSUARIO_ADO();
 $PTUSUARIO_ADO = new PTUSUARIO_ADO();
 $AUSUARIO_ADO = new AUSUARIO_ADO();
 $AVISO_ADO = new AVISO_ADO();
-$NOTIFICACION_ADO = new NOTIFICACION_ADO();
 
 $EMPRESA_ADO =  new EMPRESA_ADO();
 $PLANTA_ADO =  new PLANTA_ADO();
@@ -165,15 +162,13 @@ if (isset($_SESSION["NOMBRE_USUARIO"])) {
         echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
     }
     if (isset($_SESSION["ID_TEMPORADA"])) {
-        $TEMPORADAS  = $_SESSION["ID_TEMPORADA"];
+        $TEMPORADAS  = $_SESSION["ID_TEMPORADA"];   
         if($TEMPORADAS==""){
             echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
         }
     } else {
         echo "<script type='text/javascript'> location.href ='iniciarSessionSeleccion.php';</script>";
     }
-
-    $ARRAYNOTIFICACIONESCABECERA = $NOTIFICACION_ADO->listarNotificacionesActivas($IDUSUARIOS, $EMPRESAS, $PLANTAS);
 
     if (isset($_SESSION["TMONEDA1"]) && isset($_SESSION["TMONEDA2"])) {
         $TMONEDA1 = $_SESSION["TMONEDA1"];

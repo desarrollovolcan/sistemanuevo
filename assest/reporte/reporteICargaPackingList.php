@@ -522,6 +522,7 @@ $html = '
         <th class="color center ">Calidad </th>
         <th class="color center ">Condición SAG</th>
         <th class="color center ">Etiqueta </th>
+        <th class="color center ">Tipo Manejo </th>
         <th class="color center ">Envases </th>
         <th class="color center ">Kilos Neto </th>
         <th class="color center ">Kilos Bruto</th>
@@ -670,7 +671,14 @@ foreach ($ARRAYDESPACHOEX as $s) :
         $NOMBRETEMBALAJE = "Sin Datos";
     }
 
-    // CAMBIO AQUÍ: se usa el FOLIO NUEVO (FOLIO_AUXILIAR_EXIEXPORTACION)
+    // OBTENER TIPO DE MANEJO
+    $ARRAYTMANEJO = $TMANEJO_ADO->verTmanejo($r['ID_TMANEJO']);
+    if ($ARRAYTMANEJO) {
+        $NOMBRETMANEJO = $ARRAYTMANEJO[0]['NOMBRE_TMANEJO'];
+    } else {
+        $NOMBRETMANEJO = "Sin Datos";
+    }
+
     $ArrayTermografoPallet = $EXIEXPORTACION_ADO->verFolio($r['FOLIO_AUXILIAR_EXIEXPORTACION']);  
     if($ArrayTermografoPallet){
         $termografoPallet = $ArrayTermografoPallet[0]["N_TERMOGRAFO"];
@@ -698,6 +706,7 @@ foreach ($ARRAYDESPACHOEX as $s) :
               <td class=" center ">Exportacion</td>
               <td class=" center ">' . $NOMBRETINPSAG . ' </td>
               <td class=" center ">' . $NOMBRETETIQUETA . ' </td>
+              <td class=" center ">' . $NOMBRETMANEJO . ' </td>
               <td class=" center">' . $r['ENVASE'] . '</td>
               <td class=" center">' . $r['NETO'] . '</td>
               <td class=" center">' . $r['BRUTO'] . '</td>

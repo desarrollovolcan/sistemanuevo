@@ -352,7 +352,7 @@ $html = '
     </header>
     <main>
       <h2 class="titulo" style="text-align: center; color: black;">
-        PAKING LIST SAG
+        PACKING LIST SAG
         <br>
         <b> Número Inspección: ' . $CORRELATIVOINPSAG . '</b>
       </h2>
@@ -369,7 +369,7 @@ $html = '
           <div class="address"><b>Tipo Inspección: </b>' . $NOMBRETINPSAG . '</div>
           <div class="address"><b>Estado Inspección: </b> ' . $ESTADO . ' </div>
           <div class="address"><b>Condición: </b>' . $NOMBRETESTADOSAG . '</div>
-          <div class="address"><b>Inpector: </b>' . $INPECTOR . '</div>
+          <div class="address"><b>Inspector: </b>' . $INPECTOR . '</div>
           <div class="address"><b>Contraparte: </b>' . $CONTRAPARTE . '</div>
           <div class="address"><b>Paises: </b>' . $PAIS . '</div>
         </div>        
@@ -744,15 +744,19 @@ $html = $html . '
 </tr>
 ';
 
-
 $html = $html . '
+
         </tbody>
       </table>
 
       ';
 
 $html = $html . '
-
+      <div id="invoice">
+          <div class="date "><b><hr></b></div>
+          <div class="date  center">  Firma Inspector</div>
+          <div class="date  center">  . </div>
+      </div>
     </main>
   </body>
 </html>

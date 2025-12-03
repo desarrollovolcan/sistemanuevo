@@ -1289,16 +1289,9 @@ if (isset($_POST)) {
                                                     <label id="val_tusuario" class="validacion"> </label>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xxl-6 col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 col-xs-12">
-                                                <div class="card card-outline card-primary mb-20">
-                                                    <div class="card-header bg-primary">
-                                                        <h5 class="card-title text-white mb-0">Fruta y materiales</h5>
-                                                    </div>
-                                                    <div class="card-body">
+                                        </div>                                                                           
                                         <fieldset>
-                                            <legend>Fruta </legend>
+                                            <legend>Fruta </legend> 
                                             <div class="row">
                                                 <div class="col-xxl-4 col-xl-4 col-lg-5 col-md-6 col-sm-6 col-6 col-xs-6">
                                                     <input type="checkbox" id="FRUTA"  name="FRUTA" class="filled-in chk-col-info"      <?php if ($FRUTA == "1") { echo "checked"; } ?>  onchange="fruta();"  <?php echo $DISABLED;?> >
@@ -1549,16 +1542,7 @@ if (isset($_POST)) {
                                                     </div>   
                                                 </div>
                                             </fieldset>
-                                        </fieldset>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xxl-6 col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 col-xs-12">
-                                                <div class="card card-outline card-success mb-20">
-                                                    <div class="card-header bg-success">
-                                                        <h5 class="card-title text-white mb-0">Exportadora y gestión</h5>
-                                                    </div>
-                                                    <div class="card-body">
+                                        </fieldset>       
                                         <fieldset>
                                             <legend>Exportadora </legend> 
                                             <div class="row">
@@ -1711,10 +1695,6 @@ if (isset($_POST)) {
                                                 </div>
                                             </div>          
                                         </fieldset>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <!-- /.box-body -->
                                     <div class="box-footer">

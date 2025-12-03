@@ -272,7 +272,7 @@ if ($_POST) {
 
 
                     FECHAPCDESPACHO = document.getElementById("FECHAPCDESPACHO").value;
-                    TINPUSDA = document.getElementById("TINPUSDA").selectedIndex;
+                    TINPUSDA = document.getElementById("TINPUSDA").value;
                     MOTIVOPCDESPACHO = document.getElementById("MOTIVOPCDESPACHO").value;
 
                     document.getElementById('val_fecha').innerHTML = "";
@@ -288,7 +288,7 @@ if ($_POST) {
                     }
                     document.form_reg_dato.FECHAPCDESPACHO.style.borderColor = "#4AF575";
 
-                    if (TINPUSDA == null || TINPUSDA == 0) {
+                    if (TINPUSDA == null || TINPUSDA === "") {
                             document.form_reg_dato.TINPUSDA.focus();
                             document.form_reg_dato.TINPUSDA.style.borderColor = "#FF0000";
                             document.getElementById('val_tinpusda').innerHTML = "NO HA SELECIONADO ALTERNATIVA";
@@ -416,12 +416,12 @@ if ($_POST) {
                                         </div>                                        
                                         <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 col-xs-12">
                                             <div class="form-group">
-                                                <label>Sin Inspección</label>
+                                                <label>Folios inspeccionados?</label>
                                                 <input type="hidden" class="form-control" placeholder="TINPUSDA" id="TINPUSDAE" name="TINPUSDAE" value="<?php echo $TINPUSDA; ?>" />
-                                                <select class="form-control select2" id="TINPUSDA" name="TINPUSDA" style="width: 100%;" <?php echo $DISABLED3; ?> >
+                                                <select class="form-control select2" id="TINPUSDA" name="TINPUSDA" style="width: 100%;" <?php echo $DISABLED2; ?>  <?php   if ($ESTADO == 0) {   echo "disabled style='background-color: #eeeeee;'"; } ?> >
                                                     <option></option>
-                                                    <option value="1" <?php if ($TINPUSDA == "1") { echo "selected"; } ?>> Si </option>
-                                                    <option value="0" <?php if ($TINPUSDA == "0") { echo "selected"; } ?>> No</option>
+                                                    <option value="0" <?php if ($TINPUSDA == "0") { echo "selected"; } ?>> Si </option>
+                                                    <option value="1" <?php if ($TINPUSDA == "1") { echo "selected"; } ?>> No</option>
                                                 </select>
                                                 <label id="val_tinpusda" class="validacion"> </label> 
                                             </div> 
@@ -867,6 +867,38 @@ if ($_POST) {
                 </script>';
             }
         ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var selectSin = document.getElementById('TINPUSDA');
+    var hiddenSin = document.getElementById('TINPUSDAE');
+
+    if (!selectSin || !hiddenSin) {
+        return;
+    }
+
+    // Si viene deshabilitado (registro cerrado o solo lectura), no se toca
+    if (selectSin.hasAttribute('disabled')) {
+        return;
+    }
+
+    function syncTin() {
+        hiddenSin.value = selectSin.value;
+    }
+
+    // Valor inicial
+    syncTin();
+
+    // Cambio en el select
+    selectSin.addEventListener('change', syncTin);
+
+    // Seguridad al enviar el formulario
+    if (selectSin.form) {
+        selectSin.form.addEventListener('submit', syncTin);
+    }
+});
+</script>
+
 </body>
 
 </html>

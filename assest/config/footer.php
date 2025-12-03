@@ -4,7 +4,7 @@ $api_url = 'https://mscode.cl/api/version.php?getVersionNumber';
 // Realizar la solicitud GET a la API
 $curl = curl_init($api_url);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_TIMEOUT, 5); // Timeout de 5 segundos
+curl_setopt($curl, CURLOPT_TIMEOUT, 8); // Timeout de 5 segundos
 $api_response = curl_exec($curl);
 $curl_error = curl_error($curl);
 curl_close($curl);
@@ -20,29 +20,30 @@ if (!$curl_error && $api_response !== false) {
     }
 }
 
-$localVersion = "1.1.50";
+$localVersion = "1.1.80";
 
 
 ?>
-<footer class="main-footer footer-modern">
-    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-        <div>
-            &copy; 2025 <a href="#" class="text-muted">Desarrollado por CreativeAgro</a>. Todos los derechos reservados.
-        </div>
-        <div class="d-flex align-items-center gap-3">
-            <span class="version-chip">
-                <i class="material-icons" style="font-size:16px;">verified</i>
-                <?php
-                    if($remoteVersion === $localVersion){
-                        echo 'Versión '.$localVersion.' · Actualizado';
-                    }else{
-                        echo 'Versión '.$localVersion.' · Actualización disponible';
-                    }
-                ?>
-            </span>
-            <a href="https://wa.me/56952157840" target="_blank" class="support-pill">
-                <i class="ti-headphone-alt"></i> Soporte
-            </a>
-        </div>
+<footer class="main-footer">
+    <div class="pull-right d-none d-sm-inline-block">
+        <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
+		  <li class="nav-item">
+			<a class="nav-link" href="javascript:void(0)">
+				<?php 
+
+if($remoteVersion === $localVersion){
+	echo '<span class="badge bg-success">Actualizado</span>';
+}else{
+	echo '<span class="badge bg-danger">Tiene una actualizaciòn pendiente!</span>';
+}
+				
+				?>
+			</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="#">Version <?php echo $localVersion; ?></a>
+		  </li>
+		</ul>
     </div>
-</footer>
+	  &copy; 2021 <a href="#">Desarrollado: Volcan Foods Ltda</a>. Todos los derechos reservados.
+  </footer>

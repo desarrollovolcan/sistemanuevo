@@ -143,7 +143,24 @@ class TTRATAMIENTO2_ADO {
         }
         
     }
-
+    public function verTtratamiento2($ID){
+        try{
+            
+            $datos=$this->conexion->prepare("SELECT * FROM  fruta_tratamineto2  WHERE  ID_TTRATAMIENTO = '".$ID."';");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+            
+            //	print_r($resultado);
+            //	var_dump($resultado);
+            
+            
+            return $resultado;
+        }catch(Exception $e){
+            die($e->getMessage());
+        }
+        
+    }
   
     
     //BUSCAR CONSIDENCIA DE ACUERDO AL CARACTER INGRESADO EN LA FUNCION

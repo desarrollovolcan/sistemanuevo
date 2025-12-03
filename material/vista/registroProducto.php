@@ -29,7 +29,6 @@ $PRODUCTOS =  new PRODUCTO();
 
 //INCIALIZAR VARIBALES A OCUPAR PARA LA FUNCIONALIDAD
 $CODIGOPRODUCTO = "";
-$CODIGOMANUAL = "";
 $NOMBREPRODUCTO = "";
 $DESCRIPCIONPRODUCTO = "";
 $MODELO = "";
@@ -114,7 +113,6 @@ if (isset($id_dato) && isset($accion_dato)) {
         //PASAR DATOS OBTENIDOS A VARIABLES QUE SE VISUALIZAR EN EL FORMULARIO DE LA VISTA
         foreach ($ARRAYPRODUCTOID as $r) :
             $CODIGOPRODUCTO = "" . $r['CODIGO_PRODUCTO'];
-            $CODIGOMANUAL = "" . $r['CODIGO_MANUAL'];
             $NUMEROVER = "" . $r['NUMERO_PRODUCTO'];
             $NOMBREPRODUCTO = "" . $r['NOMBRE_PRODUCTO'];
             $OPTIMO = "" . $r['OPTIMO'];
@@ -142,7 +140,6 @@ if (isset($id_dato) && isset($accion_dato)) {
         //PASAR DATOS OBTENIDOS A VARIABLES QUE SE VISUALIZAR EN EL FORMULARIO DE LA VISTA
         foreach ($ARRAYPRODUCTOID as $r) :
             $CODIGOPRODUCTO = "" . $r['CODIGO_PRODUCTO'];
-            $CODIGOMANUAL = "" . $r['CODIGO_MANUAL'];
             $NUMEROVER = "" . $r['NUMERO_PRODUCTO'];
             $NOMBREPRODUCTO = "" . $r['NOMBRE_PRODUCTO'];
             $OPTIMO = "" . $r['OPTIMO'];
@@ -169,7 +166,6 @@ if (isset($id_dato) && isset($accion_dato)) {
         //PASAR DATOS OBTENIDOS A VARIABLES QUE SE VISUALIZAR EN EL FORMULARIO DE LA VISTA        
         foreach ($ARRAYPRODUCTOID as $r) :
             $CODIGOPRODUCTO = "" . $r['CODIGO_PRODUCTO'];
-            $CODIGOMANUAL = "" . $r['CODIGO_MANUAL'];
             $NUMEROVER = "" . $r['NUMERO_PRODUCTO'];
             $NOMBREPRODUCTO = "" . $r['NOMBRE_PRODUCTO'];
             $OPTIMO = "" . $r['OPTIMO'];
@@ -198,7 +194,6 @@ if (isset($id_dato) && isset($accion_dato)) {
         //PASAR DATOS OBTENIDOS A VARIABLES QUE SE VISUALIZAR EN EL FORMULARIO DE LA VISTA
         foreach ($ARRAYPRODUCTOID as $r) :
             $CODIGOPRODUCTO = "" . $r['CODIGO_PRODUCTO'];
-            $CODIGOMANUAL = "" . $r['CODIGO_MANUAL'];
             $NUMEROVER = "" . $r['NUMERO_PRODUCTO'];
             $NOMBREPRODUCTO = "" . $r['NOMBRE_PRODUCTO'];
             $OPTIMO = "" . $r['OPTIMO'];
@@ -214,36 +209,21 @@ if (isset($id_dato) && isset($accion_dato)) {
     }
 }
 
-// Procesar datos POST solo si no estamos en modo de carga inicial de edición/visualización
-if (isset($_POST) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+if (isset($_POST)) {
     if (isset($_REQUEST['CODIGOPRODUCTO'])) {
         $CODIGOPRODUCTO = $_REQUEST['CODIGOPRODUCTO'];
     }
-    if (isset($_REQUEST['CODIGOMANUAL'])) {
-        $CODIGOMANUAL = $_REQUEST['CODIGOMANUAL'];
-    } elseif (isset($_REQUEST['HIDDEN_CODIGOMANUAL']) && !empty($_REQUEST['HIDDEN_CODIGOMANUAL'])) {
-        // Usar valor hidden si el campo visible está vacío (cambio de familia)
-        $CODIGOMANUAL = $_REQUEST['HIDDEN_CODIGOMANUAL'];
-    }
     if (isset($_REQUEST['NOMBREPRODUCTO'])) {
         $NOMBREPRODUCTO = $_REQUEST['NOMBREPRODUCTO'];
-    } elseif (isset($_REQUEST['HIDDEN_NOMBREPRODUCTO']) && !empty($_REQUEST['HIDDEN_NOMBREPRODUCTO'])) {
-        $NOMBREPRODUCTO = $_REQUEST['HIDDEN_NOMBREPRODUCTO'];
     }
     if (isset($_REQUEST['OPTIMO'])) {
         $OPTIMO = $_REQUEST['OPTIMO'];
-    } elseif (isset($_REQUEST['HIDDEN_OPTIMO']) && !empty($_REQUEST['HIDDEN_OPTIMO'])) {
-        $OPTIMO = $_REQUEST['HIDDEN_OPTIMO'];
     }
     if (isset($_REQUEST['BAJO'])) {
         $BAJO = $_REQUEST['BAJO'];
-    } elseif (isset($_REQUEST['HIDDEN_BAJO']) && !empty($_REQUEST['HIDDEN_BAJO'])) {
-        $BAJO = $_REQUEST['HIDDEN_BAJO'];
     }
     if (isset($_REQUEST['CRITICO'])) {
         $CRITICO = $_REQUEST['CRITICO'];
-    } elseif (isset($_REQUEST['HIDDEN_CRITICO']) && !empty($_REQUEST['HIDDEN_CRITICO'])) {
-        $CRITICO = $_REQUEST['HIDDEN_CRITICO'];
     }
     if (isset($_REQUEST['EMPRESA'])) {
         $EMPRESA = $_REQUEST['EMPRESA'];
@@ -254,18 +234,12 @@ if (isset($_POST) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     if (isset($_REQUEST['SUBFAMILIA'])) {
         $SUBFAMILIA = $_REQUEST['SUBFAMILIA'];
-    } elseif (isset($_REQUEST['HIDDEN_SUBFAMILIA']) && !empty($_REQUEST['HIDDEN_SUBFAMILIA'])) {
-        $SUBFAMILIA = $_REQUEST['HIDDEN_SUBFAMILIA'];
     }
     if (isset($_REQUEST['TUMEDIDA'])) {
         $TUMEDIDA = $_REQUEST['TUMEDIDA'];
-    } elseif (isset($_REQUEST['HIDDEN_TUMEDIDA']) && !empty($_REQUEST['HIDDEN_TUMEDIDA'])) {
-        $TUMEDIDA = $_REQUEST['HIDDEN_TUMEDIDA'];
     }
     if (isset($_REQUEST['ESPECIES'])) {
         $ESPECIES = $_REQUEST['ESPECIES'];
-    } elseif (isset($_REQUEST['HIDDEN_ESPECIES']) && !empty($_REQUEST['HIDDEN_ESPECIES'])) {
-        $ESPECIES = $_REQUEST['HIDDEN_ESPECIES'];
     }
 }
 
@@ -288,7 +262,6 @@ if (isset($_POST) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                 //VALIDACION DE FORMULARIO
                 function validacion() {
 
-                    CODIGOMANUAL = document.getElementById("CODIGOMANUAL").value;
                     NOMBREPRODUCTO = document.getElementById("NOMBREPRODUCTO").value;
                     ESPECIES = document.getElementById("ESPECIES").selectedIndex;
                     TUMEDIDA = document.getElementById("TUMEDIDA").selectedIndex;
@@ -298,7 +271,6 @@ if (isset($_POST) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                     BAJO = document.getElementById("BAJO").value;
                     CRITICO = document.getElementById("CRITICO").value;
 
-                    document.getElementById('val_codigomanual').innerHTML = "";
                     document.getElementById('val_nombre').innerHTML = "";
                     document.getElementById('val_especies').innerHTML = "";
                     document.getElementById('val_tumedida').innerHTML = "";
@@ -307,14 +279,6 @@ if (isset($_POST) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                     document.getElementById('val_optimo').innerHTML = "";
                     document.getElementById('val_bajo').innerHTML = "";
                     document.getElementById('val_critico').innerHTML = "";
-
-                    if (CODIGOMANUAL == null || CODIGOMANUAL.length == 0 || /^\s+$/.test(CODIGOMANUAL)) {
-                        document.form_reg_dato.CODIGOMANUAL.focus();
-                        document.form_reg_dato.CODIGOMANUAL.style.borderColor = "#FF0000";
-                        document.getElementById('val_codigomanual').innerHTML = "NO A INGRESADO CÓDIGO MANUAL";
-                        return false;
-                    }
-                    document.form_reg_dato.CODIGOMANUAL.style.borderColor = "#4AF575";
 
                     if (NOMBREPRODUCTO == null || NOMBREPRODUCTO.length == 0 || /^\s+$/.test(NOMBREPRODUCTO)) {
                         document.form_reg_dato.NOMBREPRODUCTO.focus();
@@ -384,41 +348,7 @@ if (isset($_POST) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 }
 
-                // Función para actualizar campos hidden cuando se cambien los valores
-                function updateHiddenFields() {
-                    var codigomanual = document.getElementById("CODIGOMANUAL").value;
-                    var nombreproducto = document.getElementById("NOMBREPRODUCTO").value;
-                    var optimo = document.getElementById("OPTIMO").value;
-                    var bajo = document.getElementById("BAJO").value;
-                    var critico = document.getElementById("CRITICO").value;
-                    var especies = document.getElementById("ESPECIES").value;
-                    var tumedida = document.getElementById("TUMEDIDA").value;
-                    var subfamilia = document.getElementById("SUBFAMILIA").value;
-                    
-                    document.getElementById("HIDDEN_CODIGOMANUAL").value = codigomanual;
-                    document.getElementById("HIDDEN_NOMBREPRODUCTO").value = nombreproducto;
-                    document.getElementById("HIDDEN_OPTIMO").value = optimo;
-                    document.getElementById("HIDDEN_BAJO").value = bajo;
-                    document.getElementById("HIDDEN_CRITICO").value = critico;
-                    document.getElementById("HIDDEN_ESPECIES").value = especies;
-                    document.getElementById("HIDDEN_TUMEDIDA").value = tumedida;
-                    document.getElementById("HIDDEN_SUBFAMILIA").value = subfamilia;
-                }
 
-                // Agregar eventos para actualizar campos hidden cuando cambien los valores
-                window.onload = function() {
-                    var inputs = document.querySelectorAll('#CODIGOMANUAL, #NOMBREPRODUCTO, #OPTIMO, #BAJO, #CRITICO');
-                    var selects = document.querySelectorAll('#ESPECIES, #TUMEDIDA, #SUBFAMILIA');
-                    
-                    for (var i = 0; i < inputs.length; i++) {
-                        inputs[i].addEventListener('input', updateHiddenFields);
-                        inputs[i].addEventListener('change', updateHiddenFields);
-                    }
-                    
-                    for (var j = 0; j < selects.length; j++) {
-                        selects[j].addEventListener('change', updateHiddenFields);
-                    }
-                }
 
 
                 //REDIRECCIONAR A LA PAGINA SELECIONADA
@@ -475,24 +405,8 @@ if (isset($_POST) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                                                         <input type="hidden" class="form-control" placeholder="NUMERO" id="NUMERO" name="NUMERO" value="<?php echo $NUMEROVER; ?>" />
                                                         <input type="hidden" class="form-control" placeholder="EMPRESA" id="EMPRESA" name="EMPRESA" value="<?php echo $EMPRESAS; ?>" />
                                                         <input type="hidden" class="form-control" placeholder="TEMPORADA" id="TEMPORADA" name="TEMPORADA" value="<?php echo $TEMPORADAS; ?>" />
-                                                        <!-- Campos hidden para preservar datos durante cambios de familia -->
-                                                        <input type="hidden" id="HIDDEN_CODIGOMANUAL" name="HIDDEN_CODIGOMANUAL" value="<?php echo $CODIGOMANUAL; ?>" />
-                                                        <input type="hidden" id="HIDDEN_NOMBREPRODUCTO" name="HIDDEN_NOMBREPRODUCTO" value="<?php echo $NOMBREPRODUCTO; ?>" />
-                                                        <input type="hidden" id="HIDDEN_OPTIMO" name="HIDDEN_OPTIMO" value="<?php echo $OPTIMO; ?>" />
-                                                        <input type="hidden" id="HIDDEN_BAJO" name="HIDDEN_BAJO" value="<?php echo $BAJO; ?>" />
-                                                        <input type="hidden" id="HIDDEN_CRITICO" name="HIDDEN_CRITICO" value="<?php echo $CRITICO; ?>" />
-                                                        <input type="hidden" id="HIDDEN_ESPECIES" name="HIDDEN_ESPECIES" value="<?php echo $ESPECIES; ?>" />
-                                                        <input type="hidden" id="HIDDEN_TUMEDIDA" name="HIDDEN_TUMEDIDA" value="<?php echo $TUMEDIDA; ?>" />
-                                                        <input type="hidden" id="HIDDEN_SUBFAMILIA" name="HIDDEN_SUBFAMILIA" value="<?php echo $SUBFAMILIA; ?>" />
                                                         <input type="text" class="form-control" placeholder=" Codigo  Producto" id="CODIGOPRODUCTO" name="CODIGOPRODUCTO" value="<?php echo $CODIGOPRODUCTO; ?>" disabled />
                                                         <label id="val_codigo" class="validacion"> </label>
-                                                    </div>
-                                                </div>
-                                                 <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 col-xs-12">
-                                                    <div class="form-group">
-                                                        <label>Código Manual </label>
-                                                        <input type="text" class="form-control" placeholder=" Código Manual Producto" id="CODIGOMANUAL" name="CODIGOMANUAL" value="<?php echo $CODIGOMANUAL; ?>" <?php echo $DISABLED; ?> />
-                                                        <label id="val_codigomanual" class="validacion"> </label>
                                                     </div>
                                                 </div>
                                                  <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 col-xs-12">
@@ -645,12 +559,11 @@ if (isset($_POST) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                                                                 <th>Número</th>
                                                                 <th class="text-center">Operaciónes</th>
                                                                 <th>Código Producto</th>
-                                                                <th>Código Manual</th>
                                                                 <th>Nombre Producto</th>
-                                                                <th>Especies</th>
                                                                 <th>Unidad Medida</th>
                                                                 <th>Familia</th>
                                                                 <th>SubFamilia</th>
+                                                                <th>Especies</th>
                                                                 <th>Optimo</th>
                                                                 <th>Bajo</th>
                                                                 <th>Crítico</th>
@@ -731,7 +644,6 @@ if (isset($_POST) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                                                                         </form>
                                                                     </td>
                                                                     <td> <?php echo $r['CODIGO_PRODUCTO']; ?></td>
-                                                                    <td> <?php echo $r['CODIGO_MANUAL']; ?></td>
                                                                     <td> <?php echo $r['NOMBRE_PRODUCTO']; ?></td>    
                                                                     <td> <?php echo $NOMBREESPECIES; ?></td>   
                                                                     <td> <?php echo $NOMBRETUMEDIDA; ?></td>   
@@ -777,7 +689,6 @@ if (isset($_POST) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                 //UTILIZACION METODOS SET DEL MODELO
                 //SETEO DE ATRIBUTOS DE LA CLASE, OBTENIDO EN EL FORMULARIO   
                 $PRODUCTOS->__SET('CODIGO_PRODUCTO', $CODIGOPRODUCTO);
-                $PRODUCTOS->__SET('CODIGO_MANUAL', $_REQUEST['CODIGOMANUAL']);
                 $PRODUCTOS->__SET('NUMERO_PRODUCTO', $NUMERO);
                 $PRODUCTOS->__SET('NOMBRE_PRODUCTO', $_REQUEST['NOMBREPRODUCTO']);
                 $PRODUCTOS->__SET('OPTIMO', $_REQUEST['OPTIMO']);
@@ -821,7 +732,6 @@ if (isset($_POST) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
                 $PRODUCTOS->__SET('CODIGO_PRODUCTO', $CODIGOPRODUCTO);
-                $PRODUCTOS->__SET('CODIGO_MANUAL', $_REQUEST['CODIGOMANUAL']);
                 $PRODUCTOS->__SET('NOMBRE_PRODUCTO', $_REQUEST['NOMBREPRODUCTO']);
                 $PRODUCTOS->__SET('OPTIMO', $_REQUEST['OPTIMO']);
                 $PRODUCTOS->__SET('BAJO', $_REQUEST['BAJO']);

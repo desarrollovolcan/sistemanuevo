@@ -252,7 +252,7 @@ $html = '
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Informe Recepcion</title>
+    <title>Informe Recepción</title>
   </head>
   <body>
     <header class="clearfix">
@@ -268,26 +268,26 @@ $html = '
     </header>
     <main>
       <h2 class="titulo" style="text-align: center; color: black;">
-        INFORME RECEPCION PRODUTO INDUSTRIAL
+        INFORME RECEPCIÓN PRODUCTO INDUSTRIAL
         <br>
-        <b> Numero Recepcion: ' . $NUMERORECEPCION . '</b>
+        <b> Número Recepción: ' . $NUMERORECEPCION . '</b>
       </h2>
       <div id="details" class="clearfix">
         
         <div id="invoice">
           <div class="date"><b>Código BRC: </b>REP-RECPIND</div>  
-          <div class="date"><b>Fecha Recepcion: </b>' . $FECHARECEPCION . ' </div>
-          <div class="date"><b>Hora Recepcion: </b>' . $HORARECEPCION . '  </div>
+          <div class="date"><b>Fecha Recepción: </b>' . $FECHARECEPCION . ' </div>
+          <div class="date"><b>Hora Recepción: </b>' . $HORARECEPCION . '  </div>
           <div class="date"><b>Empresa: </b>' . $EMPRESA . '</div>
           <div class="date"><b>Planta: </b>' . $PLANTA . '</div>
           <div class="date"><b>Temporada: </b>' . $TEMPORADA . '</div>
         </div>
 
         <div id="client">
-          <div class="address"><b>Tipo Recepcion: </b>' . $NOMBRETIPO . '</div>
-          <div class="address"><b>Estado Recepcion: </b> ' . $ESTADO . ' </div>
-          <div class="address"><b>Numero Guia: </b>' . $NUMEROGUIA . ' </div>
-          <div class="address"><b>Kilos Guia: </b>' . $TOTALGUIA . '  </div>          ';
+          <div class="address"><b>Tipo Recepción: </b>' . $NOMBRETIPO . '</div>
+          <div class="address"><b>Estado Recepción: </b> ' . $ESTADO . ' </div>
+          <div class="address"><b>Número Guía: </b>' . $NUMEROGUIA . ' </div>
+          <div class="address"><b>Envases Guía: </b>' . $TOTALGUIA . '  </div>          ';
           if ($TIPORECEPCION == "2") {
             $html .= '
                                 <div class="address"><b> Planta Origen:  </b>' . $PLANTAORIGEN . '</div>
@@ -312,9 +312,9 @@ $html = $html . '
           <tr>          
 
             <th class="color left">Folio</th>
-            <th class="color left">Fecha Embalado</th>
-            <th class="color left">Codigo Estandar</th>
-            <th class="color left">Envase/Estandar</th>
+            <th class="color left"></th>
+            <th class="color left">Código Estándar</th>
+            <th class="color left">Envase/Estándar</th>
             <th class="color center">Cant. Envase</th>
             <th class="color center">Kilos Neto</th>
             <th class="color center">Kilos Bruto</th>
@@ -368,7 +368,7 @@ foreach ($ARRAYDRECEPCION as $d) :
           
                       <tr >
                           <th class=" left">' . $s['FOLIO_DRECEPCION'] . '</th>
-                          <td class=" left">' . $s['EMBALADO'] . '</td>
+                          <td class=" left"></td>
                           <td class="left">' .  $CODIGOESTANDAR . '</td>
                           <td class="left">' .  $NOMBREESTANDAR . '</td>
                           <td class="center">' . $s['ENVASE'] . '</td>
@@ -405,7 +405,7 @@ $html = $html . '
               <th class="color left">&nbsp;</th>
               <th class="color left">&nbsp;</th>
               <th class="color left">&nbsp;</th>
-              <th class="color left"> TOTAL RECEPCION</th>
+              <th class="color left"> TOTAL RECEPCIÓN</th>
               <th class="color center">' . $TOTALENVASEGENERAL . '</th>
               <th class="color center">' . $TOTALNETOGENERAL . '</th>
               <th class="color center">' . $TOTALBRUTOGENERAL . '</th>
@@ -421,10 +421,10 @@ $html = $html . '
       </table>
       <div id="details" class="clearfix">
         <div id="client">
-          <div class="address"><b>INFORMACION DE TRANSPORTE</b></div>
+          <div class="address"><b>INFORMACIÓN DE TRANSPORTE</b></div>
           <div class="address">Transporte:  ' . $TRANSPORTE . ' </div>
           <div class="address">Conductor: ' . $CONDUCTOR . '</div>
-          <div class="address">Patente Camion: ' . $PATENTECAMION . '</div>
+          <div class="address">Patente Camión: ' . $PATENTECAMION . '</div>
           <div class="address">Patente Carro: ' . $PATENTE . '</div>
         </div>        
         <div id="client">

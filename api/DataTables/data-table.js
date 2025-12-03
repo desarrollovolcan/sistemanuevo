@@ -5,199 +5,13 @@
 
 $(function () {
     "use strict";
-    // Registrar helper para sumar columnas aunque el plugin oficial no esté cargado
-    if ($.fn.dataTable && $.fn.dataTable.Api && typeof $.fn.dataTable.Api.prototype.sum !== 'function') {
-        $.fn.dataTable.Api.register('sum()', function () {
-            return this.flatten().reduce(function (a, b) {
-                if (typeof b === 'string') {
-                    b = b.replace(/[^0-9,.-]/g, '').replace(',', '.');
-                }
-                var n = parseFloat(b);
-                return a + (isNaN(n) ? 0 : n);
-            }, 0);
-        });
-    }
-
-    // === Configuración global DataTables: filtros por columna + botón Excel ===
-    if ($.fn.dataTable) {
-        $.extend(true, $.fn.dataTable.defaults, {
-            dom: 'Bfrtip',
-            buttons: [
-                {
-                    extend: 'excelHtml5',
-                    text: 'Descargar Excel',
-                    titleAttr: 'Descargar en Excel',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                }
-            ],
-            drawCallback: function () {
-                var api = this.api();
-                var $rows = $(api.table().body()).find('tr');
-
-                $rows.removeClass('estado-abierto-row');
-                $rows.filter(function () {
-                    return $(this).find('button.btn-success:contains("Abierto")').length > 0;
-                }).addClass('estado-abierto-row');
-            },
-            initComplete: function () {
-                var api = this.api();
-                var table = api.table().node();
-                var $thead = $(table).find('thead');
-
-                // Evitar duplicar filtros si ya existen
-                if ($thead.hasClass('dt-has-column-filters')) {
-                    return;
-                }
-
-                var $headerRows = $thead.find('tr');
-                var $lastHeaderRow = $headerRows.last();
-                var $filterRow = $('<tr class="dt-column-filters"></tr>');
-
-                $lastHeaderRow.children('th').each(function (idx) {
-                    var title = $(this).text().trim();
-                    if (title === '' || $(this).hasClass('no-filter')) {
-                        $filterRow.append('<th></th>');
-                    } else {
-                        $filterRow.append(
-                            '<th><input type="text" class="form-control form-control-sm" ' +
-                            'placeholder="Filtrar ' + title + '" /></th>'
-                        );
-                    }
-                });
-
-                $filterRow.appendTo($thead);
-                $thead.addClass('dt-has-column-filters');
-
-                api.columns().every(function (colIdx) {
-                    var col = this;
-                    $('input', $filterRow.children().eq(colIdx)).on('keyup change clear', function () {
-                        if (col.search() !== this.value) {
-                            col.search(this.value).draw();
-                        }
-                    });
-                });
-            },
-
-            // Optimizaciones de rendimiento por defecto
-            deferRender: true,          // Renderiza filas bajo demanda
-            pageLength: 100,            // Más filas visibles por defecto para evitar recortes
-            lengthMenu: [ [25, 50, 100, 250, 500, -1], [25, 50, 100, 250, 500, "Todos"] ],
-            processing: true,           // Muestra indicador de carga
-            lengthChange: true,         // Permite que el usuario ajuste la cantidad a mostrar
-            stateSave: false,           // Evita filtros persistentes que oculten registros
-            autoWidth: false,
-            responsive: true,
-            searchDelay: 350,           // Reduce el número de peticiones para listas extensas
-            language: {
-                processing: "Procesando...",
-                lengthMenu: "Mostrar _MENU_ registros",
-                zeroRecords: "No se encontraron resultados",
-                emptyTable: "Ningún dato disponible en esta tabla",
-                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
-                infoFiltered: "(filtrado de un total de _MAX_ registros)",
-                search: "Buscar:",
-                infoThousands: ",",
-                loadingRecords: "Cargando...",
-                paginate: {
-                    first: "Primero",
-                    last: "Último",
-                    next: "Siguiente",
-                    previous: "Anterior"
-                },
-                aria: {
-                    sortAscending: ": Activar para ordenar la columna de manera ascendente",
-                    sortDescending: ": Activar para ordenar la columna de manera descendente"
-                },
-                buttons: {
-                    copy: "Copiar",
-                    colvis: "Visibilidad",
-                    collection: "Colección",
-                    colvisRestore: "Restaurar visibilidad",
-                    copyKeys: "Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br \/> <b r \/> Para cancelar, haga clic en este mensaje o presione escape.",
-                    copySuccess: {
-                        1: "Copiada 1 fila al portapapeles",
-                        _: "Copiadas %d fila al portapapeles"
-                    },
-                    copyTitle: "Copiar al portapapeles",
-                    csv: "CSV",
-                    excel: "Excel",
-                    pageLength: {
-                        -1: "Mostrar todas las filas",
-                        _: "Mostrar %d filas"
-                    },
-                    pdf: "PDF",
-                    print: "Imprimir"
-                },
-                autoFill: {
-                    cancel: "Cancelar",
-                    fill: "Rellene todas las celdas con <i>%d<\/i>",
-                    fillHorizontal: "Rellenar celdas horizontalmente",
-                    fillVertical: "Rellenar celdas verticalmentemente"
-                },
-                searchBuilder: {
-                    add: "Añadir Filtro",
-                    button: {
-                        0: "Filtros",
-                        _: "Filtros(%d)"
-                    },
-                    clearAll: "Borrar todo",
-                    condition: "Condición",
-                    delete: "Quitar",
-                    deleteTitle: "Titulo Quitar",
-                    conditions: {
-                        date: {
-                            after: "Despues",
-                            before: "Antes",
-                            between: "Entre",
-                            empty: "Vacío",
-                            equals: "Igual a",
-                            notBetween: "No entre",
-                            notEmpty: "No Vacio",
-                            not: "Diferente de"
-                        },
-                        number: {
-                            between: "Entre",
-                            empty: "Vacio",
-                            equals: "Igual a",
-                            gt: "Mayor a",
-                            gte: "Mayor o igual a",
-                            lt: "Menor que",
-                            lte: "Menor o igual que",
-                            notBetween: "No entre",
-                            notEmpty: "No vacío",
-                            not: "Diferente de"
-                        },
-                        string: {
-                            contains: "Contiene",
-                            empty: "Vacío",
-                            endsWith: "Termina con",
-                            equals: "Igual a",
-                            not: "Diferente de",
-                            notEmpty: "No Vacío",
-                            startsWith: "Empieza con",
-                            notStartsWith: "No empieza con",
-                            notEndsWith: "No termina con"
-                        }
-                    }
-                }
-            },
-            columnDefs: [
-                { targets: 'no-sort', orderable: false },
-                { targets: 'no-search', searchable: false }
-            ]
-        });
-    }
-
     //Formato bases
     //Agrupados de modulos
     $('#modulo').DataTable({
         "scrollY": 450,
         "scrollX": true,
         'scrollCollapse': false,
-        'deferRender':    true,
+        'deferRender':    false,
         'scroller': false,
         'paging': false,
         'fixedHeader': true,
@@ -434,7 +248,7 @@ $(function () {
         "scrollY": 450,
         "scrollX": true,
         'scrollCollapse': false,
-        'deferRender':    true,
+        'deferRender':    false,
         'scroller': false,
         'paging': false,
         'fixedHeader': true,
@@ -671,7 +485,7 @@ $(function () {
         "scrollY": 450,
         "scrollX": true,
         'scrollCollapse': false,
-        'deferRender':    true,
+        'deferRender':    false,
         'scroller': false,
         'paging': false,
         'fixedHeader': true,
@@ -910,7 +724,7 @@ $(function () {
         "scrollY": 400,
         "scrollX": true,
         'scrollCollapse': false,
-        'deferRender':    true,
+        'deferRender':    false,
         'scroller': false,
         'paging': false,
         'fixedHeader': true,
@@ -1356,7 +1170,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -1640,7 +1454,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -1915,7 +1729,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -2189,7 +2003,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -2463,7 +2277,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -2737,7 +2551,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -3011,7 +2825,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -3285,7 +3099,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -3561,7 +3375,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -3835,7 +3649,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -4092,7 +3906,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -4348,7 +4162,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -4622,7 +4436,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -4896,7 +4710,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -5170,7 +4984,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -5182,7 +4996,6 @@ $(function () {
             'info': true,
             'autoWidth': false,
             'responsive': false,
-            'stateSave': false,
             'order': [
                 [0, 'desc'], //desc ->descente asc -> ascedente
             ],
@@ -5445,7 +5258,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -5725,7 +5538,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -6006,7 +5819,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -6285,7 +6098,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -6563,7 +6376,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -6838,7 +6651,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -7104,7 +6917,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -7370,7 +7183,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -7645,7 +7458,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -7919,7 +7732,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -8193,7 +8006,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -8469,7 +8282,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -8726,7 +8539,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -8998,7 +8811,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -9282,7 +9095,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -9567,7 +9380,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -9824,7 +9637,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -10072,7 +9885,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -10326,7 +10139,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -10587,7 +10400,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -10852,7 +10665,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -11108,7 +10921,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -11364,7 +11177,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -11621,7 +11434,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -11877,7 +11690,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -12162,7 +11975,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -12411,7 +12224,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -12661,7 +12474,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -12935,7 +12748,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -13209,7 +13022,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -13466,7 +13279,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -13722,7 +13535,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -13978,7 +13791,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -14234,7 +14047,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -14494,7 +14307,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -14753,7 +14566,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -14999,7 +14812,7 @@ $(function () {
         "scrollY": 450,
         "scrollX": true,
         'scrollCollapse': false,
-        'deferRender':    true,
+        'deferRender':    false,
         'scroller': false,
         'paging': false,
         'fixedHeader': true,
@@ -15275,7 +15088,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -15514,7 +15327,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -15790,7 +15603,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -16064,7 +15877,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -16340,7 +16153,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -16614,7 +16427,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -16888,7 +16701,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,
@@ -17162,7 +16975,7 @@ $(function () {
             "scrollY": 450,
             "scrollX": true,
             'scrollCollapse': false,
-            'deferRender':    true,
+            'deferRender':    false,
             'scroller': false,
             'paging': false,
             'fixedHeader': true,

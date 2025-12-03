@@ -1,5 +1,5 @@
 <?php
-error_reporting(0);
+
 include_once "../../assest/config/validarUsuarioMaterial.php";
 
 //LLAMADA ARCHIVOS NECESARIOS PARA LAS OPERACIONES

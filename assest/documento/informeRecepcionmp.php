@@ -265,7 +265,7 @@ $html = '
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Informe Recepcion</title>
+    <title>Informe Recepción</title>
   </head>
   <body>
     <header class="clearfix">
@@ -281,26 +281,26 @@ $html = '
     </header>
     <main>
       <h2 class="titulo" style="text-align: center; color: black;">
-        INFORME RECEPCION MATERIA PRIMA
+        INFORME RECEPCIÓN MATERIA PRIMA
         <br>
-        <b> Numero Recepcion: ' . $NUMERORECEPCION . '</b>
+        <b> Número Recepción: ' . $NUMERORECEPCION . '</b>
       </h2>
       <div id="details" class="clearfix">
         
         <div id="invoice">
           <div class="date"><b>Código BRC: </b>REP-RECMP</div>  
-          <div class="date"><b>Fecha Recepcion: </b>' . $FECHARECEPCION . ' </div>
-          <div class="date"><b>Hora Recepcion: </b>' . $HORARECEPCION . '  </div>
+          <div class="date"><b>Fecha Recepción: </b>' . $FECHARECEPCION . ' </div>
+          <div class="date"><b>Hora Recepción: </b>' . $HORARECEPCION . '  </div>
           <div class="date"><b>Empresa: </b>' . $EMPRESA . '</div>
           <div class="date"><b>Planta: </b>' . $PLANTA . '</div>
           <div class="date"><b>Temporada: </b>' . $TEMPORADA . '</div>
         </div>
 
         <div id="client">
-          <div class="address"><b>Tipo Recepcion: </b>' . $NOMBRETIPO . '</div>
-          <div class="address"><b>Estado Recepcion: </b> ' . $ESTADO . ' </div>
-          <div class="address"><b>Numero Guia: </b>' . $NUMEROGUIA . ' </div>
-          <div class="address"><b>Total Envaces: </b>' . $TOTALGUIA . '  </div>          ';
+          <div class="address"><b>Tipo Recepción: </b>' . $NOMBRETIPO . '</div>
+          <div class="address"><b>Estado Recepción: </b> ' . $ESTADO . ' </div>
+          <div class="address"><b>Numero Guía: </b>' . $NUMEROGUIA . ' </div>
+          <div class="address"><b>Total Envases: </b>' . $TOTALGUIA . '  </div>          ';
 if ($TIPORECEPCION == "2") {
   $html .= '
                       <div class="address"><b> Planta Origen:  </b>' . $PLANTAORIGEN . '</div>
@@ -331,15 +331,15 @@ $html = $html . '
           <tr>
             <th class="color left">Folio</th>
             <th class="color left">Fecha Cosecha</th>
-            <th class="color left">Codigo Estandar</th>
-            <th class="color left">Envase/Estandar</th>
+            <th class="color left">Código Estándar</th>
+            <th class="color left">Envase/Estándar</th>
             <th class="color center">Cant. Envase</th>
             <th class="color center">Kilos Neto</th>
             <th class="color center">Kilos Bruto</th>
             <th class="color center ">Variedad </th>
             <th class="color center ">Tipo Manejo </th>
-            <th class="color center ">Tipo Tratamiento 1 </th>
-            <th class="color center ">Tipo Tratamiento 2 </th>
+            <th class="color center ">Cuartel</th>
+            <th class="color center "></th>
           </tr>
         </thead>
          <tbody>
@@ -391,23 +391,23 @@ foreach ($ARRAYDRECEPCION as $d) :
     if($ARRAYTRATAMIENTO2){
         $NOMBRETTRATAMIENTO2 = $ARRAYTRATAMIENTO2[0]["NOMBRE_TTRATAMIENTO"];
     }else{
-        $NOMBRETTRATAMIENTO2="Sin Datos";
+        $NOMBRETTRATAMIENTO2="No aplica";
     }
 
     $html = $html . '
           
                       <tr >
-                          <th class=" left">' . $s['FOLIO_DRECEPCION'] . '</th>
-                          <td class=" left">' . $s['COSECHA'] . '</td>
-                          <td class="left">' .  $CODIGOESTANDAR . '</td>
-                          <td class="left">' .  $NOMBREESTANDAR . '</td>
+                          <th class="left">' . $s['FOLIO_DRECEPCION'] . '</th>
+                          <td class="center">' . $s['COSECHA'] . '</td>
+                          <td class="center">' .  $CODIGOESTANDAR . '</td>
+                          <td class="center">' .  $NOMBREESTANDAR . '</td>
                           <td class="center">' . $s['ENVASE'] . '</td>
                           <td class="center">' . $s['NETO'] . '</td>
                           <td class="center">' . $s['BRUTO'] . '</td>
-                          <td class=" center">' . $NOMBREVESPECIES . '</td>
-                          <td class=" center">' . $NOMBRETMANEJO . '</td>
-                          <td class=" center">' . $NOMBRETTRATAMIENTO1 . '</td>
-                          <td class=" center">' . $NOMBRETTRATAMIENTO2 . '</td>
+                          <td class="center">' . $NOMBREVESPECIES . '</td>
+                          <td class="center">' . $NOMBRETMANEJO . '</td>
+                          <td class="center">' . $NOMBRETTRATAMIENTO2 . '</td>
+                          <td class="center"></td>
                       </tr>
               ';
 
@@ -457,10 +457,10 @@ $html = $html . '
       </table>
       <div id="details" class="clearfix">
         <div id="client">
-          <div class="address"><b>INFORMACION DE TRANSPORTE</b></div>
+          <div class="address"><b>INFORMACIÓN DE TRANSPORTE</b></div>
           <div class="address">Transporte:  ' . $TRANSPORTE . ' </div>
           <div class="address">Conductor: ' . $CONDUCTOR . '</div>
-          <div class="address">Patente Camion: ' . $PATENTECAMION . '</div>
+          <div class="address">Patente Camión: ' . $PATENTECAMION . '</div>
           <div class="address">Patente Carro: ' . $PATENTECARRO . '</div>
         </div>
         

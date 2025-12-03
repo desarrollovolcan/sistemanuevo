@@ -15,9 +15,7 @@
 .register-page {
   -ms-flex-align: center;
   align-items: center;
-  background-image: url('../../assest/img/loginimg1.jpg');
-  background-color: rgba(0, 0, 0, 0.6);
-  background-blend-mode: multiply;
+  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5) ), url('../../assest/img/loginimg1.jpg');
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
@@ -36,9 +34,7 @@
 .register-page-exportadora {
   -ms-flex-align: center;
   align-items: center;
-  background-image: url('../../assest/img/loginimg2.jpeg');
-  background-color: rgba(0, 0, 0, 0.6);
-  background-blend-mode: multiply;
+  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5) ), url('../../assest/img/loginimg2.jpeg');
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;

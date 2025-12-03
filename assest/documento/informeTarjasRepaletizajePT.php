@@ -200,7 +200,7 @@ foreach ($ARRAYDREPALETIZAJEMP as $r) :
         </td>
         <td style="border: solid 3 black; text-align: center;" colspan="2">
             <b>
-                <p style="font-size: 50px;">' . $r['FOLIO_NUEVO_DREPALETIZAJE'] . ' </p>
+                <p style="font-size: 40px;">' . $r['FOLIO_NUEVO_DREPALETIZAJE'] . ' </p>
                 <p style="font-size: 12px;">'.$ARRAYEEXPORTACION[0]['NOMBRE_ESTANDAR'].'</p>
                 <p style="font-size: 12px;">N° '.$coc_empresa.'</p>
             </b>

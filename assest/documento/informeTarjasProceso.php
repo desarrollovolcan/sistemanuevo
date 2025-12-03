@@ -15,7 +15,6 @@ include_once '../../assest/controlador/TCALIBRE_ADO.php';
 
 include_once '../../assest/controlador/EEXPORTACION_ADO.php';
 include_once '../../assest/controlador/EINDUSTRIAL_ADO.php';
-include_once '../../assest/controlador/TMANEJO_ADO.php';
 
 
 //INCIALIZAR LAS VARIBLES
@@ -34,7 +33,7 @@ $TCALIBRE_ADO =  new TCALIBRE_ADO();
 
 $EEXPORTACION_ADO =  new EEXPORTACION_ADO();
 $EINDUSTRIAL_ADO =  new EINDUSTRIAL_ADO();
-$TMANEJO_ADO =  new TMANEJO_ADO();
+
 
 //INCIALIZAR VARIBALES A OCUPAR PARA LA FUNCIONALIDAD
 $IDOP="";
@@ -219,8 +218,6 @@ foreach ($ARRAYDEXPORTACION as $r) :
     $ARRAYVERVESPECIESID = $VESPECIES_ADO->verVespecies($r['ID_VESPECIES']);
     $ARRAYEVEEXPORTACIONID = $EEXPORTACION_ADO->verEstandar($r['ID_ESTANDAR']);
     $ARRAYCALIBRE=$TCALIBRE_ADO->verCalibre($r['ID_TCALIBRE']);
- 
-    
     if($r['EMBOLSADO']=="1"){
         $EMBOLSADO="SI";
     }
@@ -240,7 +237,6 @@ foreach ($ARRAYDEXPORTACION as $r) :
             <b>
                 <p style="font-size: 50px;">' . $r['FOLIO_DPEXPORTACION'] . ' </p>
                 <p style="font-size: 12px;">'.$ARRAYEVEEXPORTACIONID[0]['NOMBRE_ESTANDAR'].'</p>
-                <p style="font-size: 12px;">Tipo Manejo: '.$r['NOMBRE_TMANEJO'].'</p>
                 <p style="font-size: 12px;">N° '.$coc_empresa.'</p>
             </b>
         </td>
@@ -325,8 +321,6 @@ foreach ($ARRAYDINDUSTRIAL as $r) :
     $ARRAYVERPRODUCTORID = $PRODUCTOR_ADO->verProductor($r['ID_PRODUCTOR']);    
     $ARRAYVERVESPECIESID = $VESPECIES_ADO->verVespecies($r['ID_VESPECIES']);
     $ARRAYEVEEXPORTACIONID = $EINDUSTRIAL_ADO->verEstandar($r['ID_ESTANDAR']);
-
-
 
     if($r['NOMBRE_TCALIBREIND'] == ''){
         $calibre_ind = 'No Definido';

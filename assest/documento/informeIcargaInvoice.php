@@ -139,6 +139,8 @@ $BOLAWBCRTINSTRUCTIVO="";
 $CONSIGNATARIO = "";
 $FECHAETD = "";
 $FECHAETA = "";
+$FECHAETDRAEL = "";
+$FECHAETAREAL = "";
 $TEMBARQUE = "";
 $TRANSPORTE = "";
 $LCARGA = "";
@@ -269,7 +271,9 @@ if($ARRAYICARGA){
       $BOOKINGINSTRUCTIVO = $ARRAYICARGA[0]['BOOKING_ICARGA'];
       $TEMBARQUE = $ARRAYICARGA[0]['TEMBARQUE_ICARGA'];
       $FECHAETD = $ARRAYICARGA[0]['FECHAETD'];
-      $FECHAETA = $ARRAYICARGA[0]['FECHAETA'];    
+      $FECHAETA = $ARRAYICARGA[0]['FECHAETA']; 
+      $FECHAETDREAL = $ARRAYICARGA[0]['FECHAETDREAL'];
+      $FECHAETAREAL = $ARRAYICARGA[0]['FECHAETAREAL'];    
       $BOLAWBCRTINSTRUCTIVO = $ARRAYICARGA[0]['BOLAWBCRT_ICARGA'];
 
 
@@ -647,7 +651,10 @@ $html = '
         <div class="address"> <b>  Date ETA:  </b>  '.$FECHAETA.' </div>
         <div class="address"> <b>  Container number:  </b> '.$NUMEROCONTENEDOR.'  </div>
         <div class="address"> <b>  FDA Packing:  </b> '.$FDADESPACHOEX.'  </div>
+        <div class="address"> <b>  Date Real ETD :   </b>  '.$FECHAETDREAL.'</div>  
+        <div class="address"> <b>  Date Real ETA:  </b>  '.$FECHAETAREAL.' </div>
       ';
+      
     }
     if ($TEMBARQUE == "2") {
         $html = $html . '
@@ -656,6 +663,8 @@ $html = '
         <div class="address"> <b>  Date ETA:  </b>  '.$FECHAETA.' </div>
         <div class="address"> <b>  Container number:  </b> '.$NUMEROCONTENEDOR.'  </div>
         <div class="address"> <b>  FDA Packing:  </b> '.$FDADESPACHOEX.'  </div>
+         <div class="address"> <b>  Date Real ETD :   </b>  '.$FECHAETDREAL.'</div>  
+        <div class="address"> <b>  Date Real ETA:  </b>  '.$FECHAETAREAL.' </div>
     
         ';
      }
@@ -666,6 +675,8 @@ $html = '
         <div class="address"> <b>  Date ETA:   </b> '.$FECHAETA.' </div>
         <div class="address"> <b>  Container number:  </b> '.$NUMEROCONTENEDOR.'  </div>
         <div class="address"> <b>  FDA Packing:  </b> '.$FDADESPACHOEX.'  </div>
+         <div class="address"> <b>  Date Real ETD :   </b>  '.$FECHAETDREAL.'</div>  
+        <div class="address"> <b>  Date Real ETA:  </b>  '.$FECHAETAREAL.' </div>
     
         ';
     }    

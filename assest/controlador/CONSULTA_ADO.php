@@ -95,34 +95,6 @@ class CONSULTA_ADO
         }
     }
 
-    public function TotalKgMpPorVariedad($TEMPORADA, $EMPRESA, $PLANTA)
-    {
-        try {
-
-            $datos = $this->conexion->prepare("SELECT 
-                                                    IFNULL(SUM(detalle.KILOS_NETO_DRECEPCION),0) AS TOTAL,
-                                                    IFNULL(VES.NOMBRE_VESPECIES,'Sin variedad') AS NOMBRE_VESPECIES
-                                                FROM fruta_recepcionmp recepcion
-                                                    LEFT JOIN fruta_drecepcionmp detalle ON detalle.ID_RECEPCION = recepcion.ID_RECEPCION
-                                                    LEFT JOIN fruta_vespecies VES ON detalle.ID_VESPECIES = VES.ID_VESPECIES
-                                                WHERE recepcion.ESTADO_REGISTRO = 1
-                                                    AND detalle.ESTADO_REGISTRO = 1
-                                                    AND recepcion.ESTADO = 0
-                                                    AND recepcion.ID_TEMPORADA = '".$TEMPORADA."'
-                                                    AND recepcion.ID_EMPRESA = '".$EMPRESA."'
-                                                    AND recepcion.ID_PLANTA = '".$PLANTA."'
-                                                GROUP BY detalle.ID_VESPECIES
-                                                ORDER BY TOTAL DESC; ");
-            $datos->execute();
-            $resultado = $datos->fetchAll();
-            $datos=null;
-
-            return $resultado;
-        } catch (Exception $e) {
-            die($e->getMessage());
-        }
-    }
-
 
     public function TotalKgMpRecepcionadosPlanta($TEMPORADA, $PLANTA)
     {
@@ -357,7 +329,7 @@ class CONSULTA_ADO
     {
         try {
 
-            $datos = $this->conexion->prepare("SELECT SUM(P.KILOS_NETO_ENTRADA)AS TOTAL FROM fruta_proceso P
+            $datos = $this->conexion->prepare("SELECT SUM(P.KILOS_NETO_ENTRADA)AS TOTAL FROM fruta_proceso P 
             WHERE P.ID_PLANTA = '".$PLANTA."' AND P.ID_EMPRESA = '".$EMPRESA."' AND P.ESTADO = 0 AND P.ID_TEMPORADA = '".$TEMPORADA."' AND DATE_FORMAT(P.FECHA_PROCESO, '%Y-%m-%d') = DATE_FORMAT(date_sub(now(),interval 1 day), '%Y-%m-%d')");
             $datos->execute();
             $resultado = $datos->fetchAll();
@@ -373,14 +345,13 @@ class CONSULTA_ADO
         }
     }
 
-    public function TotalKgMpProcesadoAgrupado($TEMPORADA, $EMPRESA, $PLANTA)
+    public function TotalKgMpRecepcionadoHastaCincoAm($TEMPORADA, $EMPRESA, $PLANTA)
     {
         try {
 
-            $datos = $this->conexion->prepare("SELECT TP.NOMBRE_TPROCESO, SUM(P.KILOS_NETO_ENTRADA) AS TOTAL FROM fruta_proceso P
-            JOIN fruta_tproceso TP ON TP.ID_TPROCESO = P.ID_TPROCESO
-            WHERE P.ID_PLANTA = '".$PLANTA."' AND P.ID_EMPRESA = '".$EMPRESA."' AND P.ESTADO = 0 AND P.ID_TEMPORADA = '".$TEMPORADA."'
-            GROUP BY P.ID_TPROCESO, TP.NOMBRE_TPROCESO");
+            $datos = $this->conexion->prepare("SELECT SUM(EXI.KILOS_NETO_EXIMATERIAPRIMA)AS TOTAL FROM fruta_eximateriaprima EXI
+            WHERE EXI.ID_PLANTA = '".$PLANTA."' AND EXI.ID_EMPRESA = '".$EMPRESA."' AND EXI.ESTADO = 2 AND EXI.ESTADO_REGISTRO = 1 AND EXI.ID_TEMPORADA = '".$TEMPORADA."'
+            AND EXI.FECHA_RECEPCION <= CONCAT(CURDATE(),' 05:00:00')");
             $datos->execute();
             $resultado = $datos->fetchAll();
             $datos=null;
@@ -391,14 +362,19 @@ class CONSULTA_ADO
         }
     }
 
-    public function TotalKgPtExportacionPlanta($TEMPORADA, $PLANTA)
+    public function TotalKgMpRecepcionadoDesdeCincoAm($TEMPORADA, $EMPRESA, $PLANTA)
     {
         try {
 
-            $datos = $this->conexion->prepare("SELECT SUM(EX.KILOS_NETO_EXIEXPORTACION) AS TOTAL FROM fruta_exiexportacion EX
-            WHERE EX.ESTADO_REGISTRO = 1
-            AND EX.ID_TEMPORADA = '".$TEMPORADA."'
-            AND EX.ID_PLANTA = '".$PLANTA."'");
+            $datos = $this->conexion->prepare("SELECT IFNULL(SUM(DR.KILOS_NETO_DRECEPCION),0) AS TOTAL FROM fruta_recepcionmp R
+                                                JOIN fruta_drecepcionmp DR ON DR.ID_RECEPCION = R.ID_RECEPCION
+                                                WHERE R.ID_PLANTA = '".$PLANTA."'
+                                                AND R.ID_EMPRESA = '".$EMPRESA."'
+                                                AND R.ID_TEMPORADA = '".$TEMPORADA."'
+                                                AND R.ESTADO = 0
+                                                AND R.ESTADO_REGISTRO = 1
+                                                AND DR.ESTADO_REGISTRO = 1
+                                                AND R.FECHA_RECEPCION >= CONCAT(CURDATE(),' 05:00:00')");
             $datos->execute();
             $resultado = $datos->fetchAll();
             $datos=null;
@@ -409,17 +385,322 @@ class CONSULTA_ADO
         }
     }
 
-    public function TotalExistenciaMpEmpresaPlanta($TEMPORADA, $PLANTA)
+    public function TotalKgMpRecepcionadoDiaActual($TEMPORADA, $EMPRESA, $PLANTA)
     {
         try {
 
-            $datos = $this->conexion->prepare("SELECT E.NOMBRE_EMPRESA, SUM(EM.KILOS_NETO_EXIMATERIAPRIMA) AS TOTAL FROM fruta_eximateriaprima EM
-            JOIN principal_empresa E ON E.ID_EMPRESA = EM.ID_EMPRESA
-            WHERE EM.ESTADO_REGISTRO = 1
-            AND EM.ESTADO = 2
-            AND EM.ID_TEMPORADA = '".$TEMPORADA."'
-            AND EM.ID_PLANTA = '".$PLANTA."'
-            GROUP BY EM.ID_EMPRESA, E.NOMBRE_EMPRESA");
+            $datos = $this->conexion->prepare("SELECT IFNULL(SUM(DR.KILOS_NETO_DRECEPCION),0) AS TOTAL FROM fruta_recepcionmp R
+                                                JOIN fruta_drecepcionmp DR ON DR.ID_RECEPCION = R.ID_RECEPCION
+                                                WHERE R.ID_PLANTA = '".$PLANTA."'
+                                                AND R.ID_EMPRESA = '".$EMPRESA."'
+                                                AND R.ID_TEMPORADA = '".$TEMPORADA."'
+                                                AND R.ESTADO = 0
+                                                AND R.ESTADO_REGISTRO = 1
+                                                AND DR.ESTADO_REGISTRO = 1
+                                                AND DATE(R.FECHA_RECEPCION) = CURDATE()");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function TotalExistenciaMateriaPrimaActual($TEMPORADA, $EMPRESA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT SUM(EXI.KILOS_NETO_EXIMATERIAPRIMA) AS TOTAL FROM fruta_eximateriaprima EXI
+            WHERE EXI.ID_PLANTA = '".$PLANTA."' AND EXI.ID_EMPRESA = '".$EMPRESA."' AND EXI.ESTADO = 2 AND EXI.ESTADO_REGISTRO = 1 AND EXI.ID_TEMPORADA = '".$TEMPORADA."'");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function TopExportacionPorPais($TEMPORADA, $EMPRESA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT IFNULL(PA.NOMBRE_PAIS,'Sin país') AS NOMBRE,
+                                                    IFNULL(SUM(EXI.KILOS_NETO_EXIEXPORTACION),0) AS TOTAL
+                                                FROM fruta_exiexportacion EXI
+                                                JOIN fruta_despachoex DEX ON DEX.ID_DESPACHOEX = EXI.ID_DESPACHOEX
+                                                LEFT JOIN ubicacion_pais PA ON DEX.ID_PAIS = PA.ID_PAIS
+                                                WHERE EXI.ESTADO_REGISTRO = 1
+                                                AND DEX.ESTADO_REGISTRO = 1
+                                                AND DEX.ESTADO = 0
+                                                AND EXI.ID_TEMPORADA = '".$TEMPORADA."'
+                                                AND EXI.ID_EMPRESA = '".$EMPRESA."'
+                                                AND EXI.ID_PLANTA = '".$PLANTA."'
+                                                GROUP BY DEX.ID_PAIS
+                                                ORDER BY TOTAL DESC
+                                                LIMIT 5");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function TopExportacionPorRecibidor($TEMPORADA, $EMPRESA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT IFNULL(RF.NOMBRE_RFINAL,'Sin recibidor') AS NOMBRE,
+                                                    IFNULL(SUM(EXI.KILOS_NETO_EXIEXPORTACION),0) AS TOTAL
+                                                FROM fruta_exiexportacion EXI
+                                                JOIN fruta_despachoex DEX ON DEX.ID_DESPACHOEX = EXI.ID_DESPACHOEX
+                                                LEFT JOIN fruta_rfinal RF ON DEX.ID_RFINAL = RF.ID_RFINAL
+                                                WHERE EXI.ESTADO_REGISTRO = 1
+                                                AND DEX.ESTADO_REGISTRO = 1
+                                                AND DEX.ESTADO = 0
+                                                AND EXI.ID_TEMPORADA = '".$TEMPORADA."'
+                                                AND EXI.ID_EMPRESA = '".$EMPRESA."'
+                                                AND EXI.ID_PLANTA = '".$PLANTA."'
+                                                GROUP BY DEX.ID_RFINAL
+                                                ORDER BY TOTAL DESC
+                                                LIMIT 5");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function CajasAprobadasPorPais($TEMPORADA, $EMPRESA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT IFNULL(PA.NOMBRE_PAIS,'Sin país') AS NOMBRE,
+                                                    IFNULL(SUM(INP.CANTIDAD_ENVASE_INPSAG),0) AS TOTAL
+                                                FROM fruta_inpsag INP
+                                                LEFT JOIN ubicacion_pais PA ON INP.ID_PAIS1 = PA.ID_PAIS
+                                                WHERE INP.ESTADO_REGISTRO = 1
+                                                AND INP.ID_TEMPORADA = '".$TEMPORADA."'
+                                                AND INP.ID_PLANTA = '".$PLANTA."'
+                                                GROUP BY INP.ID_PAIS1
+                                                ORDER BY TOTAL DESC
+                                                LIMIT 5");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function UltimosProcesosBajaExportacionCerrados($TEMPORADA, $EMPRESA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT
+                                                    P.NUMERO_PROCESO,
+                                                    P.FECHA_PROCESO,
+                                                    P.KILOS_NETO_ENTRADA,
+                                                    P.KILOS_EXPORTACION_PROCESO,
+                                                    P.PDEXPORTACION_PROCESO,
+                                                    P.PDEXPORTACIONCD_PROCESO
+                                                FROM fruta_proceso P
+                                                WHERE P.ID_PLANTA = '".$PLANTA."'
+                                                AND P.ID_EMPRESA = '".$EMPRESA."'
+                                                AND P.ID_TEMPORADA = '".$TEMPORADA."'
+                                                AND P.ESTADO = 0
+                                                AND P.ESTADO_REGISTRO = 1
+                                                ORDER BY P.PDEXPORTACION_PROCESO ASC, P.FECHA_PROCESO DESC
+                                                LIMIT 5");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function TotalKgProcesoEntradaSalida($TEMPORADA, $EMPRESA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT
+                                                    IFNULL(SUM(P.KILOS_NETO_ENTRADA),0) AS ENTRADA,
+                                                    IFNULL(SUM(P.KILOS_NETO_PROCESO),0) AS SALIDA
+                                                FROM fruta_proceso P
+                                                WHERE P.ID_PLANTA = '".$PLANTA."'
+                                                AND P.ID_EMPRESA = '".$EMPRESA."'
+                                                AND P.ESTADO = 0
+                                                AND P.ID_TEMPORADA = '".$TEMPORADA."'");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function TotalKgProcesoDesdeCincoAm($TEMPORADA, $EMPRESA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT IFNULL(SUM(P.KILOS_NETO_ENTRADA),0) AS TOTAL FROM fruta_proceso P
+                                                WHERE P.ID_PLANTA = '".$PLANTA."'
+                                                AND P.ID_EMPRESA = '".$EMPRESA."'
+                                                AND P.ESTADO = 0
+                                                AND P.ID_TEMPORADA = '".$TEMPORADA."'
+                                                AND P.FECHA_PROCESO >= CONCAT(CURDATE(),' 05:00:00')");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function TotalKgProcesoDiaActual($TEMPORADA, $EMPRESA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT IFNULL(SUM(P.KILOS_NETO_ENTRADA),0) AS TOTAL FROM fruta_proceso P
+                                                WHERE P.ID_PLANTA = '".$PLANTA."'
+                                                AND P.ID_EMPRESA = '".$EMPRESA."'
+                                                AND P.ESTADO = 0
+                                                AND P.ID_TEMPORADA = '".$TEMPORADA."'
+                                                AND DATE(P.FECHA_PROCESO) = CURDATE()");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function TotalKgDespachoMpDesdeCincoAm($TEMPORADA, $EMPRESA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT IFNULL(SUM(D.KILOS_NETO_DESPACHO),0) AS TOTAL FROM fruta_despachomp D
+                                                WHERE D.ID_PLANTA = '".$PLANTA."'
+                                                AND D.ID_EMPRESA = '".$EMPRESA."'
+                                                AND D.ESTADO = 0
+                                                AND D.ESTADO_REGISTRO = 1
+                                                AND D.ID_TEMPORADA = '".$TEMPORADA."'
+                                                AND D.FECHA_DESPACHO >= CONCAT(CURDATE(),' 05:00:00')");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function TotalKgDespachoMpDiaActual($TEMPORADA, $EMPRESA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT IFNULL(SUM(D.KILOS_NETO_DESPACHO),0) AS TOTAL FROM fruta_despachomp D
+                                                WHERE D.ID_PLANTA = '".$PLANTA."'
+                                                AND D.ID_EMPRESA = '".$EMPRESA."'
+                                                AND D.ESTADO = 0
+                                                AND D.ESTADO_REGISTRO = 1
+                                                AND D.ID_TEMPORADA = '".$TEMPORADA."'
+                                                AND DATE(D.FECHA_DESPACHO) = CURDATE()");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function TopExportacionPorProductor($TEMPORADA, $EMPRESA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT PR.NOMBRE_PRODUCTOR AS NOMBRE,
+                                                    IFNULL(SUM(EXI.KILOS_NETO_EXIEXPORTACION),0) AS TOTAL
+                                                FROM fruta_exiexportacion EXI
+                                                LEFT JOIN fruta_productor PR ON EXI.ID_PRODUCTOR = PR.ID_PRODUCTOR
+                                                WHERE EXI.ESTADO_REGISTRO = 1
+                                                AND EXI.ID_TEMPORADA = '".$TEMPORADA."'
+                                                AND EXI.ID_EMPRESA = '".$EMPRESA."'
+                                                AND EXI.ID_PLANTA = '".$PLANTA."'
+                                                GROUP BY EXI.ID_PRODUCTOR
+                                                ORDER BY TOTAL DESC
+                                                LIMIT 5");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function TopExportacionPorVariedad($TEMPORADA, $EMPRESA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT V.NOMBRE_VESPECIES AS NOMBRE,
+                                                    IFNULL(SUM(EXI.KILOS_NETO_EXIEXPORTACION),0) AS TOTAL
+                                                FROM fruta_exiexportacion EXI
+                                                LEFT JOIN fruta_vespecies V ON EXI.ID_VESPECIES = V.ID_VESPECIES
+                                                WHERE EXI.ESTADO_REGISTRO = 1
+                                                AND EXI.ID_TEMPORADA = '".$TEMPORADA."'
+                                                AND EXI.ID_EMPRESA = '".$EMPRESA."'
+                                                AND EXI.ID_PLANTA = '".$PLANTA."'
+                                                GROUP BY EXI.ID_VESPECIES
+                                                ORDER BY TOTAL DESC
+                                                LIMIT 5");
+            $datos->execute();
+            $resultado = $datos->fetchAll();
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function ExistenciaMateriaPrimaPorVariedad($TEMPORADA, $EMPRESA, $PLANTA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT V.NOMBRE_VESPECIES AS NOMBRE,
+                                                    IFNULL(SUM(EXI.KILOS_NETO_EXIMATERIAPRIMA),0) AS TOTAL
+                                                FROM fruta_eximateriaprima EXI
+                                                LEFT JOIN fruta_vespecies V ON EXI.ID_VESPECIES = V.ID_VESPECIES
+                                                WHERE EXI.ESTADO_REGISTRO = 1
+                                                AND EXI.ESTADO = 2
+                                                AND EXI.ID_TEMPORADA = '".$TEMPORADA."'
+                                                AND EXI.ID_EMPRESA = '".$EMPRESA."'
+                                                AND EXI.ID_PLANTA = '".$PLANTA."'
+                                                GROUP BY EXI.ID_VESPECIES");
             $datos->execute();
             $resultado = $datos->fetchAll();
             $datos=null;

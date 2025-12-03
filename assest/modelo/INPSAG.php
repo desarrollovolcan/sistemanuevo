@@ -31,7 +31,6 @@
         private   $ID_PAIS4;
         private   $ID_PLANTA;
         private   $ID_TEMPORADA;
-        private   $ID_TMANEJO;
 
 
         //FUNCIONES GET Y SET

@@ -9,7 +9,7 @@ include_once '../../assest/controlador/TEMPORADA_ADO.php';
 
 include_once '../../assest/controlador/RESPONSABLE_ADO.php';
 include_once '../../assest/controlador/PROVEEDOR_ADO.php';
-include_once '../../assest/controlador/FPAGOM_ADO.php';
+include_once '../../assest/controlador/FPAGO_ADO.php';
 include_once '../../assest/controlador/TMONEDA_ADO.php';
 include_once '../../assest/controlador/PRODUCTO_ADO.php';
 include_once '../../assest/controlador/TUMEDIDA_ADO.php';
@@ -32,7 +32,7 @@ $TEMPORADA_ADO =  new TEMPORADA_ADO();
 
 $RESPONSABLE_ADO =  new RESPONSABLE_ADO();
 $PROVEEDOR_ADO =  new PROVEEDOR_ADO();
-$FPAGO_ADO =  new FPAGOM_ADO();
+$FPAGO_ADO =  new FPAGO_ADO();
 $TMONEDA_ADO =  new TMONEDA_ADO();
 $PRODUCTO_ADO =  new PRODUCTO_ADO();
 $TUMEDIDA_ADO =  new TUMEDIDA_ADO();
@@ -104,12 +104,13 @@ if ($ARRAYOCOMPRA) {
 
 
 
-  
+  $ARRAYTMONEDA = $TMONEDA_ADO->verTmoneda($ARRAYOCOMPRA[0]["ID_TMONEDA"]);
+  if ($ARRAYTMONEDA) {
+    $NOMBRETMONEDA = $ARRAYTMONEDA[0]["NOMBRE_TMONEDA"];
+  }
   $ARRAYFPAGO = $FPAGO_ADO->verFpago($ARRAYOCOMPRA[0]["ID_FPAGO"]);
   if ($ARRAYFPAGO) {
     $NOMBREFPAGO = $ARRAYFPAGO[0]["NOMBRE_FPAGO"];
-  } else {
-    $NOMBREFPAGO = "Sin Dato";
   }
   $ARRAYRESPONSABLE = $RESPONSABLE_ADO->verResponsable($ARRAYOCOMPRA[0]["ID_RESPONSABLE"]);
   if ($ARRAYRESPONSABLE) {
@@ -217,14 +218,6 @@ $FECHANORMAL2 = $DIA . "/" . $MES . "/" . $ANO;
 $FECHANOMBRE = $NOMBREDIA . ", " . $DIA . " de " . $NOMBREMES . " del " . $ANO;
 
 
-$ARRAYTMONEDA = $TMONEDA_ADO->verTmonedaMateriales($ARRAYOCOMPRA[0]["ID_TMONEDA"]);
-  if ($ARRAYTMONEDA && count($ARRAYTMONEDA) > 0) {
-    $NOMBRETMONEDA = $ARRAYTMONEDA[0]["NOMBRE_TMONEDA"];
-  } else {
-    $NOMBRETMONEDA = "Sin Dato";
-  }
-
-
 $html = '
 <!DOCTYPE html>
 <html lang="en">
@@ -315,11 +308,10 @@ $html = $html . '
       <table border="0" cellspacing="0" cellpadding="0">
         <thead>
           <tr>
-            <th colspan="6" class="center">DETALLE DE OC.</th>
+            <th colspan="5" class="center">DETALLE DE OC.</th>
           </tr>
           <tr>
             <th class="color left">Producto</th>
-            <th class="color left">Código Manual</th>
             <th class="color left">Unidad Medida</th>
             <th class="color center">Cantidad</th>
             <th class="color center">Valor Unitario</th>
@@ -332,9 +324,6 @@ foreach ($ARRAYDOCOMPRA as $d) :
   $ARRAYVERPRODUCTO = $PRODUCTO_ADO->verProducto($d['ID_PRODUCTO']);
   if ($ARRAYVERPRODUCTO) {
     $NOMBREPRODUCTO = $ARRAYVERPRODUCTO[0]["NOMBRE_PRODUCTO"];
-    $CODIGOMANUALPRODUCTO = isset($ARRAYVERPRODUCTO[0]["CODIGO_MANUAL"]) && $ARRAYVERPRODUCTO[0]["CODIGO_MANUAL"] != "" ? $ARRAYVERPRODUCTO[0]["CODIGO_MANUAL"] : "Sin Dato";
-  } else {
-    $CODIGOMANUALPRODUCTO = "Sin Dato";
   }
   $ARRAYVERTUMEDIDA = $TUMEDIDA_ADO->verTumedida($d['ID_TUMEDIDA']);
   if ($ARRAYVERTUMEDIDA) {
@@ -344,7 +333,6 @@ foreach ($ARRAYDOCOMPRA as $d) :
           
                       <tr >
                           <th class="left">' . $NOMBREPRODUCTO . '</th>
-                          <td class="left">' . $CODIGOMANUALPRODUCTO . '</td>
                           <td class="left">' . $NOMBRETUMEDIDA . '</td>
                           <td class="left">' . $d['CANTIDAD'] . '</td>
                           <td class="left">$ ' . $d['VALOR'] . '</td>
@@ -357,7 +345,6 @@ endforeach;
 $html = $html . '
               
                   <tr class="bt">
-                      <th class="color left">&nbsp;</th>
                       <th class="color left">&nbsp;</th>
                       <th class="color right">SUB TOTAL</th>
                       <th class="color left"> ' . $TOTALCANTIDAD . '</th>

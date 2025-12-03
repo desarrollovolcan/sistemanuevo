@@ -23,6 +23,11 @@ include_once '../../assest/controlador/RECEPCIONMP_ADO.php';
 include_once '../../assest/controlador/DRECEPCIONMP_ADO.php';
 include_once '../../assest/controlador/EXIMATERIAPRIMA_ADO.php';
 
+include_once '../../assest/controlador/PROCESO_ADO.php';
+include_once '../../assest/controlador/DESPACHOMP_ADO.php';
+include_once '../../assest/controlador/RECHAZOMP_ADO.php';
+include_once '../../assest/controlador/LEVANTAMIENTOMP_ADO.php';
+
 include_once '../../assest/controlador/RECEPCIONE_ADO.php';
 include_once '../../assest/controlador/INVENTARIOE_ADO.php';
 
@@ -59,6 +64,10 @@ $DRECEPCIONMP_ADO =  new DRECEPCIONMP_ADO();
 
 $RECEPCIONE_ADO =  new RECEPCIONE_ADO();
 $INVENTARIOE_ADO =  new INVENTARIOE_ADO();
+$PROCESO_ADO = new PROCESO_ADO();
+$DESPACHOMP_ADO = new DESPACHOMP_ADO();
+$RECHAZOMP_ADO = new RECHAZOMP_ADO();
+$LEVANTAMIENTOMP_ADO = new LEVANTAMIENTOMP_ADO();
 
 //INIICIALIZAR MODELO
 $DRECEPCIONMP =  new DRECEPCIONMP();
@@ -1242,7 +1251,7 @@ if (isset($_POST)) {
                                                 echo '<div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> Le quedan envases pendientes, segun Guia.</div>';
                                             }
                                             
-                                            
+
                                             ?>
                                 <div class="card-body">
                                     <div class=" table-responsive">
@@ -1251,6 +1260,7 @@ if (isset($_POST)) {
                                                 <tr class="text-center">
                                                     <th>Numero Linea</th>
                                                     <th>Folio</th>
+                                                    <th>Estado del folio</th>
                                                     <th class="text-center">Operaciones</th>
                                                     <th>Fecha Cosecha </th>
                                                     <th>Código Estandar</th>
@@ -1310,10 +1320,75 @@ if (isset($_POST)) {
                                                         }else{
                                                             $NOMBRETTRATAMIENTO2="Sin Datos";
                                                         }
+                                                        $ARRAYESTADOFOLIO = [];
+                                                        $ARRAYESTADOEXISTENCIA = $EXIMATERIAPRIMA_ADO->buscarPorRecepcionNumeroFolio($IDOP, $s['FOLIO_DRECEPCION']);
+                                                        if ($ARRAYESTADOEXISTENCIA) {
+                                                            foreach ($ARRAYESTADOEXISTENCIA as $existencia) {
+                                                                if ($existencia['ID_PROCESO']) {
+                                                                    $arrayProceso = $PROCESO_ADO->verProceso2($existencia['ID_PROCESO']);
+                                                                    if ($arrayProceso) {
+                                                                        $ARRAYESTADOFOLIO[] = [
+                                                                            'texto' => 'Procesado #' . $arrayProceso[0]['NUMERO_PROCESO'],
+                                                                            'url' => 'registroProceso.php?op&id=' . $existencia['ID_PROCESO'] . '&a=ver',
+                                                                            'color' => 'badge-success'
+                                                                        ];
+                                                                    }
+                                                                }
+                                                                if ($existencia['ID_DESPACHO']) {
+                                                                    $arrayDespacho = $DESPACHOMP_ADO->verDespachomp2($existencia['ID_DESPACHO']);
+                                                                    if ($arrayDespacho) {
+                                                                        $ARRAYESTADOFOLIO[] = [
+                                                                            'texto' => 'Despachado #' . $arrayDespacho[0]['NUMERO_DESPACHO'],
+                                                                            'url' => 'registroDespachomp.php?op&id=' . $existencia['ID_DESPACHO'] . '&a=ver',
+                                                                            'color' => 'badge-primary'
+                                                                        ];
+                                                                    }
+                                                                }
+                                                                if ($existencia['ID_DESPACHO2']) {
+                                                                    $arrayDespacho = $DESPACHOMP_ADO->verDespachomp2($existencia['ID_DESPACHO2']);
+                                                                    if ($arrayDespacho) {
+                                                                        $ARRAYESTADOFOLIO[] = [
+                                                                            'texto' => 'Despachado #' . $arrayDespacho[0]['NUMERO_DESPACHO'],
+                                                                            'url' => 'registroDespachomp.php?op&id=' . $existencia['ID_DESPACHO2'] . '&a=ver',
+                                                                            'color' => 'badge-primary'
+                                                                        ];
+                                                                    }
+                                                                }
+                                                                if ($existencia['ID_RECHAZADO']) {
+                                                                    $arrayRechazo = $RECHAZOMP_ADO->verRechazo2($existencia['ID_RECHAZADO']);
+                                                                    if ($arrayRechazo) {
+                                                                        $ARRAYESTADOFOLIO[] = [
+                                                                            'texto' => 'Rechazado #' . $arrayRechazo[0]['NUMERO_RECHAZO'],
+                                                                            'url' => 'registroRechazomp.php?op&id=' . $existencia['ID_RECHAZADO'] . '&a=ver',
+                                                                            'color' => 'badge-danger'
+                                                                        ];
+                                                                    }
+                                                                }
+                                                                if ($existencia['ID_LEVANTAMIENTO']) {
+                                                                    $arrayLevantamiento = $LEVANTAMIENTOMP_ADO->verLevantamiento2($existencia['ID_LEVANTAMIENTO']);
+                                                                    if ($arrayLevantamiento) {
+                                                                        $ARRAYESTADOFOLIO[] = [
+                                                                            'texto' => 'Levantamiento #' . $arrayLevantamiento[0]['NUMERO_LEVANTAMIENTO'],
+                                                                            'url' => 'registroLevantamientomp.php?op&id=' . $existencia['ID_LEVANTAMIENTO'] . '&a=ver',
+                                                                            'color' => 'badge-warning'
+                                                                        ];
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
                                                         ?>
                                                         <tr class="text-lef">
                                                             <td><?php echo $CONTADOR ?></td>
                                                             <td><?php echo $s['FOLIO_DRECEPCION']; ?></td>
+                                                            <td>
+                                                                <?php if (!empty($ARRAYESTADOFOLIO)) : ?>
+                                                                    <?php foreach ($ARRAYESTADOFOLIO as $estadoFolio) : ?>
+                                                                        <a target="_blank" href="<?php echo $estadoFolio['url']; ?>" class="badge <?php echo $estadoFolio['color']; ?> d-block w-100 mb-1" style="white-space: normal;">
+                                                                            <?php echo $estadoFolio['texto']; ?>
+                                                                        </a>
+                                                                    <?php endforeach; ?>
+                                                                <?php endif; ?>
+                                                            </td>
                                                             <td>
                                                                 <form method="post" id="form1">
                                                                     <input type="hidden" class="form-control" placeholder="ID DRECEPCIONE" id="IDD" name="IDD" value="<?php echo $s['ID_DRECEPCION']; ?>" />

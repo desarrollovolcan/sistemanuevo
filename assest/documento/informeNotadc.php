@@ -514,11 +514,11 @@ $html = '
     <br>
     <div id="details" class="clearfix">
       <div id="client">
-        <div class="address"> <b>  Consignee:  </b> '.$NOMBRECONSIGNATARIO.'  </div>
-        <div class="address"> <b>  Address Consignee:  </b> '.$DIRECCIONCONSIGNATARIO.'  </div>
-        <div class="address"> <b> Tributary id Consignee: </b>'.$EORICONSIGNATARIO.'  </div>
-        <div class="address"> <b> Phone / Fax Consignee: </b>'.$TELEFONOCONSIGNATARIO.'  </div>
-        <div class="address"> <b>  Email Consignee:  </b> '.$EMAIL1CONSIGNATARIO.'  </div>
+        <div class="address"> <b>  Consigne:  </b> '.$NOMBRECONSIGNATARIO.'  </div>
+        <div class="address"> <b>  Address Consigne:  </b> '.$DIRECCIONCONSIGNATARIO.'  </div>
+        <div class="address"> <b> Tributary id Consigne: </b>'.$EORICONSIGNATARIO.'  </div>
+        <div class="address"> <b> Phone / Fax Consigne: </b>'.$TELEFONOCONSIGNATARIO.'  </div>
+        <div class="address"> <b>  Email Consigne:  </b> '.$EMAIL1CONSIGNATARIO.'  </div>
         <div class="address">&nbsp;  </div>
     
         ';
@@ -594,13 +594,9 @@ $html = '
             <div class="address">&nbsp;  </div>
             <div class="address">&nbsp;  </div>
             <div class="address"> <b>  Shipping company name:  </b> '.$NOMBRETRANSPORTE.'  </div>
-
-
-            <div class="address"> <b>  Vessel:   </b>'.$NAVE.' - <b>Voyage: </b>'.$NVIAJE.' </div>
-
-
+            <div class="address"> <b>  Vessel:   </b>'.$NAVE.'  </div>
             <div class="address"> <b>  Port of Shipment:   </b>'.$NOMBREORIGEN.'  </div>
-            <div class="address"> <b>  Port of Delivery:  </b> '.$NOMBREDESTINO.'  </div>
+            <div class="address"> <b>  Port of Destination:  </b> '.$NOMBREDESTINO.'  </div>
             <div class="address"> <b>  Loading place:   </b>'.$LUGARDECARGA.'  </div>
         
             ';

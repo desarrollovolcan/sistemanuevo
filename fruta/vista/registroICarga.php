@@ -4727,7 +4727,7 @@ if (isset($_POST)) {
                                                 </div>
                                             </div>
                                              
-                                            <!--<div class="col-xxl-2 col-xl-5 col-lg-8 col-md-8 col-sm-8 col-8 col-xs-8">
+                                            <div class="col-xxl-2 col-xl-5 col-lg-8 col-md-8 col-sm-8 col-8 col-xs-8">
                                                 <div class="form-group">
                                                     <label>BL</label>
                                                     <input type="hidden" class="form-control" placeholder="EMISIONBL" id="EMISIONBLE" name="EMISIONBLE" value="<?php echo $EMISIONBL; ?>" />
@@ -4745,7 +4745,7 @@ if (isset($_POST)) {
                                                     </select>
                                                     <label id="val_emisionbl" class="validacion"> </label>
                                                 </div>
-                                            </div> -->
+                                            </div>
                                              <div class="col-xxl-1 col-xl-1 col-lg-3 col-md-3 col-sm-3 col-3 col-xs-3">
                                                 <div class="form-group">
                                                     <br>
@@ -5183,7 +5183,7 @@ if (isset($_POST)) {
                                                         <button type="button" class="btn btn-info  btn-sm" data-toggle="tooltip" title="Report Invoice v2" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeIcargaInvoicev2.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
                                                             <i class="fa fa-file-pdf-o"></i><br> Invoice 2
                                                         </button>
-                                                        <button type="button" class="btn btn-info  btn-sm" data-toggle="tooltip" title="Report Invoice EU" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento\informeIcargaInvoiceEU.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
+                                                        <button type="button" class="btn btn-info  btn-sm" data-toggle="tooltip" title="Report Invoice EU" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeIcargaInvoiceEU.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
                                                             <i class="fa fa-file-pdf-o"></i><br> Invoice EU
                                                         </button>
                                                         <button type="button" class="btn btn-info  btn-sm" data-toggle="tooltip" title="Informe Carga Real" id="defecto" name="tarjas" Onclick="abrirPestana('../../assest/documento/informeICargaReal.php?parametro=<?php echo $IDOP; ?>&&usuario=<?php echo $IDUSUARIOS; ?>');">
@@ -5274,7 +5274,7 @@ if (isset($_POST)) {
                                                 <th>Peso Neto </th>
                                                 <th>Peso Bruto </th>
                                                 <th>Cantidad Envase </th>
-                                                <th>Cantidad Pallet </th>
+                                                <!-- <th>Cantidad Pallet </th> -->
                                                 <th>Kilo Neto </th>
                                                 <th>Kilo Bruto </th>
                                                 <th>Calibre </th>
@@ -5361,7 +5361,7 @@ if (isset($_POST)) {
                                                         <td><?php echo number_format($NETOESTANTAR, 2, ",", ".") ?></td>
                                                         <td><?php echo number_format($BRUTOESTANTAR, 2, ",", ".") ?></td>
                                                         <td><?php echo $s['ENVASE']; ?></td>
-                                                        <td><?php echo $s['PALLET']; ?></td>
+                                                        <!-- <td><?php echo $s['PALLET']; ?></td> -->
                                                         <td><?php echo $s['NETO']; ?></td>
                                                         <td><?php echo $s['BRUTO']; ?></td>
                                                         <td><?php echo $NOMBRECALIBRE; ?></td>
@@ -5586,7 +5586,7 @@ if (isset($_POST)) {
                         $ICARGA->__SET('ID_NAVIERA', $_REQUEST['NAVIERA']);
                         $ICARGA->__SET('NAVE_ICARGA', $_REQUEST['NAVE']);
                         $ICARGA->__SET('FECHASTACKING_ICARGA', $_REQUEST['FECHASTACKING']);
-                        $ICARGA->__SET('FECHAESTACKINGF_ICARGA', $_REQUEST['FECHAESTACKINGF']);
+                        $ICARGA->__SET('FECHASTACKINGF_ICARGA', $_REQUEST['FECHASTACKINGF']);
                         $ICARGA->__SET('NVIAJE_ICARGA', $_REQUEST['NVIAJE']);
                         $ICARGA->__SET('ID_PCARGA', $_REQUEST['PCARGA']);
                         $ICARGA->__SET('ID_PDESTINO', $_REQUEST['PDESTINO']);

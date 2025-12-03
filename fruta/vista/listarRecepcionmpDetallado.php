@@ -49,89 +49,6 @@ $CONDUCTOR_ADO =  new CONDUCTOR_ADO();
 $EXIMATERIAPRIMA_ADO =  new EXIMATERIAPRIMA_ADO();
 $RECEPCIONMP_ADO =  new RECEPCIONMP_ADO();
 $DRECEPCIONMP_ADO =  new DRECEPCIONMP_ADO();
-
-// CACHES EN MEMORIA PARA OPTIMIZAR CONSULTAS REPETIDAS EN EL DETALLE
-function cachedVerProductor($id) {
-    global $PRODUCTOR_ADO;
-    static $cache = [];
-    if(!$id){ return []; }
-    if(isset($cache[$id])){ return $cache[$id]; }
-    $cache[$id] = $PRODUCTOR_ADO->verProductor($id);
-    return $cache[$id];
-}
-function cachedVerPlanta($id) {
-    global $PLANTA_ADO;
-    static $cache = [];
-    if(!$id){ return []; }
-    if(isset($cache[$id])){ return $cache[$id]; }
-    $cache[$id] = $PLANTA_ADO->verPlanta($id);
-    return $cache[$id];
-}
-function cachedVerEmpresa($id) {
-    global $EMPRESA_ADO;
-    static $cache = [];
-    if(!$id){ return []; }
-    if(isset($cache[$id])){ return $cache[$id]; }
-    $cache[$id] = $EMPRESA_ADO->verEmpresa($id);
-    return $cache[$id];
-}
-function cachedVerTemporada($id) {
-    global $TEMPORADA_ADO;
-    static $cache = [];
-    if(!$id){ return []; }
-    if(isset($cache[$id])){ return $cache[$id]; }
-    $cache[$id] = $TEMPORADA_ADO->verTemporada($id);
-    return $cache[$id];
-}
-function cachedVerTransporte($id) {
-    global $TRANSPORTE_ADO;
-    static $cache = [];
-    if(!$id){ return []; }
-    if(isset($cache[$id])){ return $cache[$id]; }
-    $cache[$id] = $TRANSPORTE_ADO->verTransporte($id);
-    return $cache[$id];
-}
-function cachedVerConductor($id) {
-    global $CONDUCTOR_ADO;
-    static $cache = [];
-    if(!$id){ return []; }
-    if(isset($cache[$id])){ return $cache[$id]; }
-    $cache[$id] = $CONDUCTOR_ADO->verConductor($id);
-    return $cache[$id];
-}
-function cachedVerVespecies($id) {
-    global $VESPECIES_ADO;
-    static $cache = [];
-    if(!$id){ return []; }
-    if(isset($cache[$id])){ return $cache[$id]; }
-    $cache[$id] = $VESPECIES_ADO->verVespecies($id);
-    return $cache[$id];
-}
-function cachedVerEspecies($id) {
-    global $ESPECIES_ADO;
-    static $cache = [];
-    if(!$id){ return []; }
-    if(isset($cache[$id])){ return $cache[$id]; }
-    $cache[$id] = $ESPECIES_ADO->verEspecies($id);
-    return $cache[$id];
-}
-function cachedVerTmanejo($id) {
-    global $TMANEJO_ADO;
-    static $cache = [];
-    if(!$id){ return []; }
-    if(isset($cache[$id])){ return $cache[$id]; }
-    $cache[$id] = $TMANEJO_ADO->verTmanejo($id);
-    return $cache[$id];
-}
-function cachedVerEstandar($id) {
-    global $EEXPORTACION_ADO;
-    static $cache = [];
-    if(!$id){ return []; }
-    if(isset($cache[$id])){ return $cache[$id]; }
-    $cache[$id] = $EEXPORTACION_ADO->verEstandar($id);
-    return $cache[$id];
-}
-
 //INCIALIZAR VARIBALES A OCUPAR PARA LA FUNCIONALIDAD
 
 $EMPRESA = "";
@@ -291,7 +208,7 @@ include_once "../../assest/config/datosUrLP.php";
                                                     <?php
                                                     if ($r['TRECEPCION'] == "1") {
                                                         $TRECEPCION = "Desde Productor ";
-                                                        $ARRAYPRODUCTOR2 = cachedVerProductor($r['ID_PRODUCTOR']);
+                                                        $ARRAYPRODUCTOR2 = $PRODUCTOR_ADO->verProductor($r['ID_PRODUCTOR']);
                                                         if ($ARRAYPRODUCTOR2) {
                                                             $ORIGEN = $ARRAYPRODUCTOR2[0]['CSG_PRODUCTOR'] . ":" . $ARRAYPRODUCTOR2[0]['NOMBRE_PRODUCTOR'];
                                                         } else {
@@ -299,7 +216,7 @@ include_once "../../assest/config/datosUrLP.php";
                                                         }
                                                     } else if ($r['TRECEPCION'] == "2") {
                                                         $TRECEPCION = "Planta Externa";
-                                                        $ARRAYPLANTA2 = cachedVerPlanta($r['ID_PLANTA2']);
+                                                        $ARRAYPLANTA2 = $PLANTA_ADO->verPlanta($r['ID_PLANTA2']);
                                                         if ($ARRAYPLANTA2) {
                                                             $ORIGEN = $ARRAYPLANTA2[0]['NOMBRE_PLANTA'];
                                                         } else {
@@ -307,7 +224,7 @@ include_once "../../assest/config/datosUrLP.php";
                                                         }
                                                     }else   if ($r['TRECEPCION'] == "3") {
                                                         $TRECEPCION = "Desde Productor BDH";
-                                                        $ARRAYPRODUCTOR2 = cachedVerProductor($r['ID_PRODUCTOR']);
+                                                        $ARRAYPRODUCTOR2 = $PRODUCTOR_ADO->verProductor($r['ID_PRODUCTOR']);
                                                         if ($ARRAYPRODUCTOR2) {
                                                             $ORIGEN = $ARRAYPRODUCTOR2[0]['CSG_PRODUCTOR'] . ":" . $ARRAYPRODUCTOR2[0]['NOMBRE_PRODUCTOR'];
                                                         } else {
@@ -317,13 +234,13 @@ include_once "../../assest/config/datosUrLP.php";
                                                         $TRECEPCION = "Sin Datos";
                                                         $ORIGEN = "Sin Datos";
                                                     }
-                                                    $ARRAYVERTRANSPORTE = cachedVerTransporte($r['ID_TRANSPORTE']);
+                                                    $ARRAYVERTRANSPORTE = $TRANSPORTE_ADO->verTransporte($r['ID_TRANSPORTE']);
                                                     if ($ARRAYVERTRANSPORTE) {
                                                         $NOMBRETRANSPORTE = $ARRAYVERTRANSPORTE[0]['NOMBRE_TRANSPORTE'];
                                                     } else {
                                                         $NOMBRETRANSPORTE = "Sin Datos";
                                                     }
-                                                    $ARRAYVERCONDUCTOR = cachedVerConductor($r['ID_CONDUCTOR']);
+                                                    $ARRAYVERCONDUCTOR = $CONDUCTOR_ADO->verConductor($r['ID_CONDUCTOR']);
                                                     if ($ARRAYVERCONDUCTOR) {
 
                                                         $NOMBRECONDUCTOR = $ARRAYVERCONDUCTOR[0]['NOMBRE_CONDUCTOR'];
@@ -331,19 +248,19 @@ include_once "../../assest/config/datosUrLP.php";
                                                         $NOMBRECONDUCTOR = "Sin Datos";
                                                     }
 
-                                                    $ARRAYEMPRESA = cachedVerEmpresa($r['ID_EMPRESA']);
+                                                    $ARRAYEMPRESA = $EMPRESA_ADO->verEmpresa($r['ID_EMPRESA']);
                                                     if ($ARRAYEMPRESA) {
                                                         $NOMBREEMPRESA = $ARRAYEMPRESA[0]['NOMBRE_EMPRESA'];
                                                     } else {
                                                         $NOMBREEMPRESA = "Sin Datos";
                                                     }
-                                                    $ARRAYPLANTA = cachedVerPlanta($r['ID_PLANTA']);
+                                                    $ARRAYPLANTA = $PLANTA_ADO->verPlanta($r['ID_PLANTA']);
                                                     if ($ARRAYPLANTA) {
                                                         $NOMBREPLANTA = $ARRAYPLANTA[0]['NOMBRE_PLANTA'];
                                                     } else {
                                                         $NOMBREPLANTA = "Sin Datos";
                                                     }
-                                                    $ARRAYTEMPORADA = cachedVerTemporada($r['ID_TEMPORADA']);
+                                                    $ARRAYTEMPORADA = $TEMPORADA_ADO->verTemporada($r['ID_TEMPORADA']);
                                                     if ($ARRAYTEMPORADA) {
                                                         $NOMBRETEMPORADA = $ARRAYTEMPORADA[0]['NOMBRE_TEMPORADA'];
                                                     } else {
@@ -355,10 +272,10 @@ include_once "../../assest/config/datosUrLP.php";
                                                     <?php foreach ($ARRAYTOMADO as $s) : ?>
                                                         <?php
 
-                                                        $ARRAYVERVESPECIESID = cachedVerVespecies($s['ID_VESPECIES']);
+                                                        $ARRAYVERVESPECIESID = $VESPECIES_ADO->verVespecies($s['ID_VESPECIES']);
                                                         if ($ARRAYVERVESPECIESID) {
                                                             $NOMBREVARIEDAD = $ARRAYVERVESPECIESID[0]['NOMBRE_VESPECIES'];
-                                                            $ARRAYVERESPECIESID = cachedVerEspecies($ARRAYVERVESPECIESID[0]['ID_ESPECIES']);
+                                                            $ARRAYVERESPECIESID = $ESPECIES_ADO->verEspecies($ARRAYVERVESPECIESID[0]['ID_ESPECIES']);
                                                             if ($ARRAYVERVESPECIESID) {
                                                                 $NOMBRESPECIES = $ARRAYVERESPECIESID[0]['NOMBRE_ESPECIES'];
                                                             } else {
@@ -368,7 +285,7 @@ include_once "../../assest/config/datosUrLP.php";
                                                             $NOMBREVARIEDAD = "Sin Datos";
                                                             $NOMBRESPECIES = "Sin Datos";
                                                         }
-                                                        $ARRAYVERPRODUCTORID = cachedVerProductor($s['ID_PRODUCTOR']);
+                                                        $ARRAYVERPRODUCTORID = $PRODUCTOR_ADO->verProductor($s['ID_PRODUCTOR']);
                                                         if ($ARRAYVERPRODUCTORID) {
                                                             $CSGPRODUCTOR = $ARRAYVERPRODUCTORID[0]['CSG_PRODUCTOR'];
                                                             $NOMBREPRODUCTOR = $ARRAYVERPRODUCTORID[0]['NOMBRE_PRODUCTOR'];
@@ -376,7 +293,7 @@ include_once "../../assest/config/datosUrLP.php";
                                                             $CSGPRODUCTOR = "Sin Datos";
                                                             $NOMBREPRODUCTOR = "Sin Datos";
                                                         }
-                                                        $ARRAYTMANEJO = cachedVerTmanejo($s['ID_TMANEJO']);
+                                                        $ARRAYTMANEJO = $TMANEJO_ADO->verTmanejo($s['ID_TMANEJO']);
                                                         if ($ARRAYTMANEJO) {
                                                             $NOMBRETMANEJO = $ARRAYTMANEJO[0]['NOMBRE_TMANEJO'];
                                                         } else {
