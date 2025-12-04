@@ -2852,7 +2852,7 @@ if (isset($_POST)) {
                                                 <div class="form-group">
                                                     <label>Pais Destino</label>
                                                     <input type="hidden" class="form-control" placeholder="PAISE" id="PAISE" name="PAISE" value="<?php echo $PAIS; ?>" />
-                                                    <select class="form-control select2" id="PAIS" name="PAIS" style="width: 100%;" value="<?php echo $PAIS; ?>" <?php echo $DISABLED; ?>>
+                                                    <select class="form-control select2 pais-destino" id="PAIS" name="PAIS" style="width: 100%;" value="<?php echo $PAIS; ?>" <?php echo $DISABLED; ?>>
                                                         <option></option>
                                                         <?php foreach ($ARRAYPAIS as $r) : ?>
                                                             <?php if ($ARRAYPAIS) {    ?>
@@ -3313,8 +3313,7 @@ if (isset($_POST)) {
                                             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 col-xs-12">
                                                 <div class="form-group">
                                                     <label>Pais Destino</label>
-                                                    <input type="hidden" class="form-control" placeholder="PAISE" id="PAISE" name="PAISE" value="<?php echo $PAIS; ?>" />
-                                                    <select class="form-control select2" id="PAIS" name="PAIS" style="width: 100%;" value="<?php echo $PAIS; ?>" <?php echo $DISABLED; ?>>
+                                                    <select class="form-control select2 pais-destino" id="PAIS_EMBARQUE" style="width: 100%;" value="<?php echo $PAIS; ?>" <?php echo $DISABLED; ?>>
                                                         <option></option>
                                                         <?php foreach ($ARRAYPAIS as $r) : ?>
                                                             <?php if ($ARRAYPAIS) {    ?>
@@ -4122,8 +4121,7 @@ if (isset($_POST)) {
                                                 <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 col-xs-12">
                                                 <div class="form-group">
                                                     <label>Pais Destino</label>
-                                                    <input type="hidden" class="form-control" placeholder="PAISE" id="PAISE" name="PAISE" value="<?php echo $PAIS; ?>" />
-                                                    <select class="form-control select2" id="PAIS" name="PAIS" style="width: 100%;" value="<?php echo $PAIS; ?>" <?php echo $DISABLED; ?>>
+                                                    <select class="form-control select2 pais-destino" id="PAIS_PUERTO" style="width: 100%;" value="<?php echo $PAIS; ?>" <?php echo $DISABLED; ?>>
                                                         <option></option>
                                                         <?php foreach ($ARRAYPAIS as $r) : ?>
                                                             <?php if ($ARRAYPAIS) {    ?>
@@ -4141,8 +4139,7 @@ if (isset($_POST)) {
                                              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 col-xs-12">
                                                 <div class="form-group">
                                                     <label>Pais Destino Final</label>
-                                                    <input type="hidden" class="form-control" placeholder="PAISE" id="PAISE" name="PAISE" value="<?php echo $PAIS; ?>" />
-                                                    <select class="form-control select2" id="PAIS" name="PAIS" style="width: 100%;" value="<?php echo $PAIS; ?>" <?php echo $DISABLED; ?>>
+                                                    <select class="form-control select2 pais-destino" id="PAIS_FINAL" style="width: 100%;" value="<?php echo $PAIS; ?>" <?php echo $DISABLED; ?>>
                                                         <option></option>
                                                         <?php foreach ($ARRAYPAIS as $r) : ?>
                                                             <?php if ($ARRAYPAIS) {    ?>
@@ -5637,8 +5634,42 @@ if (isset($_POST)) {
     </div>
     <!- LLAMADA URL DE ARCHIVOS DE DISEÑO Y JQUERY E OTROS -!>
         <?php include_once "../../assest/config/urlBase.php"; ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const paisSelects = document.querySelectorAll('.pais-destino');
+                const paisHidden = document.getElementById('PAISE');
+
+                if (paisSelects.length > 0) {
+                    const syncPais = (origin, value) => {
+                        paisSelects.forEach((other) => {
+                            if (other !== origin) {
+                                other.value = value;
+                                if (window.$ && typeof window.$ === 'function') {
+                                    window.$(other).trigger('change.select2');
+                                }
+                            }
+                        });
+                        if (paisHidden) {
+                            paisHidden.value = value;
+                        }
+                    };
+
+                    paisSelects.forEach((select) => {
+                        select.addEventListener('change', function () {
+                            syncPais(this, this.value);
+                        });
+                    });
+                }
+            });
+        </script>
         <?php
             //OPERACIONES
+            $PAISSELECCIONADO = $PAIS;
+            if (isset($_REQUEST['PAIS']) && $_REQUEST['PAIS'] !== '') {
+                $PAISSELECCIONADO = $_REQUEST['PAIS'];
+            } elseif (isset($_REQUEST['PAISE']) && $_REQUEST['PAISE'] !== '') {
+                $PAISSELECCIONADO = $_REQUEST['PAISE'];
+            }
             //OPERACION DE REGISTRO DE FILA
             if (isset($_REQUEST['CREAR'])) {
 
@@ -5715,7 +5746,7 @@ if (isset($_POST)) {
                         $ICARGA->__SET('ID_PDESTINO', $_REQUEST['PDESTINO']);
                     }
                 }
-                $ICARGA->__SET('ID_PAIS',  $_REQUEST['PAIS']);
+                $ICARGA->__SET('ID_PAIS',  $PAISSELECCIONADO);
                 $ICARGA->__SET('ID_EMPRESA',  $_REQUEST['EMPRESA']);
                 $ICARGA->__SET('ID_PLANTA',  $_REQUEST['PLANTA']);
                 $ICARGA->__SET('ID_TEMPORADA',  $_REQUEST['TEMPORADA']);
@@ -5826,7 +5857,7 @@ if (isset($_POST)) {
                         $ICARGA->__SET('ID_PDESTINO', $_REQUEST['PDESTINO']);
                     }
                 }
-                $ICARGA->__SET('ID_PAIS',  $_REQUEST['PAIS']);
+                $ICARGA->__SET('ID_PAIS',  $PAISSELECCIONADO);
                 $ICARGA->__SET('ID_EMPRESA',  $_REQUEST['EMPRESA']);
                 $ICARGA->__SET('ID_PLANTA',  $_REQUEST['PLANTA']);
                 $ICARGA->__SET('ID_TEMPORADA',  $_REQUEST['TEMPORADA']);
@@ -5859,15 +5890,10 @@ if (isset($_POST)) {
                 </script>';
 
             }
-            
-    
-            //OPERACION EDICION DE FILA    
-            if (isset($_REQUEST['GUARDAR'])) {
-                
 
-                echo '<script>
-                        alert("'.$_REQUEST['EMISIONBL'].'-'.$_REQUEST['LCARGA'].'");
-                    </script>';
+
+            //OPERACION EDICION DE FILA
+            if (isset($_REQUEST['GUARDAR'])) {
 
                 $PUBLICAINSTRUCTIVO = $_REQUEST['NETOINSTRUCTIVO'] + $_REQUEST['REBATEINSTRUCTIVO'];
                 $ICARGA->__SET('FECHA_ICARGA', $_REQUEST['FECHAINSTRUCTIVO']);
@@ -5924,8 +5950,6 @@ if (isset($_POST)) {
                         $ICARGA->__SET('NVIAJE_ICARGA', $_REQUEST['NVIAJE']);
                         $ICARGA->__SET('ID_ACARGA', $_REQUEST['ACARGA']);
                         $ICARGA->__SET('ID_ADESTINO', $_REQUEST['ADESTINO']);
-                    
-                        echo $_REQUEST['ADESTINO'];
                     }
                     if ($_REQUEST['TEMBARQUE'] == "3") {
                         $ICARGA->__SET('ID_NAVIERA', $_REQUEST['NAVIERA']);
@@ -5946,7 +5970,7 @@ if (isset($_POST)) {
                 $ICARGA->__SET('ID_MVENTA', $_REQUEST['MVENTA']);
                 $ICARGA->__SET('ID_TFLETE', $_REQUEST['TFLETE']);
                 $ICARGA->__SET('ID_SEGURO', $_REQUEST['SEGURO']);
-                $ICARGA->__SET('ID_PAIS',  $_REQUEST['PAIS']);
+                $ICARGA->__SET('ID_PAIS',  $PAISSELECCIONADO);
                 $ICARGA->__SET('ID_USUARIOM', $IDUSUARIOS);
                 $ICARGA->__SET('ID_ICARGA', $_REQUEST['IDP']);
                 //LLAMADA AL METODO DE EDITAR DEL CONTROLADOR
@@ -5991,11 +6015,6 @@ if (isset($_POST)) {
                         })
                     </script>';
                 }
-                echo "<pre>DUPLICAR DETECTADO\n";
-                var_dump($_REQUEST);
-                echo "</pre>";
-                exit;
-                
             }
             if (isset($_REQUEST['CERRAR'])) {
                 if ($_REQUEST['IDP']) {
