@@ -4321,7 +4321,7 @@ if (isset($_POST)) {
                                             </div>
                                             <div class="col-xxl-3 col-xl-5 col-lg-8 col-md-8 col-sm-8 col-8 col-xs-8">
                                                 <div class="form-group">
-                                                    <label>BL / AWB / CRT</label>
+                                                    <label>BL / AWB / CRT 1</label>
                                                     <input type="hidden" class="form-control" placeholder="EMISIONBL" id="EMISIONBLE" name="EMISIONBLE" value="<?php echo $EMISIONBL; ?>" />
                                                     <input type="text" class="form-control" placeholder="Ingrese BL/AWB/CRT" id="EMISIONBL" name="EMISIONBL" value="<?php echo $EMISIONBL; ?>" <?php echo $DISABLED; ?> />
                                                     <label id="val_emisionbl" class="validacion"> </label>
@@ -4857,7 +4857,7 @@ if (isset($_POST)) {
                                              
                                             <div class="col-xxl-3 col-xl-5 col-lg-8 col-md-8 col-sm-8 col-8 col-xs-8">
                                                 <div class="form-group">
-                                                    <label>BL / AWB / CRT</label>
+                                                    <label>BL / AWB / CRT 2</label>
                                                     <input type="hidden" class="form-control" placeholder="EMISIONBL" id="EMISIONBLE" name="EMISIONBLE" value="<?php echo $EMISIONBL; ?>" />
                                                     <input type="text" class="form-control" placeholder="Ingrese BL/AWB/CRT" id="EMISIONBL" name="EMISIONBL" value="<?php echo $EMISIONBL; ?>" <?php echo $DISABLED; ?> />
                                                     <label id="val_emisionbl" class="validacion"> </label>
