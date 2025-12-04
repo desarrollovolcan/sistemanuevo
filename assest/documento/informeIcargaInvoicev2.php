@@ -56,6 +56,7 @@ include_once '../../assest/controlador/ECOMERCIAL_ADO.php';
 
 include_once '../../assest/controlador/PRODUCTOR_ADO.php';
 include_once '../../assest/controlador/DESPACHOEX_ADO.php';
+include_once '../../assest/controlador/EXIEXPORTACION_ADO.php';
 
 
 include_once '../../assest/controlador/PAIS_ADO.php';
@@ -116,6 +117,7 @@ $ECOMERCIAL_ADO = new ECOMERCIAL_ADO();
 
 $PRODUCTOR_ADO = new PRODUCTOR_ADO();
 $DESPACHOEX_ADO = new DESPACHOEX_ADO();
+$EXIEXPORTACION_ADO = new EXIEXPORTACION_ADO();
 
 $PAIS_ADO =  new PAIS_ADO();
 $REGION_ADO =  new REGION_ADO();
@@ -128,6 +130,11 @@ $DICARGA_ADO =  new DICARGA_ADO();
 
 $NUMERO = "";
 $NUMEROVER = "";
+$LUGARDECARGA = "";
+$FDADESPACHOEX = "";
+$FECHADESPACHOEX = "";
+$NUMEROCONTENEDOR = "";
+$NUMEROSELLO = "";
 $FECHAINGRESO = "";
 $FECHAMODIFCIACION = "";
 $IDINOTA = "";
