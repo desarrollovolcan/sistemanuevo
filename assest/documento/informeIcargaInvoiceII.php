@@ -273,7 +273,7 @@ if($ARRAYICARGA){
       $TEMBARQUE = $ARRAYICARGA[0]['TEMBARQUE_ICARGA'];
       $FECHAETD = $ARRAYICARGA[0]['FECHAETD'];
       $FECHAETA = $ARRAYICARGA[0]['FECHAETA'];
-      $FECHAETDREAL = $ARRAYICARGA[0]['FECHAETDREAL'];
+      $FECHAETDREAL = $ARRAYICARGA[0]['FECHAETDREAL_ICARGA'];
       if(!$FECHAETDREAL){
         $FECHAETDREAL = "Sin Datos";
       }
@@ -648,11 +648,9 @@ $html = '
     <div class="address"> <b>  Email Consigne:  </b> '.$EMAIL1CONSIGNATARIO.'  </div>
     <div class="address">&nbsp;  </div>
 
-    ';
+    '; 
     if ($TEMBARQUE == "1") {
       $html = $html . '
-        <div class="address"> <b>  Date ETD:   </b>  '.$FECHAETD.'</div>
-        <div class="address"> <b>  Date ETA:  </b>  '.$FECHAETA.' </div>
         <div class="address"> <b>  Container number:  </b> '.$NUMEROCONTENEDOR.'  </div>
         <div class="address"> <b>  FDA Packing:  </b> '.$FDADESPACHOEX.'  </div>
         <div class="address"> <b>  Date Real ETD :   </b>  '.$FECHAETDREAL.'</div>
@@ -660,9 +658,7 @@ $html = '
     }
     if ($TEMBARQUE == "2") {
         $html = $html . '
-    
-        <div class="address"> <b>  Date ETD:   </b>  '.$FECHAETD.'</div>
-        <div class="address"> <b>  Date ETA:  </b>  '.$FECHAETA.' </div>
+
         <div class="address"> <b>  Container number:  </b> '.$NUMEROCONTENEDOR.'  </div>
         <div class="address"> <b>  FDA Packing:  </b> '.$FDADESPACHOEX.'  </div>
         <div class="address"> <b>  Date Real ETD :   </b>  '.$FECHAETDREAL.'</div>
@@ -671,9 +667,6 @@ $html = '
      }
     if ($TEMBARQUE == "3") {
         $html = $html . '
-    
-        <div class="address"> <b>  Date ETD:  </b>   '.$FECHAETD.'</div>
-        <div class="address"> <b>  Date ETA:   </b> '.$FECHAETA.' </div>
         <div class="address"> <b>  Container number:  </b> '.$NUMEROCONTENEDOR.'  </div>
         <div class="address"> <b>  FDA Packing:  </b> '.$FDADESPACHOEX.'  </div>
         <div class="address"> <b>  Date Real ETD :   </b>  '.$FECHAETDREAL.'</div>
