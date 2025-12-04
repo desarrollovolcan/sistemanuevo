@@ -3494,8 +3494,26 @@ if (isset($_POST)) {
     </div>
     <!- LLAMADA URL DE ARCHIVOS DE DISEÑO Y JQUERY E OTROS -!>
         <?php include_once "../../assest/config/urlBase.php"; ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const paisSelect = document.getElementById('PAIS');
+                const paisHidden = document.getElementById('PAISE');
+
+                if (paisSelect && paisHidden) {
+                    paisSelect.addEventListener('change', function () {
+                        paisHidden.value = this.value;
+                    });
+                }
+            });
+        </script>
         <?php
             //OPERACIONES
+            $PAISSELECCIONADO = $PAIS;
+            if (isset($_REQUEST['PAIS']) && $_REQUEST['PAIS'] !== '') {
+                $PAISSELECCIONADO = $_REQUEST['PAIS'];
+            } elseif (isset($_REQUEST['PAISE']) && $_REQUEST['PAISE'] !== '') {
+                $PAISSELECCIONADO = $_REQUEST['PAISE'];
+            }
             //OPERACION DE REGISTRO DE FILA
             if (isset($_REQUEST['CREAR'])) {
 
@@ -3572,7 +3590,7 @@ if (isset($_POST)) {
                         $ICARGA->__SET('ID_PDESTINO', $_REQUEST['PDESTINO']);
                     }
                 }
-                $ICARGA->__SET('ID_PAIS',  $_REQUEST['PAIS']);
+                $ICARGA->__SET('ID_PAIS',  $PAISSELECCIONADO);
                 $ICARGA->__SET('ID_EMPRESA',  $_REQUEST['EMPRESA']);
                 $ICARGA->__SET('ID_PLANTA',  $_REQUEST['PLANTA']);
                 $ICARGA->__SET('ID_TEMPORADA',  $_REQUEST['TEMPORADA']);
@@ -3677,7 +3695,7 @@ if (isset($_POST)) {
                 $ICARGA->__SET('ID_MVENTA', $_REQUEST['MVENTA']);
                 $ICARGA->__SET('ID_TFLETE', $_REQUEST['TFLETE']);
                 $ICARGA->__SET('ID_SEGURO', $_REQUEST['SEGURO']);
-                $ICARGA->__SET('ID_PAIS',  $_REQUEST['PAIS']);
+                $ICARGA->__SET('ID_PAIS',  $PAISSELECCIONADO);
                 $ICARGA->__SET('ID_USUARIOM', $IDUSUARIOS);
                 $ICARGA->__SET('ID_ICARGA', $_REQUEST['IDP']);
                 //LLAMADA AL METODO DE EDITAR DEL CONTROLADOR
@@ -3813,7 +3831,7 @@ if (isset($_POST)) {
                     $ICARGA->__SET('ID_MVENTA', $_REQUEST['MVENTA']);
                     $ICARGA->__SET('ID_TFLETE', $_REQUEST['TFLETE']);
                     $ICARGA->__SET('ID_SEGURO', $_REQUEST['SEGURO']);
-                    $ICARGA->__SET('ID_PAIS',  $_REQUEST['PAIS']);
+                    $ICARGA->__SET('ID_PAIS',  $PAISSELECCIONADO);
                     $ICARGA->__SET('ID_USUARIOM', $IDUSUARIOS);
                     $ICARGA->__SET('ID_ICARGA', $_REQUEST['IDP']);
                     //LLAMADA AL METODO DE EDITAR DEL CONTROLADOR

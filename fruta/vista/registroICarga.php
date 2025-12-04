@@ -5637,18 +5637,26 @@ if (isset($_POST)) {
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const paisSelects = document.querySelectorAll('.pais-destino');
-                if (paisSelects.length > 1) {
+                const paisHidden = document.getElementById('PAISE');
+
+                if (paisSelects.length > 0) {
+                    const syncPais = (origin, value) => {
+                        paisSelects.forEach((other) => {
+                            if (other !== origin) {
+                                other.value = value;
+                                if (window.$ && typeof window.$ === 'function') {
+                                    window.$(other).trigger('change.select2');
+                                }
+                            }
+                        });
+                        if (paisHidden) {
+                            paisHidden.value = value;
+                        }
+                    };
+
                     paisSelects.forEach((select) => {
                         select.addEventListener('change', function () {
-                            const selectedValue = this.value;
-                            paisSelects.forEach((other) => {
-                                if (other !== this) {
-                                    other.value = selectedValue;
-                                    if (window.$ && typeof window.$ === 'function') {
-                                        window.$(other).trigger('change.select2');
-                                    }
-                                }
-                            });
+                            syncPais(this, this.value);
                         });
                     });
                 }
@@ -5656,6 +5664,12 @@ if (isset($_POST)) {
         </script>
         <?php
             //OPERACIONES
+            $PAISSELECCIONADO = $PAIS;
+            if (isset($_REQUEST['PAIS']) && $_REQUEST['PAIS'] !== '') {
+                $PAISSELECCIONADO = $_REQUEST['PAIS'];
+            } elseif (isset($_REQUEST['PAISE']) && $_REQUEST['PAISE'] !== '') {
+                $PAISSELECCIONADO = $_REQUEST['PAISE'];
+            }
             //OPERACION DE REGISTRO DE FILA
             if (isset($_REQUEST['CREAR'])) {
 
@@ -5732,7 +5746,7 @@ if (isset($_POST)) {
                         $ICARGA->__SET('ID_PDESTINO', $_REQUEST['PDESTINO']);
                     }
                 }
-                $ICARGA->__SET('ID_PAIS',  $_REQUEST['PAIS']);
+                $ICARGA->__SET('ID_PAIS',  $PAISSELECCIONADO);
                 $ICARGA->__SET('ID_EMPRESA',  $_REQUEST['EMPRESA']);
                 $ICARGA->__SET('ID_PLANTA',  $_REQUEST['PLANTA']);
                 $ICARGA->__SET('ID_TEMPORADA',  $_REQUEST['TEMPORADA']);
@@ -5843,7 +5857,7 @@ if (isset($_POST)) {
                         $ICARGA->__SET('ID_PDESTINO', $_REQUEST['PDESTINO']);
                     }
                 }
-                $ICARGA->__SET('ID_PAIS',  $_REQUEST['PAIS']);
+                $ICARGA->__SET('ID_PAIS',  $PAISSELECCIONADO);
                 $ICARGA->__SET('ID_EMPRESA',  $_REQUEST['EMPRESA']);
                 $ICARGA->__SET('ID_PLANTA',  $_REQUEST['PLANTA']);
                 $ICARGA->__SET('ID_TEMPORADA',  $_REQUEST['TEMPORADA']);
@@ -5956,7 +5970,7 @@ if (isset($_POST)) {
                 $ICARGA->__SET('ID_MVENTA', $_REQUEST['MVENTA']);
                 $ICARGA->__SET('ID_TFLETE', $_REQUEST['TFLETE']);
                 $ICARGA->__SET('ID_SEGURO', $_REQUEST['SEGURO']);
-                $ICARGA->__SET('ID_PAIS',  $_REQUEST['PAIS']);
+                $ICARGA->__SET('ID_PAIS',  $PAISSELECCIONADO);
                 $ICARGA->__SET('ID_USUARIOM', $IDUSUARIOS);
                 $ICARGA->__SET('ID_ICARGA', $_REQUEST['IDP']);
                 //LLAMADA AL METODO DE EDITAR DEL CONTROLADOR
