@@ -1748,7 +1748,7 @@ if (isset($_POST)) {
 
 
                     CONSIGNATARIO = document.getElementById("CONSIGNATARIO").selectedIndex;
-                    EMISIONBL = document.getElementById("EMISIONBL").selectedIndex;
+                    EMISIONBL = document.getElementById("EMISIONBL").value;
                     NOTIFICADOR = document.getElementById("NOTIFICADOR").selectedIndex;
                     BROKER = document.getElementById("BROKER").selectedIndex;
                     RFINAL = document.getElementById("RFINAL").selectedIndex;
@@ -1897,10 +1897,10 @@ if (isset($_POST)) {
                     }
                     document.form_reg_dato.CONSIGNATARIO.style.borderColor = "#4AF575";
 
-                    if (EMISIONBL == null || EMISIONBL == 0) {
+                    if (EMISIONBL == null || EMISIONBL.length == 0 || /^\s+$/.test(EMISIONBL)) {
                         document.form_reg_dato.EMISIONBL.focus();
                         document.form_reg_dato.EMISIONBL.style.borderColor = "#FF0000";
-                        document.getElementById('val_emisionbl').innerHTML = "NO HA SELECIONADO ALTERNATIVA";
+                        document.getElementById('val_emisionbl').innerHTML = "NO A INGRESADO DATO";
                         return false;
                     }
                     document.form_reg_dato.EMISIONBL.style.borderColor = "#4AF575";
@@ -4319,9 +4319,9 @@ if (isset($_POST)) {
                                                     <label id="val_tflete" class="validacion"> </label>
                                                 </div>
                                             </div>
-                                            <div class="col-xxl-2 col-xl-5 col-lg-8 col-md-8 col-sm-8 col-8 col-xs-8">
+                                            <div class="col-xxl-3 col-xl-5 col-lg-8 col-md-8 col-sm-8 col-8 col-xs-8">
                                                 <div class="form-group">
-                                                    <label>Emision BL</label>
+                                                    <label>Emisión BL</label>
                                                     <input type="hidden" class="form-control" placeholder="EMISIONBL" id="EMISIONBLE" name="EMISIONBLE" value="<?php echo $EMISIONBL; ?>" />
                                                     <select class="form-control select2" id="EMISIONBL" name="EMISIONBL" style="width: 100%;" <?php echo $DISABLED; ?>>
                                                         <option></option>
@@ -4336,14 +4336,6 @@ if (isset($_POST)) {
                                                         <?php endforeach; ?>
                                                     </select>
                                                     <label id="val_emisionbl" class="validacion"> </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-xxl-1 col-xl-1 col-lg-3 col-md-3 col-sm-3 col-3 col-xs-3">
-                                                <div class="form-group">
-                                                    <br>
-                                                    <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Emision BL" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopEmisionbl.php' ); ">
-                                                        <i class="glyphicon glyphicon-plus"></i>
-                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 col-xs-12">
@@ -4874,31 +4866,12 @@ if (isset($_POST)) {
                                                 </div>
                                             </div>
                                              
-                                            <div class="col-xxl-2 col-xl-5 col-lg-8 col-md-8 col-sm-8 col-8 col-xs-8">
+                                            <div class="col-xxl-3 col-xl-5 col-lg-8 col-md-8 col-sm-8 col-8 col-xs-8">
                                                 <div class="form-group">
-                                                    <label>BL</label>
-                                                    <input type="hidden" class="form-control" placeholder="EMISIONBL" id="EMISIONBLE" name="EMISIONBLE" value="<?php echo $EMISIONBL; ?>" />
-                                                    <select class="form-control select2" id="EMISIONBL" name="EMISIONBL" style="width: 100%;" <?php echo $DISABLED; ?>>
-                                                        <option></option>
-                                                        <?php foreach ($ARRAYEMISIONBL as $r) : ?>
-                                                            <?php if ($ARRAYEMISIONBL) {    ?>
-                                                                <option value="<?php echo $r['ID_EMISIONBL']; ?>" <?php if ($EMISIONBL == $r['ID_EMISIONBL']) { echo "selected"; } ?>>
-                                                                    <?php echo $r['NOMBRE_EMISIONBL'] ?>
-                                                                </option>
-                                                            <?php } else { ?>
-                                                                <option value="0">No Hay Datos Registrados </option>
-                                                            <?php } ?>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                    <label id="val_emisionbl" class="validacion"> </label>
-                                                </div>
-                                            </div>
-                                             <div class="col-xxl-1 col-xl-1 col-lg-3 col-md-3 col-sm-3 col-3 col-xs-3">
-                                                <div class="form-group">
-                                                    <br>
-                                                    <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Emision BL" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopEmisionbl.php' ); ">
-                                                        <i class="glyphicon glyphicon-plus"></i>
-                                                    </button>
+                                                    <label>BL / AWB / CRT 2</label>
+                                                    <input type="hidden" class="form-control" placeholder="BOLAWBCRTINSTRUCTIVOE" id="BOLAWBCRTINSTRUCTIVOE" name="BOLAWBCRTINSTRUCTIVOE" value="<?php echo $BOLAWBCRTINSTRUCTIVO; ?>" />
+                                                    <input type="text" class="form-control" placeholder="Ingrese BL/AWB/CRT" id="BOLAWBCRTINSTRUCTIVO" name="BOLAWBCRTINSTRUCTIVO" value="<?php echo $BOLAWBCRTINSTRUCTIVO; ?>" <?php echo $DISABLED; ?> />
+                                                    <label id="val_bolawbcrt" class="validacion"> </label>
                                                 </div>
                                             </div>
                                             <div class="col-xxl-2 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-6 col-xs-6">
