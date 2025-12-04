@@ -4321,7 +4321,7 @@ if (isset($_POST)) {
                                             </div>
                                             <div class="col-xxl-3 col-xl-5 col-lg-8 col-md-8 col-sm-8 col-8 col-xs-8">
                                                 <div class="form-group">
-                                                    <label>BL / AWB / CRT 1</label>
+                                                    <label>Emisión BL</label>
                                                     <input type="hidden" class="form-control" placeholder="EMISIONBL" id="EMISIONBLE" name="EMISIONBLE" value="<?php echo $EMISIONBL; ?>" />
                                                     <input type="text" class="form-control" placeholder="Ingrese BL/AWB/CRT" id="EMISIONBL" name="EMISIONBL" value="<?php echo $EMISIONBL; ?>" <?php echo $DISABLED; ?> />
                                                     <label id="val_emisionbl" class="validacion"> </label>
@@ -4858,9 +4858,9 @@ if (isset($_POST)) {
                                             <div class="col-xxl-3 col-xl-5 col-lg-8 col-md-8 col-sm-8 col-8 col-xs-8">
                                                 <div class="form-group">
                                                     <label>BL / AWB / CRT 2</label>
-                                                    <input type="hidden" class="form-control" placeholder="EMISIONBL" id="EMISIONBLE" name="EMISIONBLE" value="<?php echo $EMISIONBL; ?>" />
-                                                    <input type="text" class="form-control" placeholder="Ingrese BL/AWB/CRT" id="EMISIONBL" name="EMISIONBL" value="<?php echo $EMISIONBL; ?>" <?php echo $DISABLED; ?> />
-                                                    <label id="val_emisionbl" class="validacion"> </label>
+                                                    <input type="hidden" class="form-control" placeholder="BOLAWBCRTINSTRUCTIVOE" id="BOLAWBCRTINSTRUCTIVOE" name="BOLAWBCRTINSTRUCTIVOE" value="<?php echo $BOLAWBCRTINSTRUCTIVO; ?>" />
+                                                    <input type="text" class="form-control" placeholder="Ingrese BL/AWB/CRT" id="BOLAWBCRTINSTRUCTIVO" name="BOLAWBCRTINSTRUCTIVO" value="<?php echo $BOLAWBCRTINSTRUCTIVO; ?>" <?php echo $DISABLED; ?> />
+                                                    <label id="val_bolawbcrt" class="validacion"> </label>
                                                 </div>
                                             </div>
                                             <div class="col-xxl-2 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-6 col-xs-6">
