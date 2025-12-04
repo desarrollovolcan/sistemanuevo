@@ -4757,8 +4757,8 @@ if (isset($_POST)) {
                                             <div class="col-xxl-2 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-6 col-xs-6">
                                                 <div class="form-group">
                                                     <label>Numero courier</label>
-                                                    <input type="hidden" class="form-control" placeholder="NUMERO COURIER" id="NCOURIER" name="NCOURIER" value="" />
-                                                    <input type="text" class="form-control" placeholder="NUMERO COURIER" id="NCOURIER" name="NCOURIER" value="" <?php echo $DISABLED; ?> />
+                                                    <input type="hidden" class="form-control" placeholder="NUMERO COURIER" id="NCOURIER" name="NCOURIER" value="<?php echo $NCOURIER; ?>" />
+                                                    <input type="text" class="form-control" placeholder="NUMERO COURIER" id="NCOURIER" name="NCOURIER" value="<?php echo $NCOURIER; ?>" <?php echo $DISABLED; ?> />
                                                     <label id="val_ncourier" class="validacion"> </label>
                                                 </div>
                                             </div>
