@@ -1185,6 +1185,12 @@ if (isset($_POST)) {
         .rounded-actions .btn i {
             margin-right: 0.35rem;
         }
+
+        /* Mantener los selectpicker con bordes rectos como el resto de los campos */
+        .bootstrap-select.btn-rounded,
+        .bootstrap-select .dropdown-toggle.btn-rounded {
+            border-radius: 0 !important;
+        }
     </style>
     <!- FUNCIONES BASES -!>
         <script type="text/javascript">
