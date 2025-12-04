@@ -4891,8 +4891,8 @@ if (isset($_POST)) {
                                             <div class="col-xxl-2 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-6 col-xs-6">
                                                 <div class="form-group">
                                                     <label>Numero courier</label>
-                                                    <input type="hidden" class="form-control" placeholder="NUMERO COURIER" id="NCOURIER" name="NCOURIER" value="" />
-                                                    <input type="text" class="form-control" placeholder="NUMERO COURIER" id="NCOURIER" name="NCOURIER" value="" <?php echo $DISABLED; ?> />
+                                                    <input type="hidden" class="form-control" placeholder="NUMERO COURIER" id="NCOURIER" name="NCOURIER" value="<?php echo $NCOURIER; ?>" />
+                                                    <input type="text" class="form-control" placeholder="NUMERO COURIER" id="NCOURIER" name="NCOURIER" value="<?php echo $NCOURIER; ?>" <?php echo $DISABLED; ?> />
                                                     <label id="val_ncourier" class="validacion"> </label>
                                                 </div>
                                             </div>
@@ -5863,11 +5863,7 @@ if (isset($_POST)) {
     
             //OPERACION EDICION DE FILA    
             if (isset($_REQUEST['GUARDAR'])) {
-                
 
-                echo '<script>
-                        alert("'.$_REQUEST['EMISIONBL'].'-'.$_REQUEST['LCARGA'].'");
-                    </script>';
 
                 $PUBLICAINSTRUCTIVO = $_REQUEST['NETOINSTRUCTIVO'] + $_REQUEST['REBATEINSTRUCTIVO'];
                 $ICARGA->__SET('FECHA_ICARGA', $_REQUEST['FECHAINSTRUCTIVO']);
