@@ -615,6 +615,8 @@ if (isset($id_dato) && isset($accion_dato)) {
             $OBSERVACIONINSTRUCTIVO = $r['OBSERVACION_ICARGA'];
             $OBSERVACIONIINSTRUCTIVO = $r['OBSERVACIONI_ICARGA'];
             $PAIS = $r['ID_PAIS'];
+            $PAIS_PUERTO = $PAIS;
+            $PAIS_FINAL = $PAIS;
             $EMPRESA = $r['ID_EMPRESA'];
             $TEMPORADA = $r['ID_TEMPORADA'];
             $ESTADO = $r['ESTADO'];
@@ -705,6 +707,8 @@ if (isset($id_dato) && isset($accion_dato)) {
             $OBSERVACIONINSTRUCTIVO = $r['OBSERVACION_ICARGA'];
             $OBSERVACIONIINSTRUCTIVO = $r['OBSERVACIONI_ICARGA'];
             $PAIS = $r['ID_PAIS'];
+            $PAIS_PUERTO = $PAIS;
+            $PAIS_FINAL = $PAIS;
             $EMPRESA = $r['ID_EMPRESA'];
             $TEMPORADA = $r['ID_TEMPORADA'];
             $ESTADO = $r['ESTADO'];
@@ -806,6 +810,8 @@ if (isset($id_dato) && isset($accion_dato)) {
             $OBSERVACIONINSTRUCTIVO = $r['OBSERVACION_ICARGA'];
             $OBSERVACIONIINSTRUCTIVO = $r['OBSERVACIONI_ICARGA'];
             $PAIS = $r['ID_PAIS'];
+            $PAIS_PUERTO = $PAIS;
+            $PAIS_FINAL = $PAIS;
             $EMPRESA = $r['ID_EMPRESA'];
             $TEMPORADA = $r['ID_TEMPORADA'];
             $ESTADO = $r['ESTADO'];
