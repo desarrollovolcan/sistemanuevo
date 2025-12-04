@@ -3080,8 +3080,7 @@ if (isset($_POST)) {
                                                 <div class="form-group">
                                                     <label>Emision BL</label>
                                                     <input type="hidden" class="form-control" placeholder="EMISIONBL" id="EMISIONBLE" name="EMISIONBLE" value="<?php echo $EMISIONBL; ?>" />
-                                                    <select class="form-control select2" id="EMISIONBL" name="EMISIONBL" style="width: 100%;" <?php echo $DISABLED; ?>>
-                                                        <option></option>
+                                                    <select class="form-control selectpicker" data-live-search="true" data-live-search-style="contains" data-size="15" title="Seleccione Emisión BL" id="EMISIONBL" name="EMISIONBL" <?php echo $DISABLED; ?>>
                                                         <?php foreach ($ARRAYEMISIONBL as $r) : ?>
                                                             <?php if ($ARRAYEMISIONBL) {    ?>
                                                                 <option value="<?php echo $r['ID_EMISIONBL']; ?>" <?php if ($EMISIONBL == $r['ID_EMISIONBL']) { echo "selected"; } ?>>
@@ -3625,8 +3624,7 @@ if (isset($_POST)) {
                                                 <div class="form-group">
                                                     <label>Emision BL</label>
                                                     <input type="hidden" class="form-control" placeholder="EMISIONBL" id="EMISIONBLE" name="EMISIONBLE" value="<?php echo $EMISIONBL; ?>" />
-                                                    <select class="form-control select2" id="EMISIONBL" name="EMISIONBL" style="width: 100%;" <?php echo $DISABLED; ?>>
-                                                        <option></option>
+                                                    <select class="form-control selectpicker" data-live-search="true" data-live-search-style="contains" data-size="15" title="Seleccione Emisión BL" id="EMISIONBL" name="EMISIONBL" <?php echo $DISABLED; ?>>
                                                         <?php foreach ($ARRAYEMISIONBL as $r) : ?>
                                                             <?php if ($ARRAYEMISIONBL) {    ?>
                                                                 <option value="<?php echo $r['ID_EMISIONBL']; ?>" <?php if ($EMISIONBL == $r['ID_EMISIONBL']) { echo "selected"; } ?>>
@@ -4323,7 +4321,17 @@ if (isset($_POST)) {
                                                 <div class="form-group">
                                                     <label>Emisión BL</label>
                                                     <input type="hidden" class="form-control" placeholder="EMISIONBL" id="EMISIONBLE" name="EMISIONBLE" value="<?php echo $EMISIONBL; ?>" />
-                                                    <input type="text" class="form-control" placeholder="Ingrese BL/AWB/CRT" id="EMISIONBL" name="EMISIONBL" value="<?php echo $EMISIONBL; ?>" <?php echo $DISABLED; ?> />
+                                                    <select class="form-control selectpicker" data-live-search="true" data-live-search-style="contains" data-size="15" title="Seleccione Emisión BL" id="EMISIONBL" name="EMISIONBL" <?php echo $DISABLED; ?>>
+                                                        <?php foreach ($ARRAYEMISIONBL as $r) : ?>
+                                                            <?php if ($ARRAYEMISIONBL) {    ?>
+                                                                <option value="<?php echo $r['ID_EMISIONBL']; ?>" <?php if ($EMISIONBL == $r['ID_EMISIONBL']) { echo "selected"; } ?>>
+                                                                    <?php echo $r['NOMBRE_EMISIONBL'] ?>
+                                                                </option>
+                                                            <?php } else { ?>
+                                                                <option value="0">No Hay Datos Registrados </option>
+                                                            <?php } ?>
+                                                        <?php endforeach; ?>
+                                                    </select>
                                                     <label id="val_emisionbl" class="validacion"> </label>
                                                 </div>
                                             </div>
@@ -4383,8 +4391,7 @@ if (isset($_POST)) {
                                                 <div class="form-group">
                                                     <label>Emision BL</label>
                                                     <input type="hidden" class="form-control" placeholder="EMISIONBL" id="EMISIONBLE" name="EMISIONBLE" value="<?php echo $EMISIONBL; ?>" />
-                                                    <select class="form-control select2" id="EMISIONBL" name="EMISIONBL" style="width: 100%;" <?php echo $DISABLED; ?>>
-                                                        <option></option>
+                                                    <select class="form-control selectpicker" data-live-search="true" data-live-search-style="contains" data-size="15" title="Seleccione Emisión BL" id="EMISIONBL" name="EMISIONBL" <?php echo $DISABLED; ?>>
                                                         <?php foreach ($ARRAYEMISIONBL as $r) : ?>
                                                             <?php if ($ARRAYEMISIONBL) {    ?>
                                                                 <option value="<?php echo $r['ID_EMISIONBL']; ?>" <?php if ($EMISIONBL == $r['ID_EMISIONBL']) { echo "selected"; } ?>>
@@ -5613,6 +5620,13 @@ if (isset($_POST)) {
     <!- LLAMADA URL DE ARCHIVOS DE DISEÑO Y JQUERY E OTROS -!>
         <?php include_once "../../assest/config/urlBase.php"; ?>
         <script>
+            $(document).ready(function () {
+                $('.selectpicker').selectpicker({
+                    liveSearchPlaceholder: 'Buscar...',
+                    noneResultsText: 'Sin resultados para {0}'
+                });
+            });
+
             document.addEventListener('DOMContentLoaded', function () {
                 const paisSelects = document.querySelectorAll('.pais-destino');
                 const paisHidden = document.getElementById('PAISE');
