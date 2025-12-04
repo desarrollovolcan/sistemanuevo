@@ -43,6 +43,7 @@ include_once '../../assest/controlador/TFLETE_ADO.php';
 
 include_once '../../assest/controlador/TCONTENEDOR_ADO.php';
 include_once '../../assest/controlador/ATMOSFERA_ADO.php';
+include_once '../../assest/controlador/EMISIONBL_ADO.php';
 include_once '../../assest/controlador/PAIS_ADO.php';
 include_once '../../assest/controlador/SEGURO_ADO.php';
 
@@ -101,6 +102,7 @@ $CVENTA_ADO =  new CVENTA_ADO();
 $TFLETE_ADO =  new TFLETE_ADO();
 $TCONTENEDOR_ADO =  new TCONTENEDOR_ADO();
 $ATMOSFERA_ADO =  new ATMOSFERA_ADO();
+$EMISIONBL_ADO =  new EMISIONBL_ADO();
 $SEGURO_ADO =  new SEGURO_ADO();
 
 $EEXPORTACION_ADO = new EEXPORTACION_ADO();
@@ -139,6 +141,7 @@ $BOLAWBCRTINSTRUCTIVO="";
 $CONSIGNATARIO = "";
 $FECHAETD = "";
 $FECHAETA = "";
+$FECHAETDREAL = "";
 $TEMBARQUE = "";
 $TRANSPORTE = "";
 $LCARGA = "";
@@ -269,8 +272,15 @@ if($ARRAYICARGA){
       $BOOKINGINSTRUCTIVO = $ARRAYICARGA[0]['BOOKING_ICARGA'];
       $TEMBARQUE = $ARRAYICARGA[0]['TEMBARQUE_ICARGA'];
       $FECHAETD = $ARRAYICARGA[0]['FECHAETD'];
-      $FECHAETA = $ARRAYICARGA[0]['FECHAETA'];    
-      $BOLAWBCRTINSTRUCTIVO = $ARRAYICARGA[0]['BOLAWBCRT_ICARGA'];
+      $FECHAETA = $ARRAYICARGA[0]['FECHAETA'];
+      $FECHAETDREAL = $ARRAYICARGA[0]['FECHAETDREAL'];
+      if(!$FECHAETDREAL){
+        $FECHAETDREAL = "Sin Datos";
+      }
+        $BOLAWBCRTINSTRUCTIVO = $ARRAYICARGA[0]['CRT_ICARGA'];
+        if(!$BOLAWBCRTINSTRUCTIVO){
+          $BOLAWBCRTINSTRUCTIVO = "Sin Datos";
+        }
 
 
       $TINSTRUCTIVO = $ARRAYICARGA[0]['T_ICARGA'];
@@ -641,30 +651,33 @@ $html = '
     ';
     if ($TEMBARQUE == "1") {
       $html = $html . '
-        <div class="address"> <b>  Date ETD:   </b>  '.$FECHAETD.'</div>  
+        <div class="address"> <b>  Date ETD:   </b>  '.$FECHAETD.'</div>
         <div class="address"> <b>  Date ETA:  </b>  '.$FECHAETA.' </div>
         <div class="address"> <b>  Container number:  </b> '.$NUMEROCONTENEDOR.'  </div>
         <div class="address"> <b>  FDA Packing:  </b> '.$FDADESPACHOEX.'  </div>
+        <div class="address"> <b>  Date Real ETD :   </b>  '.$FECHAETDREAL.'</div>
       ';
     }
     if ($TEMBARQUE == "2") {
         $html = $html . '
     
-        <div class="address"> <b>  Date ETD:   </b>  '.$FECHAETD.'</div>  
+        <div class="address"> <b>  Date ETD:   </b>  '.$FECHAETD.'</div>
         <div class="address"> <b>  Date ETA:  </b>  '.$FECHAETA.' </div>
         <div class="address"> <b>  Container number:  </b> '.$NUMEROCONTENEDOR.'  </div>
         <div class="address"> <b>  FDA Packing:  </b> '.$FDADESPACHOEX.'  </div>
-    
+        <div class="address"> <b>  Date Real ETD :   </b>  '.$FECHAETDREAL.'</div>
+
         ';
      }
     if ($TEMBARQUE == "3") {
         $html = $html . '
     
-        <div class="address"> <b>  Date ETD:  </b>   '.$FECHAETD.'</div>  
+        <div class="address"> <b>  Date ETD:  </b>   '.$FECHAETD.'</div>
         <div class="address"> <b>  Date ETA:   </b> '.$FECHAETA.' </div>
         <div class="address"> <b>  Container number:  </b> '.$NUMEROCONTENEDOR.'  </div>
         <div class="address"> <b>  FDA Packing:  </b> '.$FDADESPACHOEX.'  </div>
-    
+        <div class="address"> <b>  Date Real ETD :   </b>  '.$FECHAETDREAL.'</div>
+
         ';
     }    
 
