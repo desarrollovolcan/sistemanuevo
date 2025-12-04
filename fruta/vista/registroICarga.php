@@ -1187,8 +1187,8 @@ if (isset($_POST)) {
         }
 
         /* Mantener los selectpicker con bordes rectos como el resto de los campos */
-        .bootstrap-select.btn-rounded,
-        .bootstrap-select .dropdown-toggle.btn-rounded {
+        .bootstrap-select .dropdown-toggle,
+        .bootstrap-select > .btn {
             border-radius: 0 !important;
         }
     </style>
@@ -5627,7 +5627,18 @@ if (isset($_POST)) {
         <?php include_once "../../assest/config/urlBase.php"; ?>
         <script>
             $(document).ready(function () {
+                // Migrar todos los select de ICarga al formato selectpicker con búsqueda
+                $('select.select2').each(function () {
+                    $(this)
+                        .removeClass('select2')
+                        .addClass('selectpicker')
+                        .attr('data-live-search', 'true')
+                        .attr('data-live-search-style', 'contains')
+                        .attr('data-size', '15');
+                });
+
                 $('.selectpicker').selectpicker({
+                    liveSearch: true,
                     liveSearchPlaceholder: 'Buscar...',
                     noneResultsText: 'Sin resultados para {0}'
                 });
@@ -5643,7 +5654,7 @@ if (isset($_POST)) {
                             if (other !== origin) {
                                 other.value = value;
                                 if (window.$ && typeof window.$ === 'function') {
-                                    window.$(other).trigger('change.select2');
+                                    window.$(other).trigger('change');
                                 }
                             }
                         });
