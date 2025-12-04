@@ -469,12 +469,12 @@ if (isset($id_dato) && isset($accion_dato)) {
             $FDA = $r['FDA_ICARGA'];
             $TEMBARQUE = $r['TEMBARQUE_ICARGA'];
             $COSTOFLETE = $r['COSTO_FLETE_ICARGA'];
+            $CRT = $r['CRT_ICARGA'];
             $LCARGA = $r['ID_LCARGA'];
             if ($TEMBARQUE) {
                 if ($TEMBARQUE == "1") {
                     $TRANSPORTE = $r['ID_TRANSPORTE'];
-                    $CRT = $r['CRT_ICARGA'];
-                    
+
                     $LDESTINO = $r['ID_LDESTINO'];
                 }
                 if ($TEMBARQUE == "2") {
@@ -570,12 +570,12 @@ if (isset($id_dato) && isset($accion_dato)) {
             $FDA = $r['FDA_ICARGA'];
             $TEMBARQUE = $r['TEMBARQUE_ICARGA'];
             $COSTOFLETE = $r['COSTO_FLETE_ICARGA'];
+            $CRT = $r['CRT_ICARGA'];
             $LCARGA = $r['ID_LCARGA'];
             if ($TEMBARQUE) {
                 if ($TEMBARQUE == "1") {
                     $TRANSPORTE = $r['ID_TRANSPORTE'];
-                    $CRT = $r['CRT_ICARGA'];
-                    
+
                     $LDESTINO = $r['ID_LDESTINO'];
                 }
                 if ($TEMBARQUE == "2") {
@@ -663,10 +663,10 @@ if (isset($id_dato) && isset($accion_dato)) {
             $FDA = $r['FDA_ICARGA'];
             $TEMBARQUE = $r['TEMBARQUE_ICARGA'];
             $COSTOFLETE = $r['COSTO_FLETE_ICARGA'];
+            $CRT = $r['CRT_ICARGA'];
             if ($TEMBARQUE) {
                 if ($TEMBARQUE == "1") {
                     $TRANSPORTE = $r['ID_TRANSPORTE'];
-                    $CRT = $r['CRT_ICARGA'];
                     $LCARGA = $r['ID_LCARGA'];
                     $LDESTINO = $r['ID_LDESTINO'];
                 }
@@ -765,12 +765,12 @@ if (isset($id_dato) && isset($accion_dato)) {
             $FDA = $r['FDA_ICARGA'];
             $TEMBARQUE = $r['TEMBARQUE_ICARGA'];
             $COSTOFLETE = $r['COSTO_FLETE_ICARGA'];
+            $CRT = $r['CRT_ICARGA'];
             $LCARGA = $r['ID_LCARGA'];
             $PLANTA = $r['ID_PLANTA'];
             if ($TEMBARQUE) {
                 if ($TEMBARQUE == "1") {
                     $TRANSPORTE = $r['ID_TRANSPORTE'];
-                    $CRT = $r['CRT_ICARGA'];
                     $LDESTINO = $r['ID_LDESTINO'];
                 }
                 if ($TEMBARQUE == "2") {
@@ -881,13 +881,14 @@ if (isset($id_dato) && isset($accion_dato)) {
                 $ICARGA->__SET('ID_ACARGA', $ACARGA);
                 $ICARGA->__SET('ID_ADESTINO', $ADESTINO);
             }
-            if ($TEMBARQUE == "3") {
-                $ICARGA->__SET('ID_NAVIERA', $NAVIERA);
-                $ICARGA->__SET('NAVE_ICARGA', $NAVE);
-                $ICARGA->__SET('FECHASTACKING_ICARGA', $FECHASTACKING);
-                $ICARGA->__SET('FECHASTACKINGF_ICARGA', $FECHASTACKINGF);
-                $ICARGA->__SET('NVIAJE_ICARGA', $NVIAJE);
-                $ICARGA->__SET('ID_PCARGA', $PCARGA);
+              if ($TEMBARQUE == "3") {
+                  $ICARGA->__SET('ID_NAVIERA', $NAVIERA);
+                  $ICARGA->__SET('NAVE_ICARGA', $NAVE);
+                  $ICARGA->__SET('CRT_ICARGA', $CRT);
+                  $ICARGA->__SET('FECHASTACKING_ICARGA', $FECHASTACKING);
+                  $ICARGA->__SET('FECHASTACKINGF_ICARGA', $FECHASTACKINGF);
+                  $ICARGA->__SET('NVIAJE_ICARGA', $NVIAJE);
+                  $ICARGA->__SET('ID_PCARGA', $PCARGA);
                 $ICARGA->__SET('ID_PDESTINO', $PDESTINO);
             }
 
@@ -1114,6 +1115,9 @@ if (isset($_POST)) {
     //OTROS
     if (isset($_REQUEST['DUSINSTRUCTIVO'])) {
         $DUSINSTRUCTIVO = $_REQUEST['DUSINSTRUCTIVO'];
+    }
+    if (isset($_REQUEST['CRT'])) {
+        $CRT = $_REQUEST['CRT'];
     }
     if (isset($_REQUEST['BOLAWBCRTINSTRUCTIVO'])) {
         $BOLAWBCRTINSTRUCTIVO = $_REQUEST['BOLAWBCRTINSTRUCTIVO'];
@@ -4870,10 +4874,10 @@ if (isset($_POST)) {
                                              
                                             <div class="col-xxl-3 col-xl-5 col-lg-8 col-md-8 col-sm-8 col-8 col-xs-8">
                                                 <div class="form-group">
-                                                    <label>BL / AWB / CRT 2</label>
-                                                    <input type="hidden" class="form-control" placeholder="BOLAWBCRTINSTRUCTIVOE" id="BOLAWBCRTINSTRUCTIVOE" name="BOLAWBCRTINSTRUCTIVOE" value="<?php echo $BOLAWBCRTINSTRUCTIVO; ?>" />
-                                                    <input type="text" class="form-control" placeholder="Ingrese BL/AWB/CRT" id="BOLAWBCRTINSTRUCTIVO" name="BOLAWBCRTINSTRUCTIVO" value="<?php echo $BOLAWBCRTINSTRUCTIVO; ?>" <?php echo $DISABLED; ?> />
-                                                    <label id="val_bolawbcrt" class="validacion"> </label>
+                                                    <label>N° de BL</label>
+                                                    <input type="hidden" class="form-control" placeholder="CRTE" id="CRTE" name="CRTE" value="<?php echo $CRT; ?>" />
+                                                    <input type="text" class="form-control" placeholder="Ingrese N° de BL" id="CRT" name="CRT" value="<?php echo $CRT; ?>" <?php echo $DISABLED; ?> />
+                                                    <label id="val_crt" class="validacion"> </label>
                                                 </div>
                                             </div>
                                             <div class="col-xxl-2 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-6 col-xs-6">
@@ -5759,6 +5763,7 @@ if (isset($_POST)) {
                     if ($_REQUEST['TEMBARQUE'] == "3") {
                         $ICARGA->__SET('ID_NAVIERA', $_REQUEST['NAVIERA']);
                         $ICARGA->__SET('NAVE_ICARGA', $_REQUEST['NAVE']);
+                        $ICARGA->__SET('CRT_ICARGA', $_REQUEST['CRT']);
                         $ICARGA->__SET('FECHASTACKING_ICARGA', $_REQUEST['FECHASTACKING']);
                         $ICARGA->__SET('FECHASTACKINGF_ICARGA', $_REQUEST['FECHASTACKINGF']);
                         $ICARGA->__SET('NVIAJE_ICARGA', $_REQUEST['NVIAJE']);
@@ -5974,6 +5979,7 @@ if (isset($_POST)) {
                     if ($_REQUEST['TEMBARQUE'] == "3") {
                         $ICARGA->__SET('ID_NAVIERA', $_REQUEST['NAVIERA'] ?? null);
                         $ICARGA->__SET('NAVE_ICARGA', $_REQUEST['NAVE'] ?? null);
+                        $ICARGA->__SET('CRT_ICARGA', $_REQUEST['CRT'] ?? null);
                         $ICARGA->__SET('FECHASTACKING_ICARGA', $_REQUEST['FECHASTACKING'] ?? null);
                         $ICARGA->__SET('FECHASTACKINGF_ICARGA', $_REQUEST['FECHASTACKINGF'] ?? null);
                         $ICARGA->__SET('NVIAJE_ICARGA', $_REQUEST['NVIAJE'] ?? null);
