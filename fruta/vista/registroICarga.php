@@ -4323,18 +4323,7 @@ if (isset($_POST)) {
                                                 <div class="form-group">
                                                     <label>Emisión BL</label>
                                                     <input type="hidden" class="form-control" placeholder="EMISIONBL" id="EMISIONBLE" name="EMISIONBLE" value="<?php echo $EMISIONBL; ?>" />
-                                                    <select class="form-control select2" id="EMISIONBL" name="EMISIONBL" style="width: 100%;" <?php echo $DISABLED; ?>>
-                                                        <option></option>
-                                                        <?php foreach ($ARRAYEMISIONBL as $r) : ?>
-                                                            <?php if ($ARRAYEMISIONBL) {    ?>
-                                                                <option value="<?php echo $r['ID_EMISIONBL']; ?>" <?php if ($EMISIONBL == $r['ID_EMISIONBL']) { echo "selected"; } ?>>
-                                                                    <?php echo $r['NOMBRE_EMISIONBL'] ?>
-                                                                </option>
-                                                            <?php } else { ?>
-                                                                <option value="0">No Hay Datos Registrados </option>
-                                                            <?php } ?>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                                    <input type="text" class="form-control" placeholder="Ingrese BL/AWB/CRT" id="EMISIONBL" name="EMISIONBL" value="<?php echo $EMISIONBL; ?>" <?php echo $DISABLED; ?> />
                                                     <label id="val_emisionbl" class="validacion"> </label>
                                                 </div>
                                             </div>
