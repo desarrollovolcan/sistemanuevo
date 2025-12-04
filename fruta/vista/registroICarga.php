@@ -5637,6 +5637,22 @@ if (isset($_POST)) {
     </div>
     <!- LLAMADA URL DE ARCHIVOS DE DISEÑO Y JQUERY E OTROS -!>
         <?php include_once "../../assest/config/urlBase.php"; ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const paisSelects = document.querySelectorAll('select[name="PAIS"]');
+                if (paisSelects.length > 1) {
+                    paisSelects.forEach((select) => {
+                        select.addEventListener('change', function () {
+                            paisSelects.forEach((other) => {
+                                if (other !== this) {
+                                    other.value = this.value;
+                                }
+                            });
+                        });
+                    });
+                }
+            });
+        </script>
         <?php
             //OPERACIONES
             //OPERACION DE REGISTRO DE FILA
@@ -5859,15 +5875,10 @@ if (isset($_POST)) {
                 </script>';
 
             }
-            
-    
-            //OPERACION EDICION DE FILA    
-            if (isset($_REQUEST['GUARDAR'])) {
-                
 
-                echo '<script>
-                        alert("'.$_REQUEST['EMISIONBL'].'-'.$_REQUEST['LCARGA'].'");
-                    </script>';
+
+            //OPERACION EDICION DE FILA
+            if (isset($_REQUEST['GUARDAR'])) {
 
                 $PUBLICAINSTRUCTIVO = $_REQUEST['NETOINSTRUCTIVO'] + $_REQUEST['REBATEINSTRUCTIVO'];
                 $ICARGA->__SET('FECHA_ICARGA', $_REQUEST['FECHAINSTRUCTIVO']);
@@ -5924,8 +5935,6 @@ if (isset($_POST)) {
                         $ICARGA->__SET('NVIAJE_ICARGA', $_REQUEST['NVIAJE']);
                         $ICARGA->__SET('ID_ACARGA', $_REQUEST['ACARGA']);
                         $ICARGA->__SET('ID_ADESTINO', $_REQUEST['ADESTINO']);
-                    
-                        echo $_REQUEST['ADESTINO'];
                     }
                     if ($_REQUEST['TEMBARQUE'] == "3") {
                         $ICARGA->__SET('ID_NAVIERA', $_REQUEST['NAVIERA']);
@@ -5991,11 +6000,6 @@ if (isset($_POST)) {
                         })
                     </script>';
                 }
-                echo "<pre>DUPLICAR DETECTADO\n";
-                var_dump($_REQUEST);
-                echo "</pre>";
-                exit;
-                
             }
             if (isset($_REQUEST['CERRAR'])) {
                 if ($_REQUEST['IDP']) {

@@ -3659,7 +3659,6 @@ if (isset($_POST)) {
                         $ICARGA->__SET('NVIAJE_ICARGA', $_REQUEST['NVIAJE']);
                         $ICARGA->__SET('ID_ACARGA', $_REQUEST['ACARGA']);
                         $ICARGA->__SET('ID_ADESTINO', $_REQUEST['ADESTINO']);
-                        echo $_REQUEST['ADESTINO'];
                     }
                     if ($_REQUEST['TEMBARQUE'] == "3") {
                         $ICARGA->__SET('ID_NAVIERA', $_REQUEST['NAVIERA']);
