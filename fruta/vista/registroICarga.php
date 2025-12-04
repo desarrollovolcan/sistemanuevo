@@ -5859,15 +5859,10 @@ if (isset($_POST)) {
                 </script>';
 
             }
-            
-    
-            //OPERACION EDICION DE FILA    
-            if (isset($_REQUEST['GUARDAR'])) {
-                
 
-                echo '<script>
-                        alert("'.$_REQUEST['EMISIONBL'].'-'.$_REQUEST['LCARGA'].'");
-                    </script>';
+
+            //OPERACION EDICION DE FILA
+            if (isset($_REQUEST['GUARDAR'])) {
 
                 $PUBLICAINSTRUCTIVO = $_REQUEST['NETOINSTRUCTIVO'] + $_REQUEST['REBATEINSTRUCTIVO'];
                 $ICARGA->__SET('FECHA_ICARGA', $_REQUEST['FECHAINSTRUCTIVO']);
