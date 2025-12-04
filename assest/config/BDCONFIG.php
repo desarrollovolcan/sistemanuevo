@@ -5,14 +5,15 @@ class BDCONFIG {
     private $USER;
     private $PASS;
     private $DBNAME;
+    private $PORT;
 
     public function __construct()
     {
-          $this->HOST = "190.13.179.171";
-        $this->USER = "sm_produccion";
-        $this->PASS = "D6zZPo9cS*5DXW@S";
-        $this->DBNAME = "smartberry_produccion";
-
+        $this->HOST = getenv('DB_HOST') ?: '190.13.179.171';
+        $this->USER = getenv('DB_USER') ?: 'sm_produccion';
+        $this->PASS = getenv('DB_PASS') ?: 'D6zZPo9cS*5DXW@S';
+        $this->DBNAME = getenv('DB_NAME') ?: 'smartberry_produccion';
+        $this->PORT = getenv('DB_PORT') ?: '3306';
     }
 
     public function __GET($k) {
@@ -25,13 +26,14 @@ class BDCONFIG {
 
     public function conectar() {
         try {
-            $link = new PDO("mysql:host={$this->HOST};dbname={$this->DBNAME}", $this->USER, $this->PASS);
-            $link->exec("set names utf8");
-            $link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $dsn = "mysql:host={$this->HOST};port={$this->PORT};dbname={$this->DBNAME};charset=utf8mb4";
+            $link = new PDO($dsn, $this->USER, $this->PASS, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_TIMEOUT => 15,
+            ]);
             return $link;
         } catch (PDOException $e) {
-            // Maneja el error de conexi贸n aqu铆, si es necesario
-            echo 'Error de conexi贸n: ' . $e->getMessage();
+            echo 'Error de conexión: ' . $e->getMessage();
             return null;
         }
     }
