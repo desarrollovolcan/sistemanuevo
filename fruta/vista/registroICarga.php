@@ -197,6 +197,8 @@ $OBSERVACIONINSTRUCTIVO = "";
 $OBSERVACIONIINSTRUCTIVO = "";
 $ESTADO = "";
 $PAIS = "";
+$PAIS_PUERTO = "";
+$PAIS_FINAL = "";
 
 
 $PUBLICA = "";
@@ -513,6 +515,8 @@ if (isset($id_dato) && isset($accion_dato)) {
             $OBSERVACIONINSTRUCTIVO = $r['OBSERVACION_ICARGA'];
             $OBSERVACIONIINSTRUCTIVO = $r['OBSERVACIONI_ICARGA'];
             $PAIS = $r['ID_PAIS'];
+            $PAIS_PUERTO = $PAIS;
+            $PAIS_FINAL = $PAIS;
             $EMPRESA = $r['ID_EMPRESA'];
             $TEMPORADA = $r['ID_TEMPORADA'];
             $ESTADO = $r['ESTADO'];
@@ -962,6 +966,12 @@ if (isset($_POST)) {
     }
     if (isset($_REQUEST['PAIS'])) {
         $PAIS = $_REQUEST['PAIS'];
+    }
+    if (isset($_REQUEST['PAIS_PUERTO'])) {
+        $PAIS_PUERTO = $_REQUEST['PAIS_PUERTO'];
+    }
+    if (isset($_REQUEST['PAIS_FINAL'])) {
+        $PAIS_FINAL = $_REQUEST['PAIS_FINAL'];
     }
     //DATOS EMBARQUE 
     if (isset($_REQUEST['FECHAETD'])) {
@@ -4121,11 +4131,11 @@ if (isset($_POST)) {
                                                 <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 col-xs-12">
                                                 <div class="form-group">
                                                     <label>Pais Destino</label>
-                                                    <select class="form-control select2 pais-destino" id="PAIS_PUERTO" style="width: 100%;" value="<?php echo $PAIS; ?>" <?php echo $DISABLED; ?>>
+                                                    <select class="form-control select2 pais-destino" id="PAIS_PUERTO" name="PAIS_PUERTO" style="width: 100%;" value="<?php echo $PAIS_PUERTO; ?>" <?php echo $DISABLED; ?>>
                                                         <option></option>
                                                         <?php foreach ($ARRAYPAIS as $r) : ?>
                                                             <?php if ($ARRAYPAIS) {    ?>
-                                                                <option value="<?php echo $r['ID_PAIS']; ?>" <?php if ($PAIS == $r['ID_PAIS']) { echo "selected"; } ?>>
+                                                                <option value="<?php echo $r['ID_PAIS']; ?>" <?php if ($PAIS_PUERTO == $r['ID_PAIS']) { echo "selected"; } ?>>
                                                                     <?php echo $r['NOMBRE_PAIS'] ?>
                                                                 </option>
                                                             <?php } else { ?>
@@ -4139,11 +4149,11 @@ if (isset($_POST)) {
                                              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 col-xs-12">
                                                 <div class="form-group">
                                                     <label>Pais Destino Final</label>
-                                                    <select class="form-control select2 pais-destino" id="PAIS_FINAL" style="width: 100%;" value="<?php echo $PAIS; ?>" <?php echo $DISABLED; ?>>
+                                                    <select class="form-control select2 pais-destino" id="PAIS_FINAL" name="PAIS_FINAL" style="width: 100%;" value="<?php echo $PAIS_FINAL; ?>" <?php echo $DISABLED; ?>>
                                                         <option></option>
                                                         <?php foreach ($ARRAYPAIS as $r) : ?>
                                                             <?php if ($ARRAYPAIS) {    ?>
-                                                                <option value="<?php echo $r['ID_PAIS']; ?>" <?php if ($PAIS == $r['ID_PAIS']) { echo "selected"; } ?>>
+                                                                <option value="<?php echo $r['ID_PAIS']; ?>" <?php if ($PAIS_FINAL == $r['ID_PAIS']) { echo "selected"; } ?>>
                                                                     <?php echo $r['NOMBRE_PAIS'] ?>
                                                                 </option>
                                                             <?php } else { ?>
@@ -5665,11 +5675,22 @@ if (isset($_POST)) {
         <?php
             //OPERACIONES
             $PAISSELECCIONADO = $PAIS;
-            if (isset($_REQUEST['PAIS']) && $_REQUEST['PAIS'] !== '') {
+            if (isset($_REQUEST['PAIS_FINAL']) && $_REQUEST['PAIS_FINAL'] !== '') {
+                $PAISSELECCIONADO = $_REQUEST['PAIS_FINAL'];
+            } elseif (isset($_REQUEST['PAIS_PUERTO']) && $_REQUEST['PAIS_PUERTO'] !== '') {
+                $PAISSELECCIONADO = $_REQUEST['PAIS_PUERTO'];
+            } elseif (isset($_REQUEST['PAIS']) && $_REQUEST['PAIS'] !== '') {
                 $PAISSELECCIONADO = $_REQUEST['PAIS'];
             } elseif (isset($_REQUEST['PAISE']) && $_REQUEST['PAISE'] !== '') {
                 $PAISSELECCIONADO = $_REQUEST['PAISE'];
             }
+            if ($PAIS_PUERTO === "") {
+                $PAIS_PUERTO = $PAISSELECCIONADO;
+            }
+            if ($PAIS_FINAL === "") {
+                $PAIS_FINAL = $PAISSELECCIONADO;
+            }
+            $PAIS = $PAISSELECCIONADO;
             //OPERACION DE REGISTRO DE FILA
             if (isset($_REQUEST['CREAR'])) {
 
