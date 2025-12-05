@@ -53,13 +53,13 @@ if (isset($_REQUEST['SOLICITAR'])) {
 
         $correoDestino = ['maperez@fvolcan.cl', 'eisla@fvolcan.cl'];
         $asunto = 'Código de autorización - Cambio de folio materia prima';
-        $mensajeCorreo = "Se ha solicitado un código para cambiar el folio de materia prima." . PHP_EOL . PHP_EOL .
-            "Usuario: " . $_SESSION['NOMBRE_USUARIO'] . PHP_EOL .
-            "Planta: " . $NOMBREPLANTA . PHP_EOL .
-            "Empresa: " . $NOMBREEMPRESA . PHP_EOL .
-            "Folio actual: " . $FOLIO . PHP_EOL .
-            (empty($MOTIVO) ? "" : "Motivo: " . $MOTIVO . PHP_EOL) .
-            "Código de autorización: " . $CODIGOVERIFICACION . PHP_EOL . PHP_EOL .
+        $mensajeCorreo = "Se ha solicitado un código para cambiar el folio de materia prima." . "\r\n\r\n" .
+            "Usuario: " . $_SESSION['NOMBRE_USUARIO'] . "\r\n" .
+            "Planta: " . $NOMBREPLANTA . "\r\n" .
+            "Empresa: " . $NOMBREEMPRESA . "\r\n" .
+            "Folio actual: " . $FOLIO . "\r\n" .
+            (empty($MOTIVO) ? "" : "Motivo: " . $MOTIVO . "\r\n") .
+            "Código de autorización: " . $CODIGOVERIFICACION . "\r\n\r\n" .
             "Este código es válido por 15 minutos.";
 
         $remitente = 'sistema@fvolcan.cl';
@@ -68,11 +68,36 @@ if (isset($_REQUEST['SOLICITAR'])) {
         $cabecera .= "MIME-Version: 1.0\r\n";
         $cabecera .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-        $envioExitoso = mail(implode(', ', $correoDestino), $asunto, $mensajeCorreo, $cabecera, "-f{$remitente}");
-        if ($envioExitoso) {
+        ini_set('sendmail_from', $remitente);
+        $smtpHost = getenv('SMTP_HOST') ?: ini_get('SMTP');
+        $smtpPort = getenv('SMTP_PORT') ?: ini_get('smtp_port');
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            if ($smtpHost) {
+                ini_set('SMTP', $smtpHost);
+            }
+            if ($smtpPort) {
+                ini_set('smtp_port', $smtpPort);
+            }
+        }
+
+        $erroresEnvio = [];
+        $usarParametrosAdicionales = strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN';
+        foreach ($correoDestino as $destinatario) {
+            $envioExitoso = $usarParametrosAdicionales
+                ? mail($destinatario, $asunto, $mensajeCorreo, $cabecera, "-f{$remitente}")
+                : mail($destinatario, $asunto, $mensajeCorreo, $cabecera);
+            if (!$envioExitoso) {
+                $erroresEnvio[] = $destinatario;
+            }
+        }
+
+        if (empty($erroresEnvio)) {
             $MENSAJEENVIO = "Código enviado a los correos autorizados.";
         } else {
-            $MENSAJE = "No fue posible enviar el correo de autorización. Verifique la configuración de envío de correos en el servidor.";
+            $ultimoError = error_get_last();
+            $MENSAJE = "No fue posible enviar el correo a: " . implode(', ', $erroresEnvio) .
+                (empty($ultimoError['message']) ? "" : " (" . $ultimoError['message'] . ")") .
+                ". Verifique la configuración de correo en el servidor.";
         }
     }
 }
