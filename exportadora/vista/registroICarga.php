@@ -937,19 +937,24 @@ if (isset($_POST)) {
             border: 1px solid #d9dde3;
             background: #f9fafb;
             box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
-            padding: 10px 12px;
+            padding: 10px 14px;
             text-align: center;
             height: 44px;
+            line-height: 22px;
+            transition: all 0.2s ease;
+        }
+
+        .select2-container--default .select2-selection--single {
             display: flex;
             align-items: center;
-            transition: all 0.2s ease;
+            justify-content: center;
         }
 
         select.form-control {
             text-align-last: center;
-            display: flex;
-            align-items: center;
-            padding: 0 12px;
+            padding: 10px 12px;
+            line-height: 22px;
+            height: 44px;
         }
 
         .form-control:focus,
@@ -979,6 +984,11 @@ if (isset($_POST)) {
         label {
             font-weight: 600;
             color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .card .form-group {
+            margin-bottom: 12px;
         }
 
         .btn {
