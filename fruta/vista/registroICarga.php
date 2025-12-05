@@ -1286,6 +1286,27 @@ if (isset($_POST)) {
             margin-bottom: 12px;
         }
 
+        .compact-row [class*="col-"] {
+            margin-bottom: 10px;
+        }
+
+        .inline-field-action {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .inline-field-action .select2-container,
+        .inline-field-action .form-control {
+            flex: 1 1 auto;
+        }
+
+        .inline-field-action .btn {
+            flex: 0 0 44px;
+            padding: 10px 0;
+            min-width: 44px;
+        }
+
         .btn {
             border-radius: 12px;
             border: none;
