@@ -31,9 +31,11 @@ $MOTIVO = "";
 $MENSAJE = "";
 $MENSAJEEXITO = "";
 $MENSAJEENVIO = "";
+$FILTROESTADO = 1;
 $IDRECEPCION = "";
 $NUMERORECEPCION = "";
 $ESTADORECEPCION = null;
+$ESTADOFOLIO = 0;
 $CORREOUSUARIO = "";
 $NOMBRECOMPLETOUSUARIO = "";
 $NOMBREEMPRESA = "";
@@ -72,6 +74,10 @@ if ($ARRAYTEMPORADA) {
 if (!empty($_SESSION['GESTION_FOLIO_MP_EXITO'])) {
     $MENSAJEEXITO = $_SESSION['GESTION_FOLIO_MP_EXITO'];
     unset($_SESSION['GESTION_FOLIO_MP_EXITO']);
+}
+
+if (isset($_REQUEST['FILTRO_ESTADO'])) {
+    $FILTROESTADO = $_REQUEST['FILTRO_ESTADO'] === "0" ? 0 : 1;
 }
 
 function enviarCorreoSMTP($destinatarios, $asunto, $mensaje, $remitente, $usuario, $contrasena, $host, $puerto, $timeout = 30)
@@ -171,7 +177,7 @@ function enviarCorreoSMTP($destinatarios, $asunto, $mensaje, $remitente, $usuari
     return [true, null];
 }
 
-$ARRAYEXISTENCIA = $EXIMATERIAPRIMA_ADO->listarEximateriaprimaEnExistencia($EMPRESAS, $PLANTAS, $TEMPORADAS);
+$ARRAYEXISTENCIA = $EXIMATERIAPRIMA_ADO->listarEximateriaprimaEnExistencia($EMPRESAS, $PLANTAS, $TEMPORADAS, $FILTROESTADO);
 
 if ($_POST) {
     if (isset($_REQUEST['IDEXIMATERIAPRIMA'])) {
@@ -198,12 +204,42 @@ if ($ARRAYFOLIOSELECCIONADO) {
     $IDRECEPCION = $DATOSFOLIO['ID_RECEPCION'];
     $NUMERORECEPCION = $DATOSFOLIO['NUMERO_RECEPCION'];
     $ESTADORECEPCION = $DATOSFOLIO['ESTADO_RECEPCION'];
+    $ESTADOFOLIO = $DATOSFOLIO['ESTADO_REGISTRO'];
     if ($IDRECEPCION) {
         $ARRAYRECEPCION = $RECEPCIONMP_ADO->verRecepcion($IDRECEPCION);
         if ($ARRAYRECEPCION) {
             $NUMERORECEPCION = $ARRAYRECEPCION[0]['NUMERO_RECEPCION'];
             $ESTADORECEPCION = $ARRAYRECEPCION[0]['ESTADO'];
         }
+    }
+}
+
+if (isset($_REQUEST['DESHABILITAR'])) {
+    if (!$IDEXIMATERIAPRIMA) {
+        $MENSAJE = "Debe seleccionar un folio activo para deshabilitar.";
+    } elseif ($ESTADOFOLIO != 1) {
+        $MENSAJE = "El folio seleccionado ya no se encuentra activo.";
+    } else {
+        $EXIMATERIAPRIMA->__SET('ID_EXIMATERIAPRIMA', $IDEXIMATERIAPRIMA);
+        $EXIMATERIAPRIMA_ADO->deshabilitarCompleto($EXIMATERIAPRIMA);
+
+        $AUSUARIO_ADO->agregarAusuario2("NULL", 1, 2, $NOMBRECOMPLETOUSUARIO . ", Deshabilita folio materia prima " . $FOLIO, "fruta_eximateriaprima", $IDEXIMATERIAPRIMA, $_SESSION["ID_USUARIO"], $_SESSION['ID_EMPRESA'], $_SESSION['ID_PLANTA'], $_SESSION['ID_TEMPORADA']);
+
+        $_SESSION['GESTION_FOLIO_MP_EXITO'] = "El folio fue deshabilitado correctamente.";
+
+        echo '<script>
+                    Swal.fire({
+                        icon:"success",
+                        title:"Folio deshabilitado",
+                        text:"El folio fue deshabilitado correctamente.",
+                        showConfirmButton:true,
+                        confirmButtonText:"Cerrar"
+                    }).then((result)=>{
+                        if(result.value){
+                            location.href ="registroGestionFolioMp.php";
+                        }
+                    })
+                </script>';
     }
 }
 
@@ -409,13 +445,30 @@ if (isset($_REQUEST['CAMBIAR'])) {
             var folioActual = seleccion.options[seleccion.selectedIndex].getAttribute('data-folio');
             var numeroRecepcion = seleccion.options[seleccion.selectedIndex].getAttribute('data-nrecepcion');
             var estadoRecepcion = seleccion.options[seleccion.selectedIndex].getAttribute('data-estado');
+            var estadoRegistro = seleccion.options[seleccion.selectedIndex].getAttribute('data-estadoregistro');
             document.getElementById("FOLIO").value = folioActual ? folioActual : "";
             var textoRecepcion = numeroRecepcion ? ("Recepción " + numeroRecepcion + " (" + textoEstadoRecepcion(estadoRecepcion) + ")") : "Recepción no disponible";
             document.getElementById("INFO_RECEPCION").value = textoRecepcion;
+            var botonDeshabilitar = document.getElementById("btnDeshabilitar");
+            if (folioActual && estadoRegistro === '1') {
+                botonDeshabilitar.style.display = 'inline-flex';
+            } else {
+                botonDeshabilitar.style.display = 'none';
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function () {
             actualizarFolio();
+
+            <?php if ($MENSAJEEXITO) { ?>
+            Swal.fire({
+                icon: "success",
+                title: "Operación realizada",
+                text: "<?php echo htmlspecialchars($MENSAJEEXITO, ENT_QUOTES, 'UTF-8'); ?>",
+                showConfirmButton: true,
+                confirmButtonText: "Cerrar"
+            });
+            <?php } ?>
         });
     </script>
 </head>
@@ -461,13 +514,22 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                     </div>
                                 <?php } ?>
                                 <div class="row">
+                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label>Filtrar folios</label>
+                                            <select class="form-control" name="FILTRO_ESTADO" id="FILTRO_ESTADO" onchange="this.form.submit();">
+                                                <option value="1" <?php echo $FILTROESTADO == 1 ? 'selected' : ''; ?>>Mostrar folios activos (Estado registro 1)</option>
+                                                <option value="0" <?php echo $FILTROESTADO == 0 ? 'selected' : ''; ?>>Mostrar folios eliminados (Estado registro 0)</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 col-xs-12">
                                         <div class="form-group">
                                             <label>Folio en existencia</label>
                                             <select class="form-control select2" id="IDEXIMATERIAPRIMA" name="IDEXIMATERIAPRIMA" style="width: 100%" onchange="actualizarFolio();">
                                                 <option value="">Seleccione un folio</option>
                                                 <?php foreach ($ARRAYEXISTENCIA as $r) : ?>
-                                                    <option value="<?php echo $r['ID_EXIMATERIAPRIMA']; ?>" data-folio="<?php echo htmlspecialchars($r['FOLIO_EXIMATERIAPRIMA'], ENT_QUOTES, 'UTF-8'); ?>" data-nrecepcion="<?php echo htmlspecialchars($r['NUMERO_RECEPCION'], ENT_QUOTES, 'UTF-8'); ?>" data-estado="<?php echo htmlspecialchars($r['ESTADO_RECEPCION'], ENT_QUOTES, 'UTF-8'); ?>" <?php echo $IDEXIMATERIAPRIMA == $r['ID_EXIMATERIAPRIMA'] ? 'selected' : ''; ?>>
+                                                    <option value="<?php echo $r['ID_EXIMATERIAPRIMA']; ?>" data-folio="<?php echo htmlspecialchars($r['FOLIO_EXIMATERIAPRIMA'], ENT_QUOTES, 'UTF-8'); ?>" data-nrecepcion="<?php echo htmlspecialchars($r['NUMERO_RECEPCION'], ENT_QUOTES, 'UTF-8'); ?>" data-estado="<?php echo htmlspecialchars($r['ESTADO_RECEPCION'], ENT_QUOTES, 'UTF-8'); ?>" data-estadoregistro="<?php echo htmlspecialchars($r['ESTADO_REGISTRO'], ENT_QUOTES, 'UTF-8'); ?>" <?php echo $IDEXIMATERIAPRIMA == $r['ID_EXIMATERIAPRIMA'] ? 'selected' : ''; ?>>
                                                         <?php echo $r['FOLIO_EXIMATERIAPRIMA']; ?>
                                                     </option>
                                                 <?php endforeach; ?>
@@ -518,6 +580,9 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                     <div class="btn-group btn-rounded btn-block col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 col-xs-12" role="group" aria-label="Acciones generales">
                                         <button type="button" class="btn  btn-success" data-toggle="tooltip" title="Volver" name="CANCELAR" value="CANCELAR" Onclick="irPagina('index.php');">
                                             <i class="ti-back-left "></i> Volver
+                                        </button>
+                                        <button type="submit" class="btn btn-danger" id="btnDeshabilitar" style="display: none;" data-toggle="tooltip" title="Deshabilitar folio" name="DESHABILITAR" value="DESHABILITAR">
+                                            <i class="ti-close"></i> Deshabilitar
                                         </button>
                                         <button type="submit" class="btn btn-warning" data-toggle="tooltip" title="Cambiar" name="CAMBIAR" value="CAMBIAR" onclick="return validacion()">
                                             <i class="ti-save-alt"></i> Cambiar

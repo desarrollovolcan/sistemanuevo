@@ -1907,29 +1907,35 @@ WHERE
         }
     }
 
-    public function listarEximateriaprimaEnExistencia($EMPRESA, $PLANTA, $TEMPORADA)
+    public function listarEximateriaprimaEnExistencia($EMPRESA, $PLANTA, $TEMPORADA, $ESTADO_REGISTRO = 1)
     {
         try {
 
-            $datos = $this->conexion->prepare("SELECT existencia.ID_EXIMATERIAPRIMA,
+            $filtroEstado = $ESTADO_REGISTRO == 1 ? " AND existencia.ESTADO != 0" : " AND existencia.ESTADO = 0";
+
+            $query = "SELECT existencia.ID_EXIMATERIAPRIMA,
                                                         existencia.FOLIO_EXIMATERIAPRIMA,
                                                         existencia.FOLIO_AUXILIAR_EXIMATERIAPRIMA,
                                                         existencia.ALIAS_DINAMICO_FOLIO_EXIMATERIAPRIMA,
                                                         existencia.ALIAS_ESTATICO_FOLIO_EXIMATERIAPRIMA,
+                                                        existencia.ESTADO_REGISTRO,
+                                                        existencia.ESTADO,
                                                         existencia.ID_RECEPCION,
                                                         recepcion.NUMERO_RECEPCION,
                                                         recepcion.ESTADO AS ESTADO_RECEPCION
                                                     FROM fruta_eximateriaprima existencia
                                                     LEFT JOIN fruta_recepcionmp recepcion ON recepcion.ID_RECEPCION = existencia.ID_RECEPCION
-                                                    WHERE existencia.ESTADO_REGISTRO = 1
-                                                    AND existencia.ESTADO != 0
+                                                    WHERE existencia.ESTADO_REGISTRO = ?
+                                                    {$filtroEstado}
                                                     AND existencia.ID_EMPRESA = ?
                                                     AND existencia.ID_PLANTA = ?
                                                     AND existencia.ID_TEMPORADA = ?
-                                                    ORDER BY existencia.FOLIO_EXIMATERIAPRIMA ASC;  ");
-            $datos->execute(array($EMPRESA, $PLANTA, $TEMPORADA));
+                                                    ORDER BY existencia.FOLIO_EXIMATERIAPRIMA ASC;  ";
+
+            $datos = $this->conexion->prepare($query);
+            $datos->execute(array($ESTADO_REGISTRO, $EMPRESA, $PLANTA, $TEMPORADA));
             $resultado = $datos->fetchAll(PDO::FETCH_ASSOC);
-            $datos=null;
+            $datos = null;
 
             //  print_r($resultado);
             //  var_dump($resultado);
@@ -3314,8 +3320,29 @@ WHERE
     {
         try {
             $query = "
-                UPDATE fruta_eximateriaprima SET	
-                        MODIFICACION = SYSDATE(),		
+                UPDATE fruta_eximateriaprima SET
+                        MODIFICACION = SYSDATE(),
+                        ESTADO = 0
+                WHERE ID_EXIMATERIAPRIMA= ?;";
+            $this->conexion->prepare($query)
+                ->execute(
+                    array(
+                        $EXIMATERIAPRIMA->__GET('ID_EXIMATERIAPRIMA')
+                    )
+
+                );
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function deshabilitarCompleto(EXIMATERIAPRIMA $EXIMATERIAPRIMA)
+    {
+        try {
+            $query = "
+                UPDATE fruta_eximateriaprima SET
+                        MODIFICACION = SYSDATE(),
+                        ESTADO_REGISTRO = 0,
                         ESTADO = 0
                 WHERE ID_EXIMATERIAPRIMA= ?;";
             $this->conexion->prepare($query)
