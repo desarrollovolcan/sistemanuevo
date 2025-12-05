@@ -1906,6 +1906,40 @@ WHERE
             die($e->getMessage());
         }
     }
+
+    public function listarEximateriaprimaEnExistencia($EMPRESA, $PLANTA, $TEMPORADA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT existencia.ID_EXIMATERIAPRIMA,
+                                                        existencia.FOLIO_EXIMATERIAPRIMA,
+                                                        existencia.FOLIO_AUXILIAR_EXIMATERIAPRIMA,
+                                                        existencia.ALIAS_DINAMICO_FOLIO_EXIMATERIAPRIMA,
+                                                        existencia.ALIAS_ESTATICO_FOLIO_EXIMATERIAPRIMA,
+                                                        existencia.ID_RECEPCION,
+                                                        recepcion.NUMERO_RECEPCION,
+                                                        recepcion.ESTADO AS ESTADO_RECEPCION
+                                                    FROM fruta_eximateriaprima existencia
+                                                    LEFT JOIN fruta_recepcionmp recepcion ON recepcion.ID_RECEPCION = existencia.ID_RECEPCION
+                                                    WHERE existencia.ESTADO_REGISTRO = 1
+                                                    AND existencia.ESTADO != 0
+                                                    AND existencia.ID_EMPRESA = ?
+                                                    AND existencia.ID_PLANTA = ?
+                                                    AND existencia.ID_TEMPORADA = ?
+                                                    ORDER BY existencia.FOLIO_EXIMATERIAPRIMA ASC;  ");
+            $datos->execute(array($EMPRESA, $PLANTA, $TEMPORADA));
+            $resultado = $datos->fetchAll(PDO::FETCH_ASSOC);
+            $datos=null;
+
+            //  print_r($resultado);
+            //  var_dump($resultado);
+
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
     public function listarEximateriaprimaEmpresaTemporada($EMPRESA,   $TEMPORADA)
     {
         try {
@@ -1974,6 +2008,33 @@ WHERE
 
 
             return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function cambioFolio(EXIMATERIAPRIMA $EXIMATERIAPRIMA)
+    {
+        try {
+            $query = "
+            UPDATE fruta_eximateriaprima SET
+                MODIFICACION = SYSDATE(),
+                FOLIO_EXIMATERIAPRIMA = ?,
+                FOLIO_AUXILIAR_EXIMATERIAPRIMA = ?,
+                ALIAS_DINAMICO_FOLIO_EXIMATERIAPRIMA = ?,
+                ALIAS_ESTATICO_FOLIO_EXIMATERIAPRIMA = ?
+            WHERE ID_EXIMATERIAPRIMA= ?;";
+            $this->conexion->prepare($query)
+                ->execute(
+                    array(
+                        $EXIMATERIAPRIMA->__GET('FOLIO_EXIMATERIAPRIMA'),
+                        $EXIMATERIAPRIMA->__GET('FOLIO_AUXILIAR_EXIMATERIAPRIMA'),
+                        $EXIMATERIAPRIMA->__GET('ALIAS_DINAMICO_FOLIO_EXIMATERIAPRIMA'),
+                        $EXIMATERIAPRIMA->__GET('ALIAS_ESTATICO_FOLIO_EXIMATERIAPRIMA'),
+                        $EXIMATERIAPRIMA->__GET('ID_EXIMATERIAPRIMA')
+                    )
+
+                );
         } catch (Exception $e) {
             die($e->getMessage());
         }
