@@ -87,6 +87,9 @@ if ($ARRAYTEMPORADA) {
     $NOMBRETEMPORADA = $ARRAYTEMPORADA[0]['NOMBRE_TEMPORADA'];
 }
 
+$MOSTRARDESHABILITAR = $FOLIO && $ESTADOFOLIO == 1;
+$MOSTRARCAMBIAR = $FOLIO && $ESTADOFOLIO != 1;
+
 if (!empty($_SESSION['GESTION_FOLIO_MP_EXITO'])) {
     $MENSAJEEXITO = $_SESSION['GESTION_FOLIO_MP_EXITO'];
     unset($_SESSION['GESTION_FOLIO_MP_EXITO']);
@@ -520,21 +523,21 @@ if (isset($_REQUEST['CAMBIAR'])) {
             var folioActual = seleccion.options[seleccion.selectedIndex].getAttribute('data-folio');
             var numeroRecepcion = seleccion.options[seleccion.selectedIndex].getAttribute('data-nrecepcion');
             var estadoRecepcion = seleccion.options[seleccion.selectedIndex].getAttribute('data-estado');
-            var estadoRegistro = seleccion.options[seleccion.selectedIndex].getAttribute('data-estadoregistro');
+            var estadoRegistro = parseInt(seleccion.options[seleccion.selectedIndex].getAttribute('data-estadoregistro'), 10);
             document.getElementById("FOLIO").value = folioActual ? folioActual : "";
             var textoRecepcion = numeroRecepcion ? ("Recepción " + numeroRecepcion + " (" + textoEstadoRecepcion(estadoRecepcion) + ")") : "Recepción no disponible";
             document.getElementById("INFO_RECEPCION").value = textoRecepcion;
             var botonDeshabilitar = document.getElementById("btnDeshabilitar");
             var botonCambiar = document.getElementById("btnCambiar");
-            var folioActivo = (folioActual && (estadoRegistro === '1' || estadoRegistro === 1));
+            var folioActivo = (folioActual && estadoRegistro === 1);
 
-            botonDeshabilitar.classList.add('d-none');
-            botonCambiar.classList.add('d-none');
+            botonDeshabilitar.style.display = 'none';
+            botonCambiar.style.display = 'none';
 
             if (folioActivo) {
-                botonDeshabilitar.classList.remove('d-none');
+                botonDeshabilitar.style.display = 'flex';
             } else if (folioActual) {
-                botonCambiar.classList.remove('d-none');
+                botonCambiar.style.display = 'flex';
             }
         }
 
@@ -658,11 +661,11 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                             <i class="ti-back-left mr-2"></i>
                                             <span>Volver</span>
                                         </button>
-                                        <button type="submit" class="btn btn-danger btn-rounded d-flex align-items-center justify-content-center d-none" id="btnDeshabilitar" data-toggle="tooltip" title="Cambiar y deshabilitar" name="DESHABILITAR" value="DESHABILITAR" onclick="return validacion();">
+                                        <button type="submit" class="btn btn-danger btn-rounded d-flex align-items-center justify-content-center" id="btnDeshabilitar" data-toggle="tooltip" title="Cambiar y deshabilitar" name="DESHABILITAR" value="DESHABILITAR" onclick="return validacion();" style="<?php echo $MOSTRARDESHABILITAR ? '' : 'display:none;'; ?>">
                                             <i class="ti-close mr-2"></i>
                                             <span>Cambiar y deshabilitar folio</span>
                                         </button>
-                                        <button type="submit" class="btn btn-warning btn-rounded d-flex align-items-center justify-content-center d-none" id="btnCambiar" data-toggle="tooltip" title="Cambiar número" name="CAMBIAR" value="CAMBIAR" onclick="return validacion()">
+                                        <button type="submit" class="btn btn-warning btn-rounded d-flex align-items-center justify-content-center" id="btnCambiar" data-toggle="tooltip" title="Cambiar número" name="CAMBIAR" value="CAMBIAR" onclick="return validacion()" style="<?php echo $MOSTRARCAMBIAR ? '' : 'display:none;'; ?>">
                                             <i class="ti-save-alt mr-2"></i>
                                             <span>Cambiar número de folio</span>
                                         </button>
