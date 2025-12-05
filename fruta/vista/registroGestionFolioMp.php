@@ -50,20 +50,11 @@ function mapearDetalleHistorialFolio($mensaje)
         'accion' => (stripos($mensaje, 'deshabilita folio') !== false) ? 'Cambio y deshabilitar' : 'Cambio de folio',
         'folio_antiguo' => 'No identificado',
         'folio_nuevo' => 'No identificado',
-        'recepcion' => 'Sin datos',
     ];
 
     if (preg_match('/de\s+([0-9A-Za-z-]+)\s+a\s+([0-9A-Za-z-]+)/i', $mensaje, $coincidencias)) {
         $detalle['folio_antiguo'] = $coincidencias[1];
         $detalle['folio_nuevo'] = $coincidencias[2];
-    }
-
-    if (preg_match('/Recepci[oó]n\s+([0-9]+)/i', $mensaje, $coincidenciasRecepcion)) {
-        $detalle['recepcion'] = 'Recepción ' . $coincidenciasRecepcion[1];
-    }
-
-    if (preg_match('/Recepci[oó]n[^-]*-\s*(Abierta|Cerrada)/i', $mensaje, $coincidenciasEstado)) {
-        $detalle['recepcion'] .= ' (' . ucfirst(strtolower($coincidenciasEstado[1])) . ')';
     }
 
     return $detalle;
@@ -586,40 +577,6 @@ if (isset($_REQUEST['CAMBIAR'])) {
                     </div>
                 </div>
                 <section class="content">
-                    <div class="row">
-                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="box box-inverse bg-lightest">
-                                <div class="box-body">
-                                    <h5 class="text-primary mb-0">Empresa</h5>
-                                    <p class="mb-0 text-fade"><?php echo htmlspecialchars($NOMBREEMPRESA, ENT_QUOTES, 'UTF-8'); ?></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="box box-inverse bg-lightest">
-                                <div class="box-body">
-                                    <h5 class="text-primary mb-0">Planta</h5>
-                                    <p class="mb-0 text-fade"><?php echo htmlspecialchars($NOMBREPLANTA, ENT_QUOTES, 'UTF-8'); ?></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="box box-inverse bg-lightest">
-                                <div class="box-body">
-                                    <h5 class="text-primary mb-0">Temporada</h5>
-                                    <p class="mb-0 text-fade"><?php echo htmlspecialchars($NOMBRETEMPORADA, ENT_QUOTES, 'UTF-8'); ?></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="box box-inverse bg-lightest">
-                                <div class="box-body">
-                                    <h5 class="text-primary mb-0">Usuario</h5>
-                                    <p class="mb-0 text-fade"><?php echo htmlspecialchars($NOMBRECOMPLETOUSUARIO, ENT_QUOTES, 'UTF-8'); ?></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="box box-solid box-bordered">
                         <div class="box-header with-border bg-warning">
                             <h4 class="box-title text-white">Cambiar folio de materia prima</h4>
@@ -723,7 +680,6 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                             <th>Usuario</th>
                                             <th>Acción</th>
                                             <th>Folio</th>
-                                            <th>Recepción</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -740,12 +696,11 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                                     </td>
                                                     <td><?php echo htmlspecialchars($detalleHistorial['accion'], ENT_QUOTES, 'UTF-8'); ?></td>
                                                     <td><span class="badge bg-primary"><?php echo htmlspecialchars($detalleHistorial['folio_antiguo'], ENT_QUOTES, 'UTF-8'); ?></span> <i class="ti-arrow-right"></i> <span class="badge bg-info"><?php echo htmlspecialchars($detalleHistorial['folio_nuevo'], ENT_QUOTES, 'UTF-8'); ?></span></td>
-                                                    <td><?php echo htmlspecialchars($detalleHistorial['recepcion'], ENT_QUOTES, 'UTF-8'); ?></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         <?php else : ?>
                                             <tr>
-                                                <td colspan="5">No hay cambios registrados.</td>
+                                                <td colspan="4">No hay cambios registrados.</td>
                                             </tr>
                                         <?php endif; ?>
                                     </tbody>
