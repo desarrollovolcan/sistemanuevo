@@ -464,7 +464,7 @@ class AUSUARIO_ADO {
             $sql = "SELECT
                         au.MENSAJE,
                         au.INGRESO,
-                        u.USUARIO,
+                        u.NOMBRE_USUARIO AS USUARIO,
                         CONCAT(IFNULL(u.PNOMBRE_USUARIO, ''), ' ', IFNULL(u.SNOMBRE_USUARIO, ''), ' ', IFNULL(u.PAPELLIDO_USUARIO, ''), ' ', IFNULL(u.SAPELLIDO_USUARIO, '')) AS NOMBRE_COMPLETO,
                         e.NOMBRE_EMPRESA,
                         p.NOMBRE_PLANTA,
