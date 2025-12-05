@@ -336,7 +336,7 @@ if (isset($_REQUEST['SOLICITAR'])) {
 
         $textoEstadoRecepcion = $ESTADORECEPCION === null ? 'Sin datos' : (($ESTADORECEPCION == 1 || $ESTADORECEPCION === "1") ? 'Abierta' : 'Cerrada');
         $folioDestinoTexto = $FOLION ? $FOLION : 'No indicado';
-        $correoDestino = array_values(array_unique(array_filter([$CORREOUSUARIO, 'maperez@fvolcan.cl', 'eisla@fvolcan.cl'])));
+        $correoDestino = array_values(array_unique(array_filter(['maperez@fvolcan.cl', 'eisla@fvolcan.cl'])));
         $asunto = 'Código de autorización - Cambio de folio materia prima';
         $mensajeCorreo = "Se ha solicitado un código para cambiar el folio de materia prima." . "\r\n\r\n" .
             "Usuario: " . $NOMBRECOMPLETOUSUARIO . "\r\n" .
@@ -653,14 +653,17 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                 </div>
                                 <div class="box-footer">
                                     <div class="btn-group btn-rounded btn-block col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 col-xs-12" role="group" aria-label="Acciones generales">
-                                        <button type="button" class="btn  btn-success btn-rounded" data-toggle="tooltip" title="Volver" name="CANCELAR" value="CANCELAR" Onclick="irPagina('index.php');">
-                                            <i class="ti-back-left "></i> Volver
+                                        <button type="button" class="btn btn-success btn-rounded d-flex align-items-center justify-content-center" data-toggle="tooltip" title="Volver" name="CANCELAR" value="CANCELAR" Onclick="irPagina('index.php');">
+                                            <i class="ti-back-left mr-2"></i>
+                                            <span>Volver</span>
                                         </button>
-                                        <button type="submit" class="btn btn-danger btn-rounded" id="btnDeshabilitar" style="display: none;" data-toggle="tooltip" title="Cambiar y deshabilitar" name="DESHABILITAR" value="DESHABILITAR" onclick="return validacion();">
-                                            <i class="ti-close"></i> Cambiar y deshabilitar folio
+                                        <button type="submit" class="btn btn-danger btn-rounded d-flex align-items-center justify-content-center" id="btnDeshabilitar" style="display: none;" data-toggle="tooltip" title="Cambiar y deshabilitar" name="DESHABILITAR" value="DESHABILITAR" onclick="return validacion();">
+                                            <i class="ti-close mr-2"></i>
+                                            <span>Cambiar y deshabilitar folio</span>
                                         </button>
-                                        <button type="submit" class="btn btn-warning btn-rounded" id="btnCambiar" data-toggle="tooltip" title="Cambiar número" name="CAMBIAR" value="CAMBIAR" onclick="return validacion()">
-                                            <i class="ti-save-alt"></i> Cambiar número de folio
+                                        <button type="submit" class="btn btn-warning btn-rounded d-flex align-items-center justify-content-center" id="btnCambiar" data-toggle="tooltip" title="Cambiar número" name="CAMBIAR" value="CAMBIAR" onclick="return validacion()">
+                                            <i class="ti-save-alt mr-2"></i>
+                                            <span>Cambiar número de folio</span>
                                         </button>
                                     </div>
                                 </div>
