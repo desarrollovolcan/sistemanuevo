@@ -908,6 +908,123 @@ if (isset($_POST)) {
     <meta name="author" content="">
     <!- LLAMADA DE LOS ARCHIVOS NECESARIOS PARA DISEÑO Y FUNCIONES BASE DE LA VISTA -!>
     <?php include_once "../../assest/config/urlHead.php"; ?>
+    <style>
+        body.light-skin {
+            background: #f5f7fb;
+        }
+
+        .card {
+            border: 1px solid #e4e7ec;
+            border-radius: 14px;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        .card-header {
+            border-bottom: 1px solid #e4e7ec;
+            background: #fcfcfd;
+            border-radius: 14px 14px 0 0;
+        }
+
+        .card-footer {
+            border-top: 1px solid #e4e7ec;
+            background: #fcfcfd;
+            border-radius: 0 0 14px 14px;
+        }
+
+        .form-control,
+        .select2-container--default .select2-selection--single {
+            border-radius: 12px;
+            border: 1px solid #d9dde3;
+            background: #f9fafb;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
+            padding: 10px 12px;
+            text-align: center;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        select.form-control {
+            text-align-last: center;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+        }
+
+        .form-control:focus,
+        .select2-container--default .select2-selection--single:focus,
+        .select2-container--default .select2-selection--single .select2-selection__rendered:focus,
+        .select2-container--default.select2-container--focus .select2-selection--single {
+            border-color: #2563eb;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+            outline: none;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            padding-left: 0;
+            color: #111827;
+            line-height: 1.4;
+            width: 100%;
+            text-align: center;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        label {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .btn {
+            border-radius: 12px;
+            border: none;
+            padding: 10px 16px;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 30px rgba(15, 23, 42, 0.14);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.16);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #06b6d4, #0ea5e9);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .btn-group .btn + .btn {
+            margin-left: 8px;
+        }
+    </style>
     <!- FUNCIONES BASES -!>
         <script type="text/javascript">
             //VALIDACION DE FORMULARIO
