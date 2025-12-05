@@ -859,8 +859,11 @@ if (isset($id_dato) && isset($accion_dato)) {
             $ICARGA->__SET('ID_RFINAL', $RFINAL);
             $ICARGA->__SET('ID_MERCADO', $MERCADO);
             $ICARGA->__SET('ID_AADUANA', $AADUANA);
+            $PAIS_DESTINO_AUTOMATICO = $_REQUEST['PAIS'] ?? $_REQUEST['PAISE'] ?? $PAIS;
+            $PAIS_DESTINO_FINAL_AUTOMATICO = $_REQUEST['PAIS_FINAL'] ?? $PAIS_FINAL;
+
             $ICARGA->__SET('ID_AGCARGA', $AGCARGA);
-            $ICARGA->__SET('ID_DFINAL', $DFINAL);
+            $ICARGA->__SET('ID_DFINAL', $PAIS_DESTINO_FINAL_AUTOMATICO);
             $ICARGA->__SET('ID_FPAGO', $FPAGO);
             $ICARGA->__SET('ID_CVENTA', $CVENTA);
             $ICARGA->__SET('ID_MVENTA', $MVENTA);
@@ -892,7 +895,7 @@ if (isset($id_dato) && isset($accion_dato)) {
                 $ICARGA->__SET('ID_PDESTINO', $PDESTINO);
             }
 
-            $ICARGA->__SET('ID_PAIS',  $PAIS);
+            $ICARGA->__SET('ID_PAIS',  $PAIS_DESTINO_AUTOMATICO);
             $ICARGA->__SET('ID_EMPRESA',  $EMPRESA);
             $ICARGA->__SET('ID_PLANTA',  $PLANTA);
             $ICARGA->__SET('ID_TEMPORADA',  $TEMPORADA);
@@ -5694,6 +5697,8 @@ if (isset($_POST)) {
                 $PAIS_FINAL = $PAISSELECCIONADO;
             }
             $PAIS = $PAISSELECCIONADO;
+            $PAIS_DESTINO_FORM = $_REQUEST['PAIS'] ?? $_REQUEST['PAISE'] ?? $PAISSELECCIONADO;
+            $PAIS_DESTINO_FINAL_FORM = $_REQUEST['PAIS_FINAL'] ?? $PAIS_FINAL ?? null;
             //OPERACION DE REGISTRO DE FILA
             if (isset($_REQUEST['CREAR'])) {
 
@@ -5738,7 +5743,7 @@ if (isset($_POST)) {
                 $ICARGA->__SET('ID_MERCADO', $_REQUEST['MERCADO']);
                 $ICARGA->__SET('ID_AADUANA', $_REQUEST['AADUANA']);
                 $ICARGA->__SET('ID_AGCARGA', $_REQUEST['AGCARGA']);
-                $ICARGA->__SET('ID_DFINAL', $_REQUEST['DFINAL']);
+                $ICARGA->__SET('ID_DFINAL', $PAIS_DESTINO_FINAL_FORM);
                 $ICARGA->__SET('ID_FPAGO', $_REQUEST['FPAGO']);
                 $ICARGA->__SET('ID_CVENTA', $_REQUEST['CVENTA']);
                 $ICARGA->__SET('ID_MVENTA', $_REQUEST['MVENTA']);
@@ -5771,7 +5776,7 @@ if (isset($_POST)) {
                         $ICARGA->__SET('ID_PDESTINO', $_REQUEST['PDESTINO']);
                     }
                 }
-                $ICARGA->__SET('ID_PAIS',  $PAISSELECCIONADO);
+                $ICARGA->__SET('ID_PAIS',  $PAIS_DESTINO_FORM ?? $PAISSELECCIONADO);
                 $ICARGA->__SET('ID_EMPRESA',  $_REQUEST['EMPRESA']);
                 $ICARGA->__SET('ID_PLANTA',  $_REQUEST['PLANTA']);
                 $ICARGA->__SET('ID_TEMPORADA',  $_REQUEST['TEMPORADA']);
@@ -5850,7 +5855,7 @@ if (isset($_POST)) {
                 $ICARGA->__SET('ID_MERCADO', $_REQUEST['MERCADO']);
                 $ICARGA->__SET('ID_AADUANA', $_REQUEST['AADUANA']);
                 $ICARGA->__SET('ID_AGCARGA', $_REQUEST['AGCARGA']);
-                $ICARGA->__SET('ID_DFINAL', $_REQUEST['DFINAL']);
+                $ICARGA->__SET('ID_DFINAL', $PAIS_DESTINO_FINAL_FORM);
                 $ICARGA->__SET('ID_FPAGO', $_REQUEST['FPAGO']);
                 $ICARGA->__SET('ID_CVENTA', $_REQUEST['CVENTA']);
                 $ICARGA->__SET('ID_MVENTA', $_REQUEST['MVENTA']);
@@ -5882,7 +5887,7 @@ if (isset($_POST)) {
                         $ICARGA->__SET('ID_PDESTINO', $_REQUEST['PDESTINO']);
                     }
                 }
-                $ICARGA->__SET('ID_PAIS',  $PAISSELECCIONADO);
+                $ICARGA->__SET('ID_PAIS',  $PAIS_DESTINO_FORM ?? $PAISSELECCIONADO);
                 $ICARGA->__SET('ID_EMPRESA',  $_REQUEST['EMPRESA']);
                 $ICARGA->__SET('ID_PLANTA',  $_REQUEST['PLANTA']);
                 $ICARGA->__SET('ID_TEMPORADA',  $_REQUEST['TEMPORADA']);
@@ -5959,7 +5964,7 @@ if (isset($_POST)) {
                 $ICARGA->__SET('ID_MERCADO', $_REQUEST['MERCADO'] ?? null);
                 $ICARGA->__SET('ID_AADUANA', $_REQUEST['AADUANA'] ?? null);
                 $ICARGA->__SET('ID_AGCARGA', $_REQUEST['AGCARGA'] ?? null);
-                $ICARGA->__SET('ID_DFINAL', $_REQUEST['DFINAL'] ?? null);
+                $ICARGA->__SET('ID_DFINAL', $PAIS_DESTINO_FINAL_FORM);
                 $ICARGA->__SET('ID_LCARGA', $_REQUEST['LCARGA'] ?? null);
 
                 if (isset($_REQUEST['TEMBARQUE'])) {
@@ -5996,7 +6001,7 @@ if (isset($_POST)) {
                 $ICARGA->__SET('ID_MVENTA', $_REQUEST['MVENTA'] ?? null);
                 $ICARGA->__SET('ID_TFLETE', $_REQUEST['TFLETE'] ?? null);
                 $ICARGA->__SET('ID_SEGURO', $_REQUEST['SEGURO'] ?? null);
-                $ICARGA->__SET('ID_PAIS', $PAISSELECCIONADO);
+                $ICARGA->__SET('ID_PAIS', $PAIS_DESTINO_FORM ?? $PAISSELECCIONADO);
                 $ICARGA->__SET('ID_USUARIOM', $IDUSUARIOS);
                 $ICARGA->__SET('ID_ICARGA', $_REQUEST['IDP'] ?? null);
                 //LLAMADA AL METODO DE EDITAR DEL CONTROLADOR
@@ -6102,7 +6107,7 @@ if (isset($_POST)) {
                     $ICARGA->__SET('ID_MERCADO', $_REQUEST['MERCADO'] ?? null);
                     $ICARGA->__SET('ID_AADUANA', $_REQUEST['AADUANA'] ?? null);
                     $ICARGA->__SET('ID_AGCARGA', $_REQUEST['AGCARGA'] ?? null);
-                    $ICARGA->__SET('ID_DFINAL', $_REQUEST['DFINAL'] ?? null);
+                    $ICARGA->__SET('ID_DFINAL', $PAIS_DESTINO_FINAL_FORM);
                     if (isset($_REQUEST['TEMBARQUE'])) {
                         if ($_REQUEST['TEMBARQUE'] == "1") {
                             $ICARGA->__SET('ID_TRANSPORTE', $_REQUEST['TRANSPORTE']);
@@ -6135,7 +6140,7 @@ if (isset($_POST)) {
                     $ICARGA->__SET('ID_MVENTA', $_REQUEST['MVENTA']);
                     $ICARGA->__SET('ID_TFLETE', $_REQUEST['TFLETE']);
                     $ICARGA->__SET('ID_SEGURO', $_REQUEST['SEGURO']);
-                    $ICARGA->__SET('ID_PAIS', $PAISSELECCIONADO);
+                    $ICARGA->__SET('ID_PAIS', $PAIS_DESTINO_FORM ?? $PAISSELECCIONADO);
                     $ICARGA->__SET('ID_USUARIOM', $IDUSUARIOS);
                     $ICARGA->__SET('ID_ICARGA', $_REQUEST['IDP']);
                     //LLAMADA AL METODO DE EDITAR DEL CONTROLADOR
