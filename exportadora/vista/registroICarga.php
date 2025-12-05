@@ -938,7 +938,12 @@ if (isset($_POST)) {
             background: #f9fafb;
             box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
             padding: 10px 12px;
+            text-align: center;
             transition: all 0.2s ease;
+        }
+
+        select.form-control {
+            text-align-last: center;
         }
 
         .form-control:focus,
@@ -952,9 +957,10 @@ if (isset($_POST)) {
         }
 
         .select2-container--default .select2-selection--single .select2-selection__rendered {
-            padding-left: 2px;
+            padding-left: 0;
             color: #111827;
             line-height: 38px;
+            text-align: center;
         }
 
         .select2-container--default .select2-selection--single .select2-selection__arrow {
@@ -972,6 +978,10 @@ if (isset($_POST)) {
             padding: 10px 16px;
             font-weight: 600;
             letter-spacing: 0.01em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
             box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
             transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease;
         }
