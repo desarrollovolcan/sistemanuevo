@@ -377,9 +377,6 @@ if (isset($_REQUEST['CAMBIAR'])) {
     if (!$IDEXIMATERIAPRIMA) {
         $errores[] = "Debe seleccionar un folio en existencia.";
     }
-    if ($ESTADOFOLIO == 1) {
-        $errores[] = "El folio seleccionado está activo; debe usar Cambiar y deshabilitar folio.";
-    }
     if (!$FOLION) {
         $errores[] = "Ingrese el nuevo folio.";
     }
@@ -532,6 +529,7 @@ if (isset($_REQUEST['CAMBIAR'])) {
             }
 
             if (estadoRegistro === 1) {
+                botonCambiar.style.display = 'flex';
                 botonDeshabilitar.style.display = 'flex';
             } else {
                 botonCambiar.style.display = 'flex';
