@@ -1234,11 +1234,17 @@ if (isset($_POST)) {
             box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
             padding: 10px 12px;
             text-align: center;
+            height: 44px;
+            display: flex;
+            align-items: center;
             transition: all 0.2s ease;
         }
 
         select.form-control {
             text-align-last: center;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
         }
 
         .form-control:focus,
@@ -1254,12 +1260,15 @@ if (isset($_POST)) {
         .select2-container--default .select2-selection--single .select2-selection__rendered {
             padding-left: 0;
             color: #111827;
-            line-height: 38px;
+            line-height: 1.4;
+            width: 100%;
             text-align: center;
         }
 
         .select2-container--default .select2-selection--single .select2-selection__arrow {
-            height: 40px;
+            height: 100%;
+            display: flex;
+            align-items: center;
         }
 
         label {
