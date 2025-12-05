@@ -859,8 +859,8 @@ if (isset($id_dato) && isset($accion_dato)) {
             $ICARGA->__SET('ID_RFINAL', $RFINAL);
             $ICARGA->__SET('ID_MERCADO', $MERCADO);
             $ICARGA->__SET('ID_AADUANA', $AADUANA);
-            $PAIS_DESTINO_AUTOMATICO = $_REQUEST['PAIS'] ?? $_REQUEST['PAISE'] ?? $PAIS;
-            $PAIS_DESTINO_FINAL_AUTOMATICO = $_REQUEST['PAIS_FINAL'] ?? $PAIS_FINAL;
+            $PAIS_DESTINO_AUTOMATICO = $_REQUEST['PAIS'] ?? ($_REQUEST['PAIS_EMBARQUE'] ?? ($_REQUEST['PAISE'] ?? $PAIS ?? null));
+            $PAIS_DESTINO_FINAL_AUTOMATICO = $_REQUEST['PAIS_FINAL'] ?? ($PAIS_FINAL ?? null);
 
             $ICARGA->__SET('ID_AGCARGA', $AGCARGA);
             $ICARGA->__SET('ID_DFINAL', $PAIS_DESTINO_FINAL_AUTOMATICO);
@@ -976,6 +976,9 @@ if (isset($_POST)) {
     }
     if (isset($_REQUEST['PAIS'])) {
         $PAIS = $_REQUEST['PAIS'];
+    }
+    if (isset($_REQUEST['PAIS_EMBARQUE'])) {
+        $PAIS = $_REQUEST['PAIS_EMBARQUE'];
     }
     if (isset($_REQUEST['PAIS_PUERTO'])) {
         $PAIS_PUERTO = $_REQUEST['PAIS_PUERTO'];
@@ -3341,7 +3344,7 @@ if (isset($_POST)) {
                                             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 col-xs-12">
                                                 <div class="form-group">
                                                     <label>Pais Destino</label>
-                                                    <select class="form-control select2 pais-destino" id="PAIS_EMBARQUE" style="width: 100%;" value="<?php echo $PAIS; ?>" <?php echo $DISABLED; ?>>
+                                                    <select class="form-control select2 pais-destino" id="PAIS_EMBARQUE" name="PAIS_EMBARQUE" style="width: 100%;" value="<?php echo $PAIS; ?>" <?php echo $DISABLED; ?>>
                                                         <option></option>
                                                         <?php foreach ($ARRAYPAIS as $r) : ?>
                                                             <?php if ($ARRAYPAIS) {    ?>
@@ -5654,8 +5657,8 @@ if (isset($_POST)) {
         </script>
         <?php
             //OPERACIONES
-            $PAIS_DESTINO_FORM = $_REQUEST['PAIS'] ?? ($_REQUEST['PAISE'] ?? $PAIS ?? null);
-            $PAIS_DESTINO_FINAL_FORM = $_REQUEST['PAIS_FINAL'] ?? $PAIS_FINAL ?? null;
+            $PAIS_DESTINO_FORM = $_REQUEST['PAIS'] ?? ($_REQUEST['PAIS_EMBARQUE'] ?? ($_REQUEST['PAISE'] ?? $PAIS ?? null));
+            $PAIS_DESTINO_FINAL_FORM = $_REQUEST['PAIS_FINAL'] ?? ($PAIS_FINAL ?? null);
             //OPERACION DE REGISTRO DE FILA
             if (isset($_REQUEST['CREAR'])) {
 
