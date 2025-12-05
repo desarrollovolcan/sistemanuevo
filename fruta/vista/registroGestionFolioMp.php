@@ -661,7 +661,7 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                             <i class="ti-close mr-2"></i>
                                             <span>Cambiar y deshabilitar folio</span>
                                         </button>
-                                        <button type="submit" class="btn btn-warning btn-rounded d-flex align-items-center justify-content-center" id="btnCambiar" data-toggle="tooltip" title="Cambiar número" name="CAMBIAR" value="CAMBIAR" onclick="return validacion()">
+                                        <button type="submit" class="btn btn-warning btn-rounded d-flex align-items-center justify-content-center" id="btnCambiar" style="display: none;" data-toggle="tooltip" title="Cambiar número" name="CAMBIAR" value="CAMBIAR" onclick="return validacion()">
                                             <i class="ti-save-alt mr-2"></i>
                                             <span>Cambiar número de folio</span>
                                         </button>
