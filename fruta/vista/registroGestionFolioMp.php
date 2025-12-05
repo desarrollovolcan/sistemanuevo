@@ -31,15 +31,22 @@ $ARRAYHISTORIAL = $AUSUARIO_ADO->listarUltimosCambiosFolioMp($EMPRESAS, $PLANTAS
 function enviarCorreoSMTP($destinatarios, $asunto, $mensaje, $remitente, $usuario, $contrasena, $host, $puerto, $timeout = 30)
 {
     $destinatarios = (array) $destinatarios;
-    $conexion = @stream_socket_client("ssl://{$host}:{$puerto}", $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, stream_context_create([
+    $contextoSSL = stream_context_create([
         'ssl' => [
             'verify_peer' => false,
             'verify_peer_name' => false,
+            'crypto_method' => STREAM_CRYPTO_METHOD_TLS_CLIENT | STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT,
         ]
-    ]));
+    ]);
+
+    $conexion = @stream_socket_client("ssl://{$host}:{$puerto}", $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, $contextoSSL);
 
     if (!$conexion) {
         return [false, "No se pudo conectar al servidor SMTP ({$errstr})"];
+    }
+
+    if (function_exists('stream_set_timeout')) {
+        stream_set_timeout($conexion, $timeout);
     }
 
     $leerRespuesta = function () use ($conexion) {
@@ -62,12 +69,17 @@ function enviarCorreoSMTP($destinatarios, $asunto, $mensaje, $remitente, $usuari
         return $respuesta;
     };
 
-    $leerRespuesta();
+    $respuestaInicial = $leerRespuesta();
+    if (substr($respuestaInicial, 0, 3) !== '220') {
+        fclose($conexion);
+        return [false, "El servidor SMTP no respondió correctamente: {$respuestaInicial}"];
+    }
 
+    $hostEhlo = $host ?: 'localhost';
     try {
-        $comando('EHLO localhost', '250');
+        $comando('EHLO ' . $hostEhlo, '250');
     } catch (Exception $e) {
-        $comando('HELO localhost', '250');
+        $comando('HELO ' . $hostEhlo, '250');
     }
 
     try {
@@ -86,13 +98,19 @@ function enviarCorreoSMTP($destinatarios, $asunto, $mensaje, $remitente, $usuari
         }
         $comando('DATA', '354');
 
-        $cabeceras = "From: {$remitente}\r\n" .
+        $cabeceras = "Date: " . date('r') . "\r\n" .
+            "Message-ID: <" . uniqid() . "@" . ($hostEhlo ?: 'localhost') . ">\r\n" .
+            "From: {$remitente}\r\n" .
+            "Return-Path: {$remitente}\r\n" .
+            "Reply-To: {$remitente}\r\n" .
             "To: " . implode(', ', $destinatarios) . "\r\n" .
             "Subject: {$asunto}\r\n" .
             "MIME-Version: 1.0\r\n" .
+            "X-Mailer: PHP/" . phpversion() . "\r\n" .
             "Content-Type: text/plain; charset=UTF-8\r\n\r\n";
 
-        fwrite($conexion, $cabeceras . $mensaje . "\r\n.\r\n");
+        $mensajeNormalizado = str_replace(["\r\n", "\n"], "\r\n", $mensaje);
+        fwrite($conexion, $cabeceras . $mensajeNormalizado . "\r\n.\r\n");
         $respuestaData = $leerRespuesta();
         if (substr($respuestaData, 0, 3) !== '250') {
             throw new Exception("Error SMTP tras DATA: {$respuestaData}");
