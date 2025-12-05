@@ -516,7 +516,7 @@ if (isset($id_dato) && isset($accion_dato)) {
             $OBSERVACIONIINSTRUCTIVO = $r['OBSERVACIONI_ICARGA'];
             $PAIS = $r['ID_PAIS'];
             $PAIS_PUERTO = $PAIS;
-            $PAIS_FINAL = $PAIS;
+            $PAIS_FINAL = $r['ID_DFINAL'];
             $EMPRESA = $r['ID_EMPRESA'];
             $TEMPORADA = $r['ID_TEMPORADA'];
             $ESTADO = $r['ESTADO'];
@@ -616,7 +616,7 @@ if (isset($id_dato) && isset($accion_dato)) {
             $OBSERVACIONIINSTRUCTIVO = $r['OBSERVACIONI_ICARGA'];
             $PAIS = $r['ID_PAIS'];
             $PAIS_PUERTO = $PAIS;
-            $PAIS_FINAL = $PAIS;
+            $PAIS_FINAL = $r['ID_DFINAL'];
             $EMPRESA = $r['ID_EMPRESA'];
             $TEMPORADA = $r['ID_TEMPORADA'];
             $ESTADO = $r['ESTADO'];
@@ -708,7 +708,7 @@ if (isset($id_dato) && isset($accion_dato)) {
             $OBSERVACIONIINSTRUCTIVO = $r['OBSERVACIONI_ICARGA'];
             $PAIS = $r['ID_PAIS'];
             $PAIS_PUERTO = $PAIS;
-            $PAIS_FINAL = $PAIS;
+            $PAIS_FINAL = $r['ID_DFINAL'];
             $EMPRESA = $r['ID_EMPRESA'];
             $TEMPORADA = $r['ID_TEMPORADA'];
             $ESTADO = $r['ESTADO'];
@@ -811,7 +811,7 @@ if (isset($id_dato) && isset($accion_dato)) {
             $OBSERVACIONIINSTRUCTIVO = $r['OBSERVACIONI_ICARGA'];
             $PAIS = $r['ID_PAIS'];
             $PAIS_PUERTO = $PAIS;
-            $PAIS_FINAL = $PAIS;
+            $PAIS_FINAL = $r['ID_DFINAL'];
             $EMPRESA = $r['ID_EMPRESA'];
             $TEMPORADA = $r['ID_TEMPORADA'];
             $ESTADO = $r['ESTADO'];
@@ -5651,53 +5651,10 @@ if (isset($_POST)) {
                 });
             });
 
-            document.addEventListener('DOMContentLoaded', function () {
-                const paisSelects = document.querySelectorAll('.pais-destino');
-                const paisHidden = document.getElementById('PAISE');
-
-                if (paisSelects.length > 0) {
-                    const syncPais = (origin, value) => {
-                        paisSelects.forEach((other) => {
-                            if (other !== origin) {
-                                other.value = value;
-                                if (window.$ && typeof window.$ === 'function') {
-                                    window.$(other).trigger('change');
-                                }
-                            }
-                        });
-                        if (paisHidden) {
-                            paisHidden.value = value;
-                        }
-                    };
-
-                    paisSelects.forEach((select) => {
-                        select.addEventListener('change', function () {
-                            syncPais(this, this.value);
-                        });
-                    });
-                }
-            });
         </script>
         <?php
             //OPERACIONES
-            $PAISSELECCIONADO = $PAIS;
-            if (isset($_REQUEST['PAIS_FINAL']) && $_REQUEST['PAIS_FINAL'] !== '') {
-                $PAISSELECCIONADO = $_REQUEST['PAIS_FINAL'];
-            } elseif (isset($_REQUEST['PAIS_PUERTO']) && $_REQUEST['PAIS_PUERTO'] !== '') {
-                $PAISSELECCIONADO = $_REQUEST['PAIS_PUERTO'];
-            } elseif (isset($_REQUEST['PAIS']) && $_REQUEST['PAIS'] !== '') {
-                $PAISSELECCIONADO = $_REQUEST['PAIS'];
-            } elseif (isset($_REQUEST['PAISE']) && $_REQUEST['PAISE'] !== '') {
-                $PAISSELECCIONADO = $_REQUEST['PAISE'];
-            }
-            if ($PAIS_PUERTO === "") {
-                $PAIS_PUERTO = $PAISSELECCIONADO;
-            }
-            if ($PAIS_FINAL === "") {
-                $PAIS_FINAL = $PAISSELECCIONADO;
-            }
-            $PAIS = $PAISSELECCIONADO;
-            $PAIS_DESTINO_FORM = $_REQUEST['PAIS'] ?? $_REQUEST['PAISE'] ?? $PAISSELECCIONADO;
+            $PAIS_DESTINO_FORM = $_REQUEST['PAIS'] ?? $_REQUEST['PAISE'] ?? $PAIS;
             $PAIS_DESTINO_FINAL_FORM = $_REQUEST['PAIS_FINAL'] ?? $PAIS_FINAL ?? null;
             //OPERACION DE REGISTRO DE FILA
             if (isset($_REQUEST['CREAR'])) {
