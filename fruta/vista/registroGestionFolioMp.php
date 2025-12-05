@@ -215,23 +215,99 @@ if ($ARRAYFOLIOSELECCIONADO) {
 }
 
 if (isset($_REQUEST['DESHABILITAR'])) {
+    $errores = array();
     if (!$IDEXIMATERIAPRIMA) {
-        $MENSAJE = "Debe seleccionar un folio activo para deshabilitar.";
-    } elseif ($ESTADOFOLIO != 1) {
-        $MENSAJE = "El folio seleccionado ya no se encuentra activo.";
+        $errores[] = "Debe seleccionar un folio activo para deshabilitar.";
+    }
+    if ($ESTADOFOLIO != 1) {
+        $errores[] = "El folio seleccionado ya no se encuentra activo.";
+    }
+    if (!$FOLION) {
+        $errores[] = "Ingrese el nuevo folio.";
+    }
+    if (!$CODIGO) {
+        $errores[] = "Debe ingresar el código recibido.";
+    }
+
+    if (!empty($_SESSION['GESTION_FOLIO_MP_CODIGO'])) {
+        if ($_SESSION['GESTION_FOLIO_MP_CODIGO'] != $CODIGO) {
+            $errores[] = "El código de autorización no coincide.";
+        }
+        if (!empty($_SESSION['GESTION_FOLIO_MP_TIEMPO']) && (time() - $_SESSION['GESTION_FOLIO_MP_TIEMPO']) > 900) {
+            $errores[] = "El código de autorización ha expirado.";
+        }
     } else {
+        $errores[] = "Debe solicitar un código antes de cambiar el folio.";
+    }
+
+    if (!$errores) {
+        $FOLIOACTUAL = $FOLIO;
+        $EXIMATERIAPRIMA->__SET('FOLIO_EXIMATERIAPRIMA', $FOLION);
+        $EXIMATERIAPRIMA->__SET('FOLIO_AUXILIAR_EXIMATERIAPRIMA', $FOLION);
+        $EXIMATERIAPRIMA->__SET('ALIAS_DINAMICO_FOLIO_EXIMATERIAPRIMA', $FOLION);
+        $EXIMATERIAPRIMA->__SET('ALIAS_ESTATICO_FOLIO_EXIMATERIAPRIMA', $FOLION);
+        $EXIMATERIAPRIMA->__SET('ID_EXIMATERIAPRIMA', $IDEXIMATERIAPRIMA);
+        $EXIMATERIAPRIMA_ADO->cambioFolio($EXIMATERIAPRIMA);
+
+        if ($IDRECEPCION && $FOLIOACTUAL) {
+            $DRECEPCIONMP_ADO->actualizarFolioPorRecepcion($IDRECEPCION, $FOLIOACTUAL, $FOLION);
+        }
+
         $EXIMATERIAPRIMA->__SET('ID_EXIMATERIAPRIMA', $IDEXIMATERIAPRIMA);
         $EXIMATERIAPRIMA_ADO->deshabilitarCompleto($EXIMATERIAPRIMA);
 
-        $AUSUARIO_ADO->agregarAusuario2("NULL", 1, 2, $NOMBRECOMPLETOUSUARIO . ", Deshabilita folio materia prima " . $FOLIO, "fruta_eximateriaprima", $IDEXIMATERIAPRIMA, $_SESSION["ID_USUARIO"], $_SESSION['ID_EMPRESA'], $_SESSION['ID_PLANTA'], $_SESSION['ID_TEMPORADA']);
+        if ($IDRECEPCION && $FOLION) {
+            $DRECEPCIONMP_ADO->deshabilitarFolioPorRecepcion($IDRECEPCION, $FOLION);
+        }
 
-        $_SESSION['GESTION_FOLIO_MP_EXITO'] = "El folio fue deshabilitado correctamente.";
+        $descripcionAccion = $NOMBRECOMPLETOUSUARIO . ", Cambia y deshabilita folio de materia prima de " . $FOLIOACTUAL . " a " . $FOLION;
+        if ($NUMERORECEPCION) {
+            $textoEstadoRecepcion = $ESTADORECEPCION === null ? '' : (($ESTADORECEPCION == 1 || $ESTADORECEPCION === "1") ? ' Abierta' : ' Cerrada');
+            $descripcionAccion .= " (Recepción " . $NUMERORECEPCION . ($textoEstadoRecepcion ? " -" . $textoEstadoRecepcion : '') . ")";
+        }
+        if (!empty($MOTIVO)) {
+            $descripcionAccion .= " (Motivo: " . $MOTIVO . ")";
+        }
+
+        $AUSUARIO_ADO->agregarAusuario2("NULL", 1, 2, $descripcionAccion, "fruta_eximateriaprima", $IDEXIMATERIAPRIMA, $_SESSION["ID_USUARIO"], $_SESSION['ID_EMPRESA'], $_SESSION['ID_PLANTA'], $_SESSION['ID_TEMPORADA']);
+
+        $destinatariosCambio = array_values(array_unique(array_filter([$CORREOUSUARIO, 'maperez@fvolcan.cl', 'eisla@fvolcan.cl'])));
+        $asuntoCambio = 'Folio materia prima cambiado y deshabilitado';
+        $textoEstadoRecepcionCambio = $ESTADORECEPCION === null ? 'Sin datos' : (($ESTADORECEPCION == 1 || $ESTADORECEPCION === "1") ? 'Abierta' : 'Cerrada');
+        $mensajeCambio = "Se ha cambiado y deshabilitado un folio de materia prima." . "\r\n\r\n" .
+            "Usuario: " . $NOMBRECOMPLETOUSUARIO . "\r\n" .
+            "Planta: " . $NOMBREPLANTA . "\r\n" .
+            "Empresa: " . $NOMBREEMPRESA . "\r\n" .
+            "Temporada: " . $NOMBRETEMPORADA . "\r\n" .
+            "Recepción origen: " . ($NUMERORECEPCION ? $NUMERORECEPCION : 'Sin datos') . " (" . $textoEstadoRecepcionCambio . ")\r\n" .
+            "Folio actual: " . $FOLIOACTUAL . "\r\n" .
+            "Folio nuevo: " . $FOLION . "\r\n" .
+            "Estado posterior: Deshabilitado\r\n" .
+            (empty($MOTIVO) ? "" : "Motivo: " . $MOTIVO . "\r\n");
+
+        $remitente = 'informevolcan@gocreative.cl';
+        $usuarioSMTP = 'informevolcan@gocreative.cl';
+        $contrasenaSMTP = 'bOaKXtke6.#5#v[q';
+        $hostSMTP = 'mail.gocreative.cl';
+        $puertoSMTP = 465;
+
+        [$envioCambioOk, $errorEnvioCambio] = enviarCorreoSMTP($destinatariosCambio, $asuntoCambio, $mensajeCambio, $remitente, $usuarioSMTP, $contrasenaSMTP, $hostSMTP, $puertoSMTP);
+
+        $textoNotificacion = "El folio de materia prima fue cambiado y deshabilitado correctamente.";
+        if (!$envioCambioOk) {
+            $textoNotificacion .= " No se pudo enviar la notificación por correo: " . ($errorEnvioCambio ?: 'revise la configuración SMTP.');
+        }
+
+        $_SESSION['GESTION_FOLIO_MP_EXITO'] = $textoNotificacion;
+
+        unset($_SESSION['GESTION_FOLIO_MP_CODIGO']);
+        unset($_SESSION['GESTION_FOLIO_MP_TIEMPO']);
 
         echo '<script>
                     Swal.fire({
                         icon:"success",
-                        title:"Folio deshabilitado",
-                        text:"El folio fue deshabilitado correctamente.",
+                        title:"Folio actualizado",
+                        text:"' . $textoNotificacion . '",
                         showConfirmButton:true,
                         confirmButtonText:"Cerrar"
                     }).then((result)=>{
@@ -240,6 +316,8 @@ if (isset($_REQUEST['DESHABILITAR'])) {
                         }
                     })
                 </script>';
+    } else {
+        $MENSAJE = implode(" ", $errores);
     }
 }
 
@@ -518,8 +596,8 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                         <div class="form-group">
                                             <label>Filtrar folios</label>
                                             <select class="form-control" name="FILTRO_ESTADO" id="FILTRO_ESTADO" onchange="this.form.submit();">
-                                                <option value="1" <?php echo $FILTROESTADO == 1 ? 'selected' : ''; ?>>Mostrar folios activos (Estado registro 1)</option>
-                                                <option value="0" <?php echo $FILTROESTADO == 0 ? 'selected' : ''; ?>>Mostrar folios eliminados (Estado registro 0)</option>
+                                                <option value="1" <?php echo $FILTROESTADO == 1 ? 'selected' : ''; ?>>Mostrar folios activos</option>
+                                                <option value="0" <?php echo $FILTROESTADO == 0 ? 'selected' : ''; ?>>Mostrar folios eliminados</option>
                                             </select>
                                         </div>
                                     </div>
@@ -581,11 +659,11 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                         <button type="button" class="btn  btn-success" data-toggle="tooltip" title="Volver" name="CANCELAR" value="CANCELAR" Onclick="irPagina('index.php');">
                                             <i class="ti-back-left "></i> Volver
                                         </button>
-                                        <button type="submit" class="btn btn-danger" id="btnDeshabilitar" style="display: none;" data-toggle="tooltip" title="Deshabilitar folio" name="DESHABILITAR" value="DESHABILITAR">
-                                            <i class="ti-close"></i> Deshabilitar
+                                        <button type="submit" class="btn btn-danger" id="btnDeshabilitar" style="display: none;" data-toggle="tooltip" title="Cambiar y deshabilitar" name="DESHABILITAR" value="DESHABILITAR" onclick="return validacion();">
+                                            <i class="ti-close"></i> Cambiar y deshabilitar folio
                                         </button>
-                                        <button type="submit" class="btn btn-warning" data-toggle="tooltip" title="Cambiar" name="CAMBIAR" value="CAMBIAR" onclick="return validacion()">
-                                            <i class="ti-save-alt"></i> Cambiar
+                                        <button type="submit" class="btn btn-warning" data-toggle="tooltip" title="Cambiar número" name="CAMBIAR" value="CAMBIAR" onclick="return validacion()">
+                                            <i class="ti-save-alt"></i> Cambiar número de folio
                                         </button>
                                     </div>
                                 </div>
