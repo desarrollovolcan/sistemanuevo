@@ -303,19 +303,8 @@ if (isset($_REQUEST['DESHABILITAR'])) {
         unset($_SESSION['GESTION_FOLIO_MP_CODIGO']);
         unset($_SESSION['GESTION_FOLIO_MP_TIEMPO']);
 
-        echo '<script>
-                    Swal.fire({
-                        icon:"success",
-                        title:"Folio actualizado",
-                        text:"' . $textoNotificacion . '",
-                        showConfirmButton:true,
-                        confirmButtonText:"Cerrar"
-                    }).then((result)=>{
-                        if(result.value){
-                            location.href ="registroGestionFolioMp.php";
-                        }
-                    })
-                </script>';
+        header('Location: registroGestionFolioMp.php');
+        exit();
     } else {
         $MENSAJE = implode(" ", $errores);
     }
@@ -440,19 +429,8 @@ if (isset($_REQUEST['CAMBIAR'])) {
         unset($_SESSION['GESTION_FOLIO_MP_CODIGO']);
         unset($_SESSION['GESTION_FOLIO_MP_TIEMPO']);
 
-        echo '<script>
-                    Swal.fire({
-                        icon:"success",
-                        title:"Folio actualizado",
-                        text:"' . $textoNotificacion . '",
-                        showConfirmButton:true,
-                        confirmButtonText:"Cerrar"
-                    }).then((result)=>{
-                        if(result.value){
-                            location.href ="registroGestionFolioMp.php";
-                        }
-                    })
-                </script>';
+        header('Location: registroGestionFolioMp.php');
+        exit();
     } else {
         $MENSAJE = implode(" ", $errores);
     }
@@ -528,10 +506,18 @@ if (isset($_REQUEST['CAMBIAR'])) {
             var textoRecepcion = numeroRecepcion ? ("Recepción " + numeroRecepcion + " (" + textoEstadoRecepcion(estadoRecepcion) + ")") : "Recepción no disponible";
             document.getElementById("INFO_RECEPCION").value = textoRecepcion;
             var botonDeshabilitar = document.getElementById("btnDeshabilitar");
-            if (folioActual && estadoRegistro === '1') {
+            var botonCambiar = document.getElementById("btnCambiar");
+            var folioActivo = (folioActual && estadoRegistro === '1');
+
+            if (folioActivo) {
                 botonDeshabilitar.style.display = 'inline-flex';
+                botonCambiar.style.display = 'none';
+            } else if (folioActual) {
+                botonDeshabilitar.style.display = 'none';
+                botonCambiar.style.display = 'inline-flex';
             } else {
                 botonDeshabilitar.style.display = 'none';
+                botonCambiar.style.display = 'none';
             }
         }
 
@@ -584,11 +570,6 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                 <?php if ($MENSAJE) { ?>
                                     <div class="alert alert-danger" role="alert">
                                         <?php echo htmlspecialchars($MENSAJE, ENT_QUOTES, 'UTF-8'); ?>
-                                    </div>
-                                <?php } ?>
-                                <?php if ($MENSAJEEXITO) { ?>
-                                    <div class="alert alert-success" role="alert">
-                                        <?php echo htmlspecialchars($MENSAJEEXITO, ENT_QUOTES, 'UTF-8'); ?>
                                     </div>
                                 <?php } ?>
                                 <div class="row">
@@ -662,7 +643,7 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                         <button type="submit" class="btn btn-danger" id="btnDeshabilitar" style="display: none;" data-toggle="tooltip" title="Cambiar y deshabilitar" name="DESHABILITAR" value="DESHABILITAR" onclick="return validacion();">
                                             <i class="ti-close"></i> Cambiar y deshabilitar folio
                                         </button>
-                                        <button type="submit" class="btn btn-warning" data-toggle="tooltip" title="Cambiar número" name="CAMBIAR" value="CAMBIAR" onclick="return validacion()">
+                                        <button type="submit" class="btn btn-warning" id="btnCambiar" data-toggle="tooltip" title="Cambiar número" name="CAMBIAR" value="CAMBIAR" onclick="return validacion()">
                                             <i class="ti-save-alt"></i> Cambiar número de folio
                                         </button>
                                     </div>
