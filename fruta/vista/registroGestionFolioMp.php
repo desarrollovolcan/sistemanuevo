@@ -2,10 +2,16 @@
 include_once "../../assest/config/validarUsuarioFruta.php";
 
 include_once '../../assest/controlador/EXIMATERIAPRIMA_ADO.php';
+include_once '../../assest/controlador/DRECEPCIONMP_ADO.php';
+include_once '../../assest/controlador/RECEPCIONMP_ADO.php';
+include_once '../../assest/controlador/AUSUARIO_ADO.php';
 
 include_once '../../assest/modelo/EXIMATERIAPRIMA.php';
 
 $EXIMATERIAPRIMA_ADO =  new EXIMATERIAPRIMA_ADO();
+$DRECEPCIONMP_ADO = new DRECEPCIONMP_ADO();
+$RECEPCIONMP_ADO = new RECEPCIONMP_ADO();
+$AUSUARIO_ADO = new AUSUARIO_ADO();
 
 $EXIMATERIAPRIMA =  new EXIMATERIAPRIMA();
 
@@ -16,6 +22,11 @@ $CODIGO = "";
 $MOTIVO = "";
 $MENSAJE = "";
 $MENSAJEENVIO = "";
+$IDRECEPCION = "";
+$NUMERORECEPCION = "";
+$ESTADORECEPCION = null;
+$ARRAYRECEPCION = array();
+$ARRAYHISTORIAL = $AUSUARIO_ADO->listarUltimosCambiosFolioMp($EMPRESAS, $PLANTAS, $TEMPORADAS);
 
 function enviarCorreoSMTP($destinatarios, $asunto, $mensaje, $remitente, $usuario, $contrasena, $host, $puerto, $timeout = 30)
 {
@@ -120,6 +131,16 @@ $ARRAYFOLIOSELECCIONADO = array_filter($ARRAYEXISTENCIA, function ($registro) us
 if ($ARRAYFOLIOSELECCIONADO) {
     $DATOSFOLIO = array_values($ARRAYFOLIOSELECCIONADO)[0];
     $FOLIO = $DATOSFOLIO['FOLIO_EXIMATERIAPRIMA'];
+    $IDRECEPCION = $DATOSFOLIO['ID_RECEPCION'];
+    $NUMERORECEPCION = $DATOSFOLIO['NUMERO_RECEPCION'];
+    $ESTADORECEPCION = $DATOSFOLIO['ESTADO_RECEPCION'];
+    if ($IDRECEPCION) {
+        $ARRAYRECEPCION = $RECEPCIONMP_ADO->verRecepcion($IDRECEPCION);
+        if ($ARRAYRECEPCION) {
+            $NUMERORECEPCION = $ARRAYRECEPCION[0]['NUMERO_RECEPCION'];
+            $ESTADORECEPCION = $ARRAYRECEPCION[0]['ESTADO'];
+        }
+    }
 }
 
 if (isset($_REQUEST['SOLICITAR'])) {
@@ -130,13 +151,17 @@ if (isset($_REQUEST['SOLICITAR'])) {
         $_SESSION['GESTION_FOLIO_MP_CODIGO'] = $CODIGOVERIFICACION;
         $_SESSION['GESTION_FOLIO_MP_TIEMPO'] = time();
 
+        $textoEstadoRecepcion = $ESTADORECEPCION === null ? 'Sin datos' : (($ESTADORECEPCION == 1 || $ESTADORECEPCION === "1") ? 'Abierta' : 'Cerrada');
+        $folioDestinoTexto = $FOLION ? $FOLION : 'No indicado';
         $correoDestino = ['maperez@fvolcan.cl', 'eisla@fvolcan.cl'];
         $asunto = 'Código de autorización - Cambio de folio materia prima';
         $mensajeCorreo = "Se ha solicitado un código para cambiar el folio de materia prima." . "\r\n\r\n" .
             "Usuario: " . $_SESSION['NOMBRE_USUARIO'] . "\r\n" .
             "Planta: " . $NOMBREPLANTA . "\r\n" .
             "Empresa: " . $NOMBREEMPRESA . "\r\n" .
+            "Recepción origen: " . ($NUMERORECEPCION ? $NUMERORECEPCION : 'Sin datos') . " (" . $textoEstadoRecepcion . ")\r\n" .
             "Folio actual: " . $FOLIO . "\r\n" .
+            "Folio nuevo: " . $folioDestinoTexto . "\r\n" .
             (empty($MOTIVO) ? "" : "Motivo: " . $MOTIVO . "\r\n") .
             "Código de autorización: " . $CODIGOVERIFICACION . "\r\n\r\n" .
             "Este código es válido por 15 minutos.";
@@ -182,6 +207,7 @@ if (isset($_REQUEST['CAMBIAR'])) {
     }
 
     if (!$errores) {
+        $FOLIOACTUAL = $FOLIO;
         $EXIMATERIAPRIMA->__SET('FOLIO_EXIMATERIAPRIMA', $FOLION);
         $EXIMATERIAPRIMA->__SET('FOLIO_AUXILIAR_EXIMATERIAPRIMA', $FOLION);
         $EXIMATERIAPRIMA->__SET('ALIAS_DINAMICO_FOLIO_EXIMATERIAPRIMA', $FOLION);
@@ -189,7 +215,15 @@ if (isset($_REQUEST['CAMBIAR'])) {
         $EXIMATERIAPRIMA->__SET('ID_EXIMATERIAPRIMA', $IDEXIMATERIAPRIMA);
         $EXIMATERIAPRIMA_ADO->cambioFolio($EXIMATERIAPRIMA);
 
-        $descripcionAccion = "" . $_SESSION["NOMBRE_USUARIO"] . ", Cambio de folio de materia prima";
+        if ($IDRECEPCION && $FOLIOACTUAL) {
+            $DRECEPCIONMP_ADO->actualizarFolioPorRecepcion($IDRECEPCION, $FOLIOACTUAL, $FOLION);
+        }
+
+        $descripcionAccion = "" . $_SESSION["NOMBRE_USUARIO"] . ", Cambio de folio de materia prima de " . $FOLIOACTUAL . " a " . $FOLION;
+        if ($NUMERORECEPCION) {
+            $textoEstadoRecepcion = $ESTADORECEPCION === null ? '' : (($ESTADORECEPCION == 1 || $ESTADORECEPCION === "1") ? ' Abierta' : ' Cerrada');
+            $descripcionAccion .= " (Recepción " . $NUMERORECEPCION . ($textoEstadoRecepcion ? " -" . $textoEstadoRecepcion : '') . ")";
+        }
         if (!empty($MOTIVO)) {
             $descripcionAccion .= " (Motivo: " . $MOTIVO . ")";
         }
@@ -270,11 +304,26 @@ if (isset($_REQUEST['CAMBIAR'])) {
 
         }
 
+        function textoEstadoRecepcion(estado) {
+            if (estado === null || estado === '' || typeof estado === 'undefined') {
+                return 'Sin datos';
+            }
+            return (estado === '1' || estado === 1) ? 'Abierta' : 'Cerrada';
+        }
+
         function actualizarFolio() {
             var seleccion = document.getElementById("IDEXIMATERIAPRIMA");
             var folioActual = seleccion.options[seleccion.selectedIndex].getAttribute('data-folio');
+            var numeroRecepcion = seleccion.options[seleccion.selectedIndex].getAttribute('data-nrecepcion');
+            var estadoRecepcion = seleccion.options[seleccion.selectedIndex].getAttribute('data-estado');
             document.getElementById("FOLIO").value = folioActual ? folioActual : "";
+            var textoRecepcion = numeroRecepcion ? ("Recepción " + numeroRecepcion + " (" + textoEstadoRecepcion(estadoRecepcion) + ")") : "Recepción no disponible";
+            document.getElementById("INFO_RECEPCION").value = textoRecepcion;
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            actualizarFolio();
+        });
     </script>
 </head>
 
@@ -320,7 +369,7 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                             <select class="form-control select2" id="IDEXIMATERIAPRIMA" name="IDEXIMATERIAPRIMA" style="width: 100%" onchange="actualizarFolio();">
                                                 <option value="">Seleccione un folio</option>
                                                 <?php foreach ($ARRAYEXISTENCIA as $r) : ?>
-                                                    <option value="<?php echo $r['ID_EXIMATERIAPRIMA']; ?>" data-folio="<?php echo htmlspecialchars($r['FOLIO_EXIMATERIAPRIMA'], ENT_QUOTES, 'UTF-8'); ?>" <?php echo $IDEXIMATERIAPRIMA == $r['ID_EXIMATERIAPRIMA'] ? 'selected' : ''; ?>>
+                                                    <option value="<?php echo $r['ID_EXIMATERIAPRIMA']; ?>" data-folio="<?php echo htmlspecialchars($r['FOLIO_EXIMATERIAPRIMA'], ENT_QUOTES, 'UTF-8'); ?>" data-nrecepcion="<?php echo htmlspecialchars($r['NUMERO_RECEPCION'], ENT_QUOTES, 'UTF-8'); ?>" data-estado="<?php echo htmlspecialchars($r['ESTADO_RECEPCION'], ENT_QUOTES, 'UTF-8'); ?>" <?php echo $IDEXIMATERIAPRIMA == $r['ID_EXIMATERIAPRIMA'] ? 'selected' : ''; ?>>
                                                         <?php echo $r['FOLIO_EXIMATERIAPRIMA']; ?>
                                                     </option>
                                                 <?php endforeach; ?>
@@ -332,6 +381,12 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                         <div class="form-group">
                                             <label>Folio actual</label>
                                             <input type="number" class="form-control" placeholder="Folio actual" id="FOLIO" name="FOLIO" value="<?php echo htmlspecialchars($FOLIO, ENT_QUOTES, 'UTF-8'); ?>" disabled style='background-color: #eeeeee;' />
+                                        </div>
+                                    </div>
+                                    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label>Recepción origen</label>
+                                            <input type="text" class="form-control" id="INFO_RECEPCION" value="<?php echo htmlspecialchars($NUMERORECEPCION ? ('Recepción ' . $NUMERORECEPCION . ' (' . ($ESTADORECEPCION === null ? 'Sin datos' : (($ESTADORECEPCION == 1 || $ESTADORECEPCION === "1") ? 'Abierta' : 'Cerrada')) . ')') : 'Recepción no disponible', ENT_QUOTES, 'UTF-8'); ?>" disabled style='background-color: #eeeeee;' />
                                         </div>
                                     </div>
                                     <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 col-xs-12">
@@ -373,6 +428,37 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                 </div>
                             </div>
                         </form>
+                    </div>
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h4 class="box-title">Historial últimos 10 cambios de folio</h4>
+                        </div>
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Detalle</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if ($ARRAYHISTORIAL) : ?>
+                                            <?php foreach ($ARRAYHISTORIAL as $historial) : ?>
+                                                <tr>
+                                                    <td><?php echo htmlspecialchars(date('d-m-Y H:i', strtotime($historial['INGRESO'])), ENT_QUOTES, 'UTF-8'); ?></td>
+                                                    <td><?php echo htmlspecialchars($historial['MENSAJE'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php else : ?>
+                                            <tr>
+                                                <td colspan="2">No hay cambios registrados.</td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </div>

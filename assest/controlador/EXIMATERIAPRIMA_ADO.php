@@ -1911,18 +1911,22 @@ WHERE
     {
         try {
 
-            $datos = $this->conexion->prepare("SELECT ID_EXIMATERIAPRIMA,
-                                                        FOLIO_EXIMATERIAPRIMA,
-                                                        FOLIO_AUXILIAR_EXIMATERIAPRIMA,
-                                                        ALIAS_DINAMICO_FOLIO_EXIMATERIAPRIMA,
-                                                        ALIAS_ESTATICO_FOLIO_EXIMATERIAPRIMA
-                                                    FROM fruta_eximateriaprima
-                                                    WHERE ESTADO_REGISTRO = 1
-                                                    AND ESTADO != 0
-                                                    AND ID_EMPRESA = ?
-                                                    AND ID_PLANTA = ?
-                                                    AND ID_TEMPORADA = ?
-                                                    ORDER BY FOLIO_EXIMATERIAPRIMA ASC;  ");
+            $datos = $this->conexion->prepare("SELECT existencia.ID_EXIMATERIAPRIMA,
+                                                        existencia.FOLIO_EXIMATERIAPRIMA,
+                                                        existencia.FOLIO_AUXILIAR_EXIMATERIAPRIMA,
+                                                        existencia.ALIAS_DINAMICO_FOLIO_EXIMATERIAPRIMA,
+                                                        existencia.ALIAS_ESTATICO_FOLIO_EXIMATERIAPRIMA,
+                                                        existencia.ID_RECEPCION,
+                                                        recepcion.NUMERO_RECEPCION,
+                                                        recepcion.ESTADO AS ESTADO_RECEPCION
+                                                    FROM fruta_eximateriaprima existencia
+                                                    LEFT JOIN fruta_recepcionmp recepcion ON recepcion.ID_RECEPCION = existencia.ID_RECEPCION
+                                                    WHERE existencia.ESTADO_REGISTRO = 1
+                                                    AND existencia.ESTADO != 0
+                                                    AND existencia.ID_EMPRESA = ?
+                                                    AND existencia.ID_PLANTA = ?
+                                                    AND existencia.ID_TEMPORADA = ?
+                                                    ORDER BY existencia.FOLIO_EXIMATERIAPRIMA ASC;  ");
             $datos->execute(array($EMPRESA, $PLANTA, $TEMPORADA));
             $resultado = $datos->fetchAll(PDO::FETCH_ASSOC);
             $datos=null;
