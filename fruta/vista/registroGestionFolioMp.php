@@ -17,6 +17,85 @@ $MOTIVO = "";
 $MENSAJE = "";
 $MENSAJEENVIO = "";
 
+function enviarCorreoSMTP($destinatarios, $asunto, $mensaje, $remitente, $usuario, $contrasena, $host, $puerto, $timeout = 30)
+{
+    $destinatarios = (array) $destinatarios;
+    $conexion = @stream_socket_client("ssl://{$host}:{$puerto}", $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, stream_context_create([
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+        ]
+    ]));
+
+    if (!$conexion) {
+        return [false, "No se pudo conectar al servidor SMTP ({$errstr})"];
+    }
+
+    $leerRespuesta = function () use ($conexion) {
+        $respuesta = '';
+        while ($linea = fgets($conexion, 515)) {
+            $respuesta .= $linea;
+            if (isset($linea[3]) && $linea[3] === ' ') {
+                break;
+            }
+        }
+        return $respuesta;
+    };
+
+    $comando = function ($instruccion, $codigoEsperado) use ($conexion, $leerRespuesta) {
+        fwrite($conexion, $instruccion . "\r\n");
+        $respuesta = $leerRespuesta();
+        if (substr($respuesta, 0, 3) !== $codigoEsperado) {
+            throw new Exception("Error SMTP en '{$instruccion}': {$respuesta}");
+        }
+        return $respuesta;
+    };
+
+    $leerRespuesta();
+
+    try {
+        $comando('EHLO localhost', '250');
+    } catch (Exception $e) {
+        $comando('HELO localhost', '250');
+    }
+
+    try {
+        $comando('AUTH LOGIN', '334');
+        $comando(base64_encode($usuario), '334');
+        $comando(base64_encode($contrasena), '235');
+    } catch (Exception $e) {
+        fclose($conexion);
+        return [false, "Error de autenticación SMTP: " . $e->getMessage()];
+    }
+
+    try {
+        $comando("MAIL FROM:<{$remitente}>", '250');
+        foreach ($destinatarios as $correo) {
+            $comando("RCPT TO:<{$correo}>", '250');
+        }
+        $comando('DATA', '354');
+
+        $cabeceras = "From: {$remitente}\r\n" .
+            "To: " . implode(', ', $destinatarios) . "\r\n" .
+            "Subject: {$asunto}\r\n" .
+            "MIME-Version: 1.0\r\n" .
+            "Content-Type: text/plain; charset=UTF-8\r\n\r\n";
+
+        fwrite($conexion, $cabeceras . $mensaje . "\r\n.\r\n");
+        $respuestaData = $leerRespuesta();
+        if (substr($respuestaData, 0, 3) !== '250') {
+            throw new Exception("Error SMTP tras DATA: {$respuestaData}");
+        }
+        $comando('QUIT', '221');
+    } catch (Exception $e) {
+        fclose($conexion);
+        return [false, "Error al enviar correo: " . $e->getMessage()];
+    }
+
+    fclose($conexion);
+    return [true, null];
+}
+
 $ARRAYEXISTENCIA = $EXIMATERIAPRIMA_ADO->listarEximateriaprimaEnExistencia($EMPRESAS, $PLANTAS, $TEMPORADAS);
 
 if ($_POST) {
@@ -62,42 +141,18 @@ if (isset($_REQUEST['SOLICITAR'])) {
             "Código de autorización: " . $CODIGOVERIFICACION . "\r\n\r\n" .
             "Este código es válido por 15 minutos.";
 
-        $remitente = 'sistema@fvolcan.cl';
-        $cabecera = "From: {$remitente}\r\n";
-        $cabecera .= "Reply-To: {$remitente}\r\n";
-        $cabecera .= "MIME-Version: 1.0\r\n";
-        $cabecera .= "Content-Type: text/plain; charset=UTF-8\r\n";
+        $remitente = 'informevolcan@gocreative.cl';
+        $usuarioSMTP = 'informevolcan@gocreative.cl';
+        $contrasenaSMTP = 'bOaKXtke6.#5#v[q';
+        $hostSMTP = 'mail.gocreative.cl';
+        $puertoSMTP = 465;
 
-        ini_set('sendmail_from', $remitente);
-        $smtpHost = getenv('SMTP_HOST') ?: ini_get('SMTP');
-        $smtpPort = getenv('SMTP_PORT') ?: ini_get('smtp_port');
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            if ($smtpHost) {
-                ini_set('SMTP', $smtpHost);
-            }
-            if ($smtpPort) {
-                ini_set('smtp_port', $smtpPort);
-            }
-        }
+        [$envioOk, $errorEnvio] = enviarCorreoSMTP($correoDestino, $asunto, $mensajeCorreo, $remitente, $usuarioSMTP, $contrasenaSMTP, $hostSMTP, $puertoSMTP);
 
-        $erroresEnvio = [];
-        $usarParametrosAdicionales = strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN';
-        foreach ($correoDestino as $destinatario) {
-            $envioExitoso = $usarParametrosAdicionales
-                ? mail($destinatario, $asunto, $mensajeCorreo, $cabecera, "-f{$remitente}")
-                : mail($destinatario, $asunto, $mensajeCorreo, $cabecera);
-            if (!$envioExitoso) {
-                $erroresEnvio[] = $destinatario;
-            }
-        }
-
-        if (empty($erroresEnvio)) {
-            $MENSAJEENVIO = "Código enviado a los correos autorizados.";
+        if ($envioOk) {
+            $MENSAJEENVIO = "Código enviado a los correos autorizados. Duración: 15 minutos.";
         } else {
-            $ultimoError = error_get_last();
-            $MENSAJE = "No fue posible enviar el correo a: " . implode(', ', $erroresEnvio) .
-                (empty($ultimoError['message']) ? "" : " (" . $ultimoError['message'] . ")") .
-                ". Verifique la configuración de correo en el servidor.";
+            $MENSAJE = $errorEnvio ?: "No fue posible enviar el correo. Verifique la configuración de correo en el servidor.";
         }
     }
 }
