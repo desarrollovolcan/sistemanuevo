@@ -29,6 +29,7 @@ $FOLION = "";
 $CODIGO = "";
 $MOTIVO = "";
 $MENSAJE = "";
+$MENSAJEEXITO = "";
 $MENSAJEENVIO = "";
 $IDRECEPCION = "";
 $NUMERORECEPCION = "";
@@ -66,6 +67,11 @@ $NOMBREPLANTA = $NOMBREPLANTA ? $NOMBREPLANTA : 'Sin datos';
 $ARRAYTEMPORADA = $TEMPORADA_ADO->verTemporada($TEMPORADAS);
 if ($ARRAYTEMPORADA) {
     $NOMBRETEMPORADA = $ARRAYTEMPORADA[0]['NOMBRE_TEMPORADA'];
+}
+
+if (!empty($_SESSION['GESTION_FOLIO_MP_EXITO'])) {
+    $MENSAJEEXITO = $_SESSION['GESTION_FOLIO_MP_EXITO'];
+    unset($_SESSION['GESTION_FOLIO_MP_EXITO']);
 }
 
 function enviarCorreoSMTP($destinatarios, $asunto, $mensaje, $remitente, $usuario, $contrasena, $host, $puerto, $timeout = 30)
@@ -315,6 +321,8 @@ if (isset($_REQUEST['CAMBIAR'])) {
             $textoNotificacion .= " No se pudo enviar la notificación por correo: " . ($errorEnvioCambio ?: 'revise la configuración SMTP.');
         }
 
+        $_SESSION['GESTION_FOLIO_MP_EXITO'] = $textoNotificacion;
+
         unset($_SESSION['GESTION_FOLIO_MP_CODIGO']);
         unset($_SESSION['GESTION_FOLIO_MP_TIEMPO']);
 
@@ -445,6 +453,11 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                 <?php if ($MENSAJE) { ?>
                                     <div class="alert alert-danger" role="alert">
                                         <?php echo htmlspecialchars($MENSAJE, ENT_QUOTES, 'UTF-8'); ?>
+                                    </div>
+                                <?php } ?>
+                                <?php if ($MENSAJEEXITO) { ?>
+                                    <div class="alert alert-success" role="alert">
+                                        <?php echo htmlspecialchars($MENSAJEEXITO, ENT_QUOTES, 'UTF-8'); ?>
                                     </div>
                                 <?php } ?>
                                 <div class="row">
