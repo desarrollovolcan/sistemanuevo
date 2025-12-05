@@ -520,6 +520,24 @@ if (isset($_REQUEST['CAMBIAR'])) {
             return (estado === '1' || estado === 1) ? 'Abierta' : 'Cerrada';
         }
 
+        function alternarAccionesPorEstado(estadoRegistro, tieneFolio) {
+            var botonDeshabilitar = document.getElementById("btnDeshabilitar");
+            var botonCambiar = document.getElementById("btnCambiar");
+
+            botonDeshabilitar.style.display = 'none';
+            botonCambiar.style.display = 'none';
+
+            if (!tieneFolio) {
+                return;
+            }
+
+            if (estadoRegistro === 1) {
+                botonDeshabilitar.style.display = 'flex';
+            } else {
+                botonCambiar.style.display = 'flex';
+            }
+        }
+
         function actualizarFolio() {
             var seleccion = document.getElementById("IDEXIMATERIAPRIMA");
             var folioActual = seleccion.options[seleccion.selectedIndex].getAttribute('data-folio');
@@ -529,18 +547,12 @@ if (isset($_REQUEST['CAMBIAR'])) {
             document.getElementById("FOLIO").value = folioActual ? folioActual : "";
             var textoRecepcion = numeroRecepcion ? ("Recepción " + numeroRecepcion + " (" + textoEstadoRecepcion(estadoRecepcion) + ")") : "Recepción no disponible";
             document.getElementById("INFO_RECEPCION").value = textoRecepcion;
-            var botonDeshabilitar = document.getElementById("btnDeshabilitar");
-            var botonCambiar = document.getElementById("btnCambiar");
-            var folioActivo = (folioActual && estadoRegistro === 1);
 
-            botonDeshabilitar.style.display = 'none';
-            botonCambiar.style.display = 'none';
-
-            if (folioActivo) {
-                botonDeshabilitar.style.display = 'flex';
-            } else if (folioActual) {
-                botonCambiar.style.display = 'flex';
+            if (isNaN(estadoRegistro)) {
+                estadoRegistro = parseInt(document.getElementById("FILTRO_ESTADO").value, 10) || 0;
             }
+
+            alternarAccionesPorEstado(estadoRegistro, !!folioActual);
         }
 
         document.addEventListener('DOMContentLoaded', function () {
