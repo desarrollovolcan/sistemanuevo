@@ -461,17 +461,27 @@ class AUSUARIO_ADO {
     public function listarUltimosCambiosFolioMp($EMPRESA, $PLANTA, $TEMPORADA, $LIMIT = 10)
     {
         try {
-            $datos = $this->conexion->prepare("SELECT ID_AUSUARIO,
-                                                        MENSAJE,
-                                                        INGRESO
-                                                FROM usuario_ausuario
-                                                WHERE TABLA = 'fruta_eximateriaprima'
-                                                  AND MENSAJE LIKE '%Cambio de folio de materia prima%'
-                                                  AND ID_EMPRESA = ?
-                                                  AND ID_PLANTA = ?
-                                                  AND ID_TEMPORADA = ?
-                                                ORDER BY ID_AUSUARIO DESC
-                                                LIMIT ?;");
+            $sql = "SELECT 
+                        au.MENSAJE,
+                        au.INGRESO,
+                        u.USUARIO,
+                        CONCAT(IFNULL(u.PNOMBRE_USUARIO, ''), ' ', IFNULL(u.SNOMBRE_USUARIO, ''), ' ', IFNULL(u.PAPELLIDO_USUARIO, ''), ' ', IFNULL(u.SAPELLIDO_USUARIO, '')) AS NOMBRE_COMPLETO,
+                        e.NOMBRE_EMPRESA,
+                        p.NOMBRE_PLANTA,
+                        t.NOMBRE_TEMPORADA
+                    FROM usuario_ausuario au
+                    LEFT JOIN usuario u ON u.ID_USUARIO = au.ID_USUARIO
+                    LEFT JOIN empresa e ON e.ID_EMPRESA = au.ID_EMPRESA
+                    LEFT JOIN planta p ON p.ID_PLANTA = au.ID_PLANTA
+                    LEFT JOIN temporada t ON t.ID_TEMPORADA = au.ID_TEMPORADA
+                    WHERE au.TABLA = 'fruta_eximateriaprima'
+                      AND au.ID_EMPRESA = ?
+                      AND au.ID_PLANTA = ?
+                      AND au.ID_TEMPORADA = ?
+                      AND (au.MENSAJE LIKE '%folio de materia prima%')
+                    ORDER BY au.INGRESO DESC
+                    LIMIT ?;";
+            $datos = $this->conexion->prepare($sql);
             $datos->bindParam(1, $EMPRESA, PDO::PARAM_INT);
             $datos->bindParam(2, $PLANTA, PDO::PARAM_INT);
             $datos->bindParam(3, $TEMPORADA, PDO::PARAM_INT);

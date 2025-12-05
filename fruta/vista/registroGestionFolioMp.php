@@ -44,6 +44,31 @@ $NOMBRETEMPORADA = "Sin datos";
 $ARRAYRECEPCION = array();
 $ARRAYHISTORIAL = $AUSUARIO_ADO->listarUltimosCambiosFolioMp($EMPRESAS, $PLANTAS, $TEMPORADAS);
 
+function mapearDetalleHistorialFolio($mensaje)
+{
+    $detalle = [
+        'accion' => (stripos($mensaje, 'deshabilita folio') !== false) ? 'Cambio y deshabilitar' : 'Cambio de folio',
+        'folio_antiguo' => 'No identificado',
+        'folio_nuevo' => 'No identificado',
+        'recepcion' => 'Sin datos',
+    ];
+
+    if (preg_match('/de\s+([0-9A-Za-z-]+)\s+a\s+([0-9A-Za-z-]+)/i', $mensaje, $coincidencias)) {
+        $detalle['folio_antiguo'] = $coincidencias[1];
+        $detalle['folio_nuevo'] = $coincidencias[2];
+    }
+
+    if (preg_match('/Recepci[oó]n\s+([0-9]+)/i', $mensaje, $coincidenciasRecepcion)) {
+        $detalle['recepcion'] = 'Recepción ' . $coincidenciasRecepcion[1];
+    }
+
+    if (preg_match('/Recepci[oó]n[^-]*-\s*(Abierta|Cerrada)/i', $mensaje, $coincidenciasEstado)) {
+        $detalle['recepcion'] .= ' (' . ucfirst(strtolower($coincidenciasEstado[1])) . ')';
+    }
+
+    return $detalle;
+}
+
 $ARRAYUSUARIO = $USUARIO_ADO->verUsuario($_SESSION["ID_USUARIO"]);
 if ($ARRAYUSUARIO) {
     $CORREOUSUARIO = trim($ARRAYUSUARIO[0]['EMAIL_USUARIO']);
@@ -332,7 +357,7 @@ if (isset($_REQUEST['SOLICITAR'])) {
             "Folio nuevo: " . $folioDestinoTexto . "\r\n" .
             (empty($MOTIVO) ? "" : "Motivo: " . $MOTIVO . "\r\n") .
             "Código de autorización: " . $CODIGOVERIFICACION . "\r\n\r\n" .
-            "Este código es válido por 15 minutos.";
+            "Este código es válido por 15 minutos y se envía a María de los Ángeles y Erwin Isla.";
 
         $remitente = 'informevolcan@gocreative.cl';
         $usuarioSMTP = 'informevolcan@gocreative.cl';
@@ -343,7 +368,7 @@ if (isset($_REQUEST['SOLICITAR'])) {
         [$envioOk, $errorEnvio] = enviarCorreoSMTP($correoDestino, $asunto, $mensajeCorreo, $remitente, $usuarioSMTP, $contrasenaSMTP, $hostSMTP, $puertoSMTP);
 
         if ($envioOk) {
-            $MENSAJEENVIO = "Código enviado a los correos autorizados. Duración: 15 minutos.";
+            $MENSAJEENVIO = "Código enviado a los correos autorizados. Duración: 15 minutos (María de los Ángeles y Erwin Isla).";
         } else {
             $MENSAJE = $errorEnvio ?: "No fue posible enviar el correo. Verifique la configuración de correo en el servidor.";
         }
@@ -561,9 +586,43 @@ if (isset($_REQUEST['CAMBIAR'])) {
                     </div>
                 </div>
                 <section class="content">
-                    <div class="box">
+                    <div class="row">
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="box box-inverse bg-lightest">
+                                <div class="box-body">
+                                    <h5 class="text-primary mb-0">Empresa</h5>
+                                    <p class="mb-0 text-fade"><?php echo htmlspecialchars($NOMBREEMPRESA, ENT_QUOTES, 'UTF-8'); ?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="box box-inverse bg-lightest">
+                                <div class="box-body">
+                                    <h5 class="text-primary mb-0">Planta</h5>
+                                    <p class="mb-0 text-fade"><?php echo htmlspecialchars($NOMBREPLANTA, ENT_QUOTES, 'UTF-8'); ?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="box box-inverse bg-lightest">
+                                <div class="box-body">
+                                    <h5 class="text-primary mb-0">Temporada</h5>
+                                    <p class="mb-0 text-fade"><?php echo htmlspecialchars($NOMBRETEMPORADA, ENT_QUOTES, 'UTF-8'); ?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="box box-inverse bg-lightest">
+                                <div class="box-body">
+                                    <h5 class="text-primary mb-0">Usuario</h5>
+                                    <p class="mb-0 text-fade"><?php echo htmlspecialchars($NOMBRECOMPLETOUSUARIO, ENT_QUOTES, 'UTF-8'); ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box box-solid box-bordered">
                         <div class="box-header with-border bg-warning">
-                            <h4 class="box-title">Cambiar folio de materia prima</h4>
+                            <h4 class="box-title text-white">Cambiar folio de materia prima</h4>
                         </div>
                         <form class="form" role="form" method="post" name="form_reg_dato" id="form_reg_dato">
                             <div class="box-body form-element">
@@ -576,7 +635,7 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                     <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 col-xs-12">
                                         <div class="form-group">
                                             <label>Filtrar folios</label>
-                                            <select class="form-control" name="FILTRO_ESTADO" id="FILTRO_ESTADO" onchange="this.form.submit();">
+                                            <select class="form-control select2" name="FILTRO_ESTADO" id="FILTRO_ESTADO" onchange="this.form.submit();" style="width: 100%">
                                                 <option value="1" <?php echo $FILTROESTADO == 1 ? 'selected' : ''; ?>>Mostrar folios activos</option>
                                                 <option value="0" <?php echo $FILTROESTADO == 0 ? 'selected' : ''; ?>>Mostrar folios eliminados</option>
                                             </select>
@@ -621,7 +680,7 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                             <div class="input-group">
                                                 <input type="number" class="form-control" placeholder="Ingrese código enviado" id="CODIGO" name="CODIGO" value="<?php echo htmlspecialchars($CODIGO, ENT_QUOTES, 'UTF-8'); ?>" />
                                                 <div class="input-group-append">
-                                                    <button type="submit" class="btn btn-primary" name="SOLICITAR" value="SOLICITAR">Solicitar código</button>
+                                                    <button type="submit" class="btn btn-primary btn-rounded" name="SOLICITAR" value="SOLICITAR">Solicitar código</button>
                                                 </div>
                                             </div>
                                             <label id="val_codigo" class="validacion"> </label>
@@ -637,13 +696,13 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                 </div>
                                 <div class="box-footer">
                                     <div class="btn-group btn-rounded btn-block col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 col-xs-12" role="group" aria-label="Acciones generales">
-                                        <button type="button" class="btn  btn-success" data-toggle="tooltip" title="Volver" name="CANCELAR" value="CANCELAR" Onclick="irPagina('index.php');">
+                                        <button type="button" class="btn  btn-success btn-rounded" data-toggle="tooltip" title="Volver" name="CANCELAR" value="CANCELAR" Onclick="irPagina('index.php');">
                                             <i class="ti-back-left "></i> Volver
                                         </button>
-                                        <button type="submit" class="btn btn-danger" id="btnDeshabilitar" style="display: none;" data-toggle="tooltip" title="Cambiar y deshabilitar" name="DESHABILITAR" value="DESHABILITAR" onclick="return validacion();">
+                                        <button type="submit" class="btn btn-danger btn-rounded" id="btnDeshabilitar" style="display: none;" data-toggle="tooltip" title="Cambiar y deshabilitar" name="DESHABILITAR" value="DESHABILITAR" onclick="return validacion();">
                                             <i class="ti-close"></i> Cambiar y deshabilitar folio
                                         </button>
-                                        <button type="submit" class="btn btn-warning" id="btnCambiar" data-toggle="tooltip" title="Cambiar número" name="CAMBIAR" value="CAMBIAR" onclick="return validacion()">
+                                        <button type="submit" class="btn btn-warning btn-rounded" id="btnCambiar" data-toggle="tooltip" title="Cambiar número" name="CAMBIAR" value="CAMBIAR" onclick="return validacion()">
                                             <i class="ti-save-alt"></i> Cambiar número de folio
                                         </button>
                                     </div>
@@ -651,30 +710,42 @@ if (isset($_REQUEST['CAMBIAR'])) {
                             </div>
                         </form>
                     </div>
-                    <div class="box">
+                    <div class="box box-solid box-bordered">
                         <div class="box-header with-border">
                             <h4 class="box-title">Historial últimos 10 cambios de folio</h4>
                         </div>
                         <div class="box-body">
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th>Fecha</th>
-                                            <th>Detalle</th>
+                                            <th>Usuario</th>
+                                            <th>Acción</th>
+                                            <th>Folio</th>
+                                            <th>Recepción</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php if ($ARRAYHISTORIAL) : ?>
                                             <?php foreach ($ARRAYHISTORIAL as $historial) : ?>
+                                                <?php $detalleHistorial = mapearDetalleHistorialFolio($historial['MENSAJE']); ?>
                                                 <tr>
                                                     <td><?php echo htmlspecialchars(date('d-m-Y H:i', strtotime($historial['INGRESO'])), ENT_QUOTES, 'UTF-8'); ?></td>
-                                                    <td><?php echo htmlspecialchars($historial['MENSAJE'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                                    <td>
+                                                        <?php
+                                                        $nombreUsuarioHist = trim($historial['NOMBRE_COMPLETO']);
+                                                        echo htmlspecialchars($nombreUsuarioHist ? $nombreUsuarioHist : $historial['USUARIO'], ENT_QUOTES, 'UTF-8');
+                                                        ?>
+                                                    </td>
+                                                    <td><?php echo htmlspecialchars($detalleHistorial['accion'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                                    <td><span class="badge bg-primary"><?php echo htmlspecialchars($detalleHistorial['folio_antiguo'], ENT_QUOTES, 'UTF-8'); ?></span> <i class="ti-arrow-right"></i> <span class="badge bg-info"><?php echo htmlspecialchars($detalleHistorial['folio_nuevo'], ENT_QUOTES, 'UTF-8'); ?></span></td>
+                                                    <td><?php echo htmlspecialchars($detalleHistorial['recepcion'], ENT_QUOTES, 'UTF-8'); ?></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         <?php else : ?>
                                             <tr>
-                                                <td colspan="2">No hay cambios registrados.</td>
+                                                <td colspan="5">No hay cambios registrados.</td>
                                             </tr>
                                         <?php endif; ?>
                                     </tbody>
