@@ -461,7 +461,7 @@ class AUSUARIO_ADO {
     public function listarUltimosCambiosFolioMp($EMPRESA, $PLANTA, $TEMPORADA, $LIMIT = 10)
     {
         try {
-            $sql = "SELECT 
+            $sql = "SELECT
                         au.MENSAJE,
                         au.INGRESO,
                         u.USUARIO,
@@ -470,10 +470,10 @@ class AUSUARIO_ADO {
                         p.NOMBRE_PLANTA,
                         t.NOMBRE_TEMPORADA
                     FROM usuario_ausuario au
-                    LEFT JOIN usuario u ON u.ID_USUARIO = au.ID_USUARIO
-                    LEFT JOIN empresa e ON e.ID_EMPRESA = au.ID_EMPRESA
-                    LEFT JOIN planta p ON p.ID_PLANTA = au.ID_PLANTA
-                    LEFT JOIN temporada t ON t.ID_TEMPORADA = au.ID_TEMPORADA
+                    LEFT JOIN usuario_usuario u ON u.ID_USUARIO = au.ID_USUARIO
+                    LEFT JOIN principal_empresa e ON e.ID_EMPRESA = au.ID_EMPRESA
+                    LEFT JOIN principal_planta p ON p.ID_PLANTA = au.ID_PLANTA
+                    LEFT JOIN principal_temporada t ON t.ID_TEMPORADA = au.ID_TEMPORADA
                     WHERE au.TABLA = 'fruta_eximateriaprima'
                       AND au.ID_EMPRESA = ?
                       AND au.ID_PLANTA = ?
