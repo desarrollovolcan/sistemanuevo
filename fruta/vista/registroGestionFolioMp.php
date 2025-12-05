@@ -51,21 +51,29 @@ if (isset($_REQUEST['SOLICITAR'])) {
         $_SESSION['GESTION_FOLIO_MP_CODIGO'] = $CODIGOVERIFICACION;
         $_SESSION['GESTION_FOLIO_MP_TIEMPO'] = time();
 
-        $correoDestino = 'maperez@fvolcan.cl, eisla@fvolcan.cl';
+        $correoDestino = ['maperez@fvolcan.cl', 'eisla@fvolcan.cl'];
         $asunto = 'Código de autorización - Cambio de folio materia prima';
-        $mensajeCorreo = "Se ha solicitado un código para cambiar el folio de materia prima.\n\n" .
-            "Usuario: " . $_SESSION['NOMBRE_USUARIO'] . "\n" .
-            "Planta: " . $NOMBREPLANTA . "\n" .
-            "Empresa: " . $NOMBREEMPRESA . "\n" .
-            "Folio actual: " . $FOLIO . "\n" .
-            (empty($MOTIVO) ? "" : "Motivo: " . $MOTIVO . "\n") .
-            "Código de autorización: " . $CODIGOVERIFICACION . "\n\n" .
+        $mensajeCorreo = "Se ha solicitado un código para cambiar el folio de materia prima." . PHP_EOL . PHP_EOL .
+            "Usuario: " . $_SESSION['NOMBRE_USUARIO'] . PHP_EOL .
+            "Planta: " . $NOMBREPLANTA . PHP_EOL .
+            "Empresa: " . $NOMBREEMPRESA . PHP_EOL .
+            "Folio actual: " . $FOLIO . PHP_EOL .
+            (empty($MOTIVO) ? "" : "Motivo: " . $MOTIVO . PHP_EOL) .
+            "Código de autorización: " . $CODIGOVERIFICACION . PHP_EOL . PHP_EOL .
             "Este código es válido por 15 minutos.";
-        $cabecera = "From: sistema@fvolcan.cl\r\n";
+
+        $remitente = 'sistema@fvolcan.cl';
+        $cabecera = "From: {$remitente}\r\n";
+        $cabecera .= "Reply-To: {$remitente}\r\n";
+        $cabecera .= "MIME-Version: 1.0\r\n";
         $cabecera .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-        @mail($correoDestino, $asunto, $mensajeCorreo, $cabecera);
-        $MENSAJEENVIO = "Código enviado a los correos autorizados.";
+        $envioExitoso = mail(implode(', ', $correoDestino), $asunto, $mensajeCorreo, $cabecera, "-f{$remitente}");
+        if ($envioExitoso) {
+            $MENSAJEENVIO = "Código enviado a los correos autorizados.";
+        } else {
+            $MENSAJE = "No fue posible enviar el correo de autorización. Verifique la configuración de envío de correos en el servidor.";
+        }
     }
 }
 
