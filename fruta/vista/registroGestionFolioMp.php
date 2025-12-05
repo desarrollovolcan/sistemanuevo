@@ -6,6 +6,8 @@ include_once '../../assest/controlador/DRECEPCIONMP_ADO.php';
 include_once '../../assest/controlador/RECEPCIONMP_ADO.php';
 include_once '../../assest/controlador/AUSUARIO_ADO.php';
 include_once '../../assest/controlador/USUARIO_ADO.php';
+include_once '../../assest/controlador/EMPRESA_ADO.php';
+include_once '../../assest/controlador/PLANTA_ADO.php';
 include_once '../../assest/controlador/TEMPORADA_ADO.php';
 
 include_once '../../assest/modelo/EXIMATERIAPRIMA.php';
@@ -15,6 +17,8 @@ $DRECEPCIONMP_ADO = new DRECEPCIONMP_ADO();
 $RECEPCIONMP_ADO = new RECEPCIONMP_ADO();
 $AUSUARIO_ADO = new AUSUARIO_ADO();
 $USUARIO_ADO = new USUARIO_ADO();
+$EMPRESA_ADO = new EMPRESA_ADO();
+$PLANTA_ADO = new PLANTA_ADO();
 $TEMPORADA_ADO = new TEMPORADA_ADO();
 
 $EXIMATERIAPRIMA =  new EXIMATERIAPRIMA();
@@ -30,6 +34,9 @@ $IDRECEPCION = "";
 $NUMERORECEPCION = "";
 $ESTADORECEPCION = null;
 $CORREOUSUARIO = "";
+$NOMBRECOMPLETOUSUARIO = "";
+$NOMBREEMPRESA = "";
+$NOMBREPLANTA = "";
 $NOMBRETEMPORADA = "Sin datos";
 $ARRAYRECEPCION = array();
 $ARRAYHISTORIAL = $AUSUARIO_ADO->listarUltimosCambiosFolioMp($EMPRESAS, $PLANTAS, $TEMPORADAS);
@@ -37,7 +44,24 @@ $ARRAYHISTORIAL = $AUSUARIO_ADO->listarUltimosCambiosFolioMp($EMPRESAS, $PLANTAS
 $ARRAYUSUARIO = $USUARIO_ADO->verUsuario($_SESSION["ID_USUARIO"]);
 if ($ARRAYUSUARIO) {
     $CORREOUSUARIO = trim($ARRAYUSUARIO[0]['EMAIL_USUARIO']);
+    $NOMBRECOMPLETOUSUARIO = trim($ARRAYUSUARIO[0]['PNOMBRE_USUARIO'] . ' ' . $ARRAYUSUARIO[0]['SNOMBRE_USUARIO'] . ' ' . $ARRAYUSUARIO[0]['PAPELLIDO_USUARIO'] . ' ' . $ARRAYUSUARIO[0]['SAPELLIDO_USUARIO']);
 }
+$ARRAYNOMBRECOMPLETO = $USUARIO_ADO->ObtenerNombreCompleto($_SESSION["ID_USUARIO"]);
+if ($ARRAYNOMBRECOMPLETO && !$NOMBRECOMPLETOUSUARIO) {
+    $NOMBRECOMPLETOUSUARIO = trim($ARRAYNOMBRECOMPLETO[0]['NOMBRE_COMPLETO']);
+}
+$NOMBRECOMPLETOUSUARIO = trim($NOMBRECOMPLETOUSUARIO) !== '' ? trim($NOMBRECOMPLETOUSUARIO) : $_SESSION['NOMBRE_USUARIO'];
+
+$ARRAYEMPRESA = $EMPRESA_ADO->verEmpresa($EMPRESAS);
+if ($ARRAYEMPRESA) {
+    $NOMBREEMPRESA = $ARRAYEMPRESA[0]['NOMBRE_EMPRESA'];
+}
+$ARRAYPLANTA = $PLANTA_ADO->verPlanta($PLANTAS);
+if ($ARRAYPLANTA) {
+    $NOMBREPLANTA = $ARRAYPLANTA[0]['NOMBRE_PLANTA'];
+}
+$NOMBREEMPRESA = $NOMBREEMPRESA ? $NOMBREEMPRESA : 'Sin datos';
+$NOMBREPLANTA = $NOMBREPLANTA ? $NOMBREPLANTA : 'Sin datos';
 
 $ARRAYTEMPORADA = $TEMPORADA_ADO->verTemporada($TEMPORADAS);
 if ($ARRAYTEMPORADA) {
@@ -190,7 +214,7 @@ if (isset($_REQUEST['SOLICITAR'])) {
         $correoDestino = array_values(array_unique(array_filter([$CORREOUSUARIO, 'maperez@fvolcan.cl', 'eisla@fvolcan.cl'])));
         $asunto = 'Código de autorización - Cambio de folio materia prima';
         $mensajeCorreo = "Se ha solicitado un código para cambiar el folio de materia prima." . "\r\n\r\n" .
-            "Usuario: " . $_SESSION['NOMBRE_USUARIO'] . "\r\n" .
+            "Usuario: " . $NOMBRECOMPLETOUSUARIO . "\r\n" .
             "Planta: " . $NOMBREPLANTA . "\r\n" .
             "Empresa: " . $NOMBREEMPRESA . "\r\n" .
             "Temporada: " . $NOMBRETEMPORADA . "\r\n" .
@@ -254,7 +278,7 @@ if (isset($_REQUEST['CAMBIAR'])) {
             $DRECEPCIONMP_ADO->actualizarFolioPorRecepcion($IDRECEPCION, $FOLIOACTUAL, $FOLION);
         }
 
-        $descripcionAccion = "" . $_SESSION["NOMBRE_USUARIO"] . ", Cambio de folio de materia prima de " . $FOLIOACTUAL . " a " . $FOLION;
+        $descripcionAccion = "" . $NOMBRECOMPLETOUSUARIO . ", Cambio de folio de materia prima de " . $FOLIOACTUAL . " a " . $FOLION;
         if ($NUMERORECEPCION) {
             $textoEstadoRecepcion = $ESTADORECEPCION === null ? '' : (($ESTADORECEPCION == 1 || $ESTADORECEPCION === "1") ? ' Abierta' : ' Cerrada');
             $descripcionAccion .= " (Recepción " . $NUMERORECEPCION . ($textoEstadoRecepcion ? " -" . $textoEstadoRecepcion : '') . ")";
@@ -269,7 +293,7 @@ if (isset($_REQUEST['CAMBIAR'])) {
         $asuntoCambio = 'Folio materia prima actualizado';
         $textoEstadoRecepcionCambio = $ESTADORECEPCION === null ? 'Sin datos' : (($ESTADORECEPCION == 1 || $ESTADORECEPCION === "1") ? 'Abierta' : 'Cerrada');
         $mensajeCambio = "Se ha realizado un cambio de folio de materia prima." . "\r\n\r\n" .
-            "Usuario: " . $_SESSION['NOMBRE_USUARIO'] . "\r\n" .
+            "Usuario: " . $NOMBRECOMPLETOUSUARIO . "\r\n" .
             "Planta: " . $NOMBREPLANTA . "\r\n" .
             "Empresa: " . $NOMBREEMPRESA . "\r\n" .
             "Temporada: " . $NOMBRETEMPORADA . "\r\n" .
