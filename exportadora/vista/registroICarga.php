@@ -908,6 +908,154 @@ if (isset($_POST)) {
     <meta name="author" content="">
     <!- LLAMADA DE LOS ARCHIVOS NECESARIOS PARA DISEÑO Y FUNCIONES BASE DE LA VISTA -!>
     <?php include_once "../../assest/config/urlHead.php"; ?>
+    <style>
+        body.light-skin {
+            background: #f5f7fb;
+        }
+
+        .card {
+            border: 1px solid #e4e7ec;
+            border-radius: 14px;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        .card-header {
+            border-bottom: 1px solid #e4e7ec;
+            background: #fcfcfd;
+            border-radius: 14px 14px 0 0;
+        }
+
+        .card-footer {
+            border-top: 1px solid #e4e7ec;
+            background: #fcfcfd;
+            border-radius: 0 0 14px 14px;
+        }
+
+        .form-control,
+        .select2-container--default .select2-selection--single {
+            border-radius: 12px;
+            border: 1px solid #d9dde3;
+            background: #f9fafb;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
+            padding: 10px 14px;
+            text-align: center;
+            height: 44px;
+            line-height: 22px;
+            transition: all 0.2s ease;
+        }
+
+        .select2-container--default .select2-selection--single {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        select.form-control {
+            text-align-last: center;
+            padding: 10px 12px;
+            line-height: 22px;
+            height: 44px;
+        }
+
+        .form-control:focus,
+        .select2-container--default .select2-selection--single:focus,
+        .select2-container--default .select2-selection--single .select2-selection__rendered:focus,
+        .select2-container--default.select2-container--focus .select2-selection--single {
+            border-color: #2563eb;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+            outline: none;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            padding-left: 0;
+            color: #111827;
+            line-height: 1.4;
+            width: 100%;
+            text-align: center;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .card .form-group {
+            margin-bottom: 12px;
+        }
+
+        .compact-row [class*="col-"] {
+            margin-bottom: 10px;
+        }
+
+        .inline-field-action {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .inline-field-action .select2-container,
+        .inline-field-action .form-control {
+            flex: 1 1 auto;
+        }
+
+        .inline-field-action .btn {
+            flex: 0 0 44px;
+            padding: 10px 0;
+            min-width: 44px;
+        }
+
+        .btn {
+            border-radius: 12px;
+            border: none;
+            padding: 10px 16px;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 30px rgba(15, 23, 42, 0.14);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.16);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #06b6d4, #0ea5e9);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .btn-group .btn + .btn {
+            margin-left: 8px;
+        }
+    </style>
     <!- FUNCIONES BASES -!>
         <script type="text/javascript">
             //VALIDACION DE FORMULARIO
@@ -2253,108 +2401,96 @@ if (isset($_POST)) {
                                                 <div class="form-group">
                                                     <label>Consignatario</label>
                                                     <input type="hidden" class="form-control" placeholder="CONSIGNATARIO" id="CONSIGNATARIOE" name="CONSIGNATARIOE" value="<?php echo $CONSIGNATARIO; ?>" />
-                                                    <select class="form-control select2" id="CONSIGNATARIO" name="CONSIGNATARIO" style="width: 100%;" <?php echo $DISABLED; ?>>
-                                                        <option></option>
-                                                        <?php foreach ($ARRAYCONSIGNATARIO as $r) : ?>
-                                                            <?php if ($ARRAYCONSIGNATARIO) {    ?>
-                                                                <option value="<?php echo $r['ID_CONSIGNATARIO']; ?>" <?php if ($CONSIGNATARIO == $r['ID_CONSIGNATARIO']) { echo "selected"; } ?>>
-                                                                    <?php echo $r['NOMBRE_CONSIGNATARIO'] ?>
-                                                                </option>
-                                                            <?php } else { ?>
-                                                                <option value="0">No Hay Datos Registrados </option>
-                                                            <?php } ?>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                                    <div class="inline-field-action">
+                                                        <select class="form-control select2" id="CONSIGNATARIO" name="CONSIGNATARIO" style="width: 100%;" <?php echo $DISABLED; ?>>
+                                                            <option></option>
+                                                            <?php foreach ($ARRAYCONSIGNATARIO as $r) : ?>
+                                                                <?php if ($ARRAYCONSIGNATARIO) {    ?>
+                                                                    <option value="<?php echo $r['ID_CONSIGNATARIO']; ?>" <?php if ($CONSIGNATARIO == $r['ID_CONSIGNATARIO']) { echo "selected"; } ?>>
+                                                                        <?php echo $r['NOMBRE_CONSIGNATARIO'] ?>
+                                                                    </option>
+                                                                <?php } else { ?>
+                                                                    <option value="0">No Hay Datos Registrados </option>
+                                                                <?php } ?>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                        <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Consignatario" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopConsignatorio.php' ); ">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                        </button>
+                                                    </div>
                                                     <label id="val_consignatario" class="validacion"> </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-xxl-1 col-xl-1 col-lg-3 col-md-3 col-sm-3 col-3 col-xs-3">
-                                                <div class="form-group">
-                                                    <br>
-                                                    <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Consignatario" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopConsignatorio.php' ); ">
-                                                        <i class="glyphicon glyphicon-plus"></i>
-                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="col-xxl-3 col-xl-5 col-lg-9 col-md-9 col-sm-9 col-9 col-xs-9">
                                                 <div class="form-group">
                                                     <label>Notificador</label>
                                                     <input type="hidden" class="form-control" placeholder="NOTIFICADORE" id="NOTIFICADORE" name="NOTIFICADORE" value="<?php echo $NOTIFICADOR; ?>" />
-                                                    <select class="form-control select2" id="NOTIFICADOR" name="NOTIFICADOR" style="width: 100%;" <?php echo $DISABLED; ?>>
-                                                        <option></option>
-                                                        <?php foreach ($ARRAYNOTIFICADOR as $r) : ?>
-                                                            <?php if ($ARRAYNOTIFICADOR) {    ?>
-                                                                <option value="<?php echo $r['ID_NOTIFICADOR']; ?>" <?php if ($NOTIFICADOR == $r['ID_NOTIFICADOR']) { echo "selected"; } ?>>
-                                                                    <?php echo $r['NOMBRE_NOTIFICADOR'] ?>
-                                                                </option>
-                                                            <?php } else { ?>
-                                                                <option value="0">No Hay Datos Registrados </option>
-                                                            <?php } ?>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                                    <div class="inline-field-action">
+                                                        <select class="form-control select2" id="NOTIFICADOR" name="NOTIFICADOR" style="width: 100%;" <?php echo $DISABLED; ?>>
+                                                            <option></option>
+                                                            <?php foreach ($ARRAYNOTIFICADOR as $r) : ?>
+                                                                <?php if ($ARRAYNOTIFICADOR) {    ?>
+                                                                    <option value="<?php echo $r['ID_NOTIFICADOR']; ?>" <?php if ($NOTIFICADOR == $r['ID_NOTIFICADOR']) { echo "selected"; } ?>>
+                                                                        <?php echo $r['NOMBRE_NOTIFICADOR'] ?>
+                                                                    </option>
+                                                                <?php } else { ?>
+                                                                    <option value="0">No Hay Datos Registrados </option>
+                                                                <?php } ?>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                        <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Notificador" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopNotificador.php' ); ">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                        </button>
+                                                    </div>
                                                     <label id="val_notificador" class="validacion"> </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-xxl-1 col-xl-1 col-lg-3 col-md-3 col-sm-3 col-3 col-xs-3">
-                                                <div class="form-group">
-                                                    <br>
-                                                    <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Notificador" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopNotificador.php' ); ">
-                                                        <i class="glyphicon glyphicon-plus"></i>
-                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="col-xxl-3 col-xl-5 col-lg-9 col-md-9 col-sm-9 col-9 col-xs-9">
                                                 <div class="form-group">
                                                     <label>Cliente</label>
                                                     <input type="hidden" class="form-control" placeholder="BROKERE" id="BROKERE" name="BROKERE" value="<?php echo $BROKER; ?>" />
-                                                    <select class="form-control select2" id="BROKER" name="BROKER" style="width: 100%;" <?php echo $DISABLED; ?>>
-                                                        <option></option>
-                                                        <?php foreach ($ARRAYBROKER as $r) : ?>
-                                                            <?php if ($ARRAYBROKER) {    ?>
-                                                                <option value="<?php echo $r['ID_BROKER']; ?>" <?php if ($BROKER == $r['ID_BROKER']) { echo "selected"; } ?>>
-                                                                    <?php echo $r['NOMBRE_BROKER'] ?>
-                                                                </option>
-                                                            <?php } else { ?>
-                                                                <option value="0">No Hay Datos Registrados </option>
-                                                            <?php } ?>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                                    <div class="inline-field-action">
+                                                        <select class="form-control select2" id="BROKER" name="BROKER" style="width: 100%;" <?php echo $DISABLED; ?>>
+                                                            <option></option>
+                                                            <?php foreach ($ARRAYBROKER as $r) : ?>
+                                                                <?php if ($ARRAYBROKER) {    ?>
+                                                                    <option value="<?php echo $r['ID_BROKER']; ?>" <?php if ($BROKER == $r['ID_BROKER']) { echo "selected"; } ?>>
+                                                                        <?php echo $r['NOMBRE_BROKER'] ?>
+                                                                    </option>
+                                                                <?php } else { ?>
+                                                                    <option value="0">No Hay Datos Registrados </option>
+                                                                <?php } ?>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                        <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Cliente" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopBroker.php' ); ">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                        </button>
+                                                    </div>
                                                     <label id="val_broker" class="validacion"> </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-xxl-1 col-xl-1 col-lg-3 col-md-3 col-sm-3 col-3 col-xs-3">
-                                                <div class="form-group">
-                                                    <br>
-                                                    <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Cliente" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopBroker.php' ); ">
-                                                        <i class="glyphicon glyphicon-plus"></i>
-                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="col-xxl-3 col-xl-5 col-lg-9 col-md-9 col-sm-9 col-9 col-xs-9">
                                                 <div class="form-group">
                                                     <label>Recibidor Final</label>
                                                     <input type="hidden" class="form-control" placeholder="RFINALE" id="RFINALE" name="RFINALE" value="<?php echo $RFINAL; ?>" />
-                                                    <select class="form-control select2" id="RFINAL" name="RFINAL" style="width: 100%;" <?php echo $DISABLED; ?>>
-                                                        <option></option>
-                                                        <?php foreach ($ARRAYRFINAL as $r) : ?>
-                                                            <?php if ($ARRAYRFINAL) {    ?>
-                                                                <option value="<?php echo $r['ID_RFINAL']; ?>" <?php if ($RFINAL == $r['ID_RFINAL']) { echo "selected"; } ?>>
-                                                                    <?php echo $r['NOMBRE_RFINAL'] ?>
-                                                                </option>
-                                                            <?php } else { ?>
-                                                                <option value="0">No Hay Datos Registrados </option>
-                                                            <?php } ?>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                                    <div class="inline-field-action">
+                                                        <select class="form-control select2" id="RFINAL" name="RFINAL" style="width: 100%;" <?php echo $DISABLED; ?>>
+                                                            <option></option>
+                                                            <?php foreach ($ARRAYRFINAL as $r) : ?>
+                                                                <?php if ($ARRAYRFINAL) {    ?>
+                                                                    <option value="<?php echo $r['ID_RFINAL']; ?>" <?php if ($RFINAL == $r['ID_RFINAL']) { echo "selected"; } ?>>
+                                                                        <?php echo $r['NOMBRE_RFINAL'] ?>
+                                                                    </option>
+                                                                <?php } else { ?>
+                                                                    <option value="0">No Hay Datos Registrados </option>
+                                                                <?php } ?>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                        <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Recibidor Final" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopRfinal.php' ); ">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                        </button>
+                                                    </div>
                                                     <label id="val_rfinal" class="validacion"> </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-xxl-1 col-xl-1 col-lg-3 col-md-3 col-sm-3 col-3 col-xs-3">
-                                                <div class="form-group">
-                                                    <br>
-                                                    <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Recibidor Final" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopRfinal.php' ); ">
-                                                        <i class="glyphicon glyphicon-plus"></i>
-                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 col-xs-12">
@@ -2380,54 +2516,48 @@ if (isset($_POST)) {
                                                 <div class="form-group">
                                                     <label>Mercado</label>
                                                     <input type="hidden" class="form-control" placeholder="MERCADOE" id="MERCADOE" name="MERCADOE" value="<?php echo $MERCADO; ?>" />
-                                                    <select class="form-control select2" id="MERCADO" name="MERCADO" style="width: 100%;" value="<?php echo $MERCADO; ?>" <?php echo $DISABLED; ?>>
-                                                        <option></option>
-                                                        <?php foreach ($ARRAYMERCADO as $r) : ?>
-                                                            <?php if ($ARRAYMERCADO) {    ?>
-                                                                <option value="<?php echo $r['ID_MERCADO']; ?>" <?php if ($MERCADO == $r['ID_MERCADO']) { echo "selected"; } ?>>
-                                                                    <?php echo $r['NOMBRE_MERCADO'] ?>
-                                                                </option>
-                                                            <?php } else { ?>
-                                                                <option value="0">No Hay Datos Registrados </option>
-                                                            <?php } ?>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                                    <div class="inline-field-action">
+                                                        <select class="form-control select2" id="MERCADO" name="MERCADO" style="width: 100%;" value="<?php echo $MERCADO; ?>" <?php echo $DISABLED; ?>>
+                                                            <option></option>
+                                                            <?php foreach ($ARRAYMERCADO as $r) : ?>
+                                                                <?php if ($ARRAYMERCADO) {    ?>
+                                                                    <option value="<?php echo $r['ID_MERCADO']; ?>" <?php if ($MERCADO == $r['ID_MERCADO']) { echo "selected"; } ?>>
+                                                                        <?php echo $r['NOMBRE_MERCADO'] ?>
+                                                                    </option>
+                                                                <?php } else { ?>
+                                                                    <option value="0">No Hay Datos Registrados </option>
+                                                                <?php } ?>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                        <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Mercado" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopMercado.php' ); ">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                        </button>
+                                                    </div>
                                                     <label id="val_mercado" class="validacion"> </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-xxl-1 col-xl-1 col-lg-3 col-md-3 col-sm-3 col-3 col-xs-3">
-                                                <div class="form-group">
-                                                    <br>
-                                                    <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Mercado" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopMercado.php' ); ">
-                                                        <i class="glyphicon glyphicon-plus"></i>
-                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="col-xxl-3 col-xl-5 col-lg-9 col-md-9 col-sm-9 col-9 col-xs-9">
                                                 <div class="form-group">
                                                     <label>Destino Final</label>
                                                     <input type="hidden" class="form-control" placeholder="DFINALE" id="DFINALE" name="DFINALE" value="<?php echo $DFINAL; ?>" />
-                                                    <select class="form-control select2" id="DFINAL" name="DFINAL" style="width: 100%;" <?php echo $DISABLED; ?>>
-                                                        <option></option>
-                                                        <?php foreach ($ARRAYDFINAL as $r) : ?>
-                                                            <?php if ($ARRAYDFINAL) {    ?>
-                                                                <option value="<?php echo $r['ID_DFINAL']; ?>" <?php if ($DFINAL == $r['ID_DFINAL']) { echo "selected"; } ?>>
-                                                                    <?php echo $r['NOMBRE_DFINAL'] ?>
-                                                                </option>
-                                                            <?php } else { ?>
-                                                                <option value="0">No Hay Datos Registrados </option>
-                                                            <?php } ?>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                                    <div class="inline-field-action">
+                                                        <select class="form-control select2" id="DFINAL" name="DFINAL" style="width: 100%;" <?php echo $DISABLED; ?>>
+                                                            <option></option>
+                                                            <?php foreach ($ARRAYDFINAL as $r) : ?>
+                                                                <?php if ($ARRAYDFINAL) {    ?>
+                                                                    <option value="<?php echo $r['ID_DFINAL']; ?>" <?php if ($DFINAL == $r['ID_DFINAL']) { echo "selected"; } ?>>
+                                                                        <?php echo $r['NOMBRE_DFINAL'] ?>
+                                                                    </option>
+                                                                <?php } else { ?>
+                                                                    <option value="0">No Hay Datos Registrados </option>
+                                                                <?php } ?>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                        <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Destino Final" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopDfinal.php' ); ">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                        </button>
+                                                    </div>
                                                     <label id="val_dfinal" class="validacion"> </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-xxl-1 col-xl-1 col-lg-3 col-md-3 col-sm-3 col-3 col-xs-3">
-                                                <div class="form-group">
-                                                    <br>
-                                                    <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Destino Final" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopDfinal.php' ); ">
-                                                        <i class="glyphicon glyphicon-plus"></i>
-                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -2470,54 +2600,48 @@ if (isset($_POST)) {
                                                 <div class="form-group">
                                                     <label>Agente Aduana</label>
                                                     <input type="hidden" class="form-control" placeholder="AADUANAE" id="AADUANAE" name="AADUANAE" value="<?php echo $AADUANA; ?>" />
-                                                    <select class="form-control select2" id="AADUANA" name="AADUANA" style="width: 100%;" <?php echo $DISABLED; ?>>
-                                                        <option></option>
-                                                        <?php foreach ($ARRAYAADUANA as $r) : ?>
-                                                            <?php if ($ARRAYAADUANA) {    ?>
-                                                                <option value="<?php echo $r['ID_AADUANA']; ?>" <?php if ($AADUANA == $r['ID_AADUANA']) { echo "selected"; } ?>>
-                                                                    <?php echo $r['NOMBRE_AADUANA'] ?>
-                                                                </option>
-                                                            <?php } else { ?>
-                                                                <option value="0">No Hay Datos Registrados </option>
-                                                            <?php } ?>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                                    <div class="inline-field-action">
+                                                        <select class="form-control select2" id="AADUANA" name="AADUANA" style="width: 100%;" <?php echo $DISABLED; ?>>
+                                                            <option></option>
+                                                            <?php foreach ($ARRAYAADUANA as $r) : ?>
+                                                                <?php if ($ARRAYAADUANA) {    ?>
+                                                                    <option value="<?php echo $r['ID_AADUANA']; ?>" <?php if ($AADUANA == $r['ID_AADUANA']) { echo "selected"; } ?>>
+                                                                        <?php echo $r['NOMBRE_AADUANA'] ?>
+                                                                    </option>
+                                                                <?php } else { ?>
+                                                                    <option value="0">No Hay Datos Registrados </option>
+                                                                <?php } ?>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                        <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Agente Aduana" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopAaduana.php' ); ">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                        </button>
+                                                    </div>
                                                     <label id="val_aaduana" class="validacion"> </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-xxl-1 col-xl-1 col-lg-3 col-md-3 col-sm-3 col-3 col-xs-3">
-                                                <div class="form-group">
-                                                    <br>
-                                                    <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Agente Aduana" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopAaduana.php' ); ">
-                                                        <i class="glyphicon glyphicon-plus"></i>
-                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-9 col-sm-9 col-9 col-xs-9">
                                                 <div class="form-group">
                                                     <label>Agente Carga</label>
                                                     <input type="hidden" class="form-control" placeholder="AGCARGAE" id="AGCARGAE" name="AGCARGAE" value="<?php echo $AGCARGA; ?>" />
-                                                    <select class="form-control select2" id="AGCARGA" name="AGCARGA" style="width: 100%;" <?php echo $DISABLED; ?>>
-                                                        <option></option>
-                                                        <?php foreach ($ARRAYAGCARGA as $r) : ?>
-                                                            <?php if ($ARRAYAGCARGA) {    ?>
-                                                                <option value="<?php echo $r['ID_AGCARGA']; ?>" <?php if ($AGCARGA == $r['ID_AGCARGA']) { echo "selected"; } ?>>
-                                                                    <?php echo $r['NOMBRE_AGCARGA'] ?>
-                                                                </option>
-                                                            <?php } else { ?>
-                                                                <option value="0">No Hay Datos Registrados </option>
-                                                            <?php } ?>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                                    <div class="inline-field-action">
+                                                        <select class="form-control select2" id="AGCARGA" name="AGCARGA" style="width: 100%;" <?php echo $DISABLED; ?>>
+                                                            <option></option>
+                                                            <?php foreach ($ARRAYAGCARGA as $r) : ?>
+                                                                <?php if ($ARRAYAGCARGA) {    ?>
+                                                                    <option value="<?php echo $r['ID_AGCARGA']; ?>" <?php if ($AGCARGA == $r['ID_AGCARGA']) { echo "selected"; } ?>>
+                                                                        <?php echo $r['NOMBRE_AGCARGA'] ?>
+                                                                    </option>
+                                                                <?php } else { ?>
+                                                                    <option value="0">No Hay Datos Registrados </option>
+                                                                <?php } ?>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                        <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Agente Carga" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopAgcarga.php' ); ">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                        </button>
+                                                    </div>
                                                     <label id="val_agcarga" class="validacion"> </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-xxl-1 col-xl-1 col-lg-3 col-md-3 col-sm-3 col-3 col-xs-3">
-                                                <div class="form-group">
-                                                    <br>
-                                                    <button type="button" class="btn btn-success btn-block" data-toggle="tooltip" title="Agregar Agente Carga" <?php echo $DISABLED; ?> id="defecto" name="pop" Onclick="abrirVentana('registroPopAgcarga.php' ); ">
-                                                        <i class="glyphicon glyphicon-plus"></i>
-                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="col-xxl-2 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-6 col-xs-6">
