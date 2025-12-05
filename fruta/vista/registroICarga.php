@@ -859,7 +859,8 @@ if (isset($id_dato) && isset($accion_dato)) {
             $ICARGA->__SET('ID_RFINAL', $RFINAL);
             $ICARGA->__SET('ID_MERCADO', $MERCADO);
             $ICARGA->__SET('ID_AADUANA', $AADUANA);
-            $PAIS_DESTINO_AUTOMATICO = $_REQUEST['PAIS'] ?? ($_REQUEST['PAIS_EMBARQUE'] ?? ($_REQUEST['PAISE'] ?? $PAIS ?? null));
+            $PAIS_DESTINO_AUTOMATICO = $_REQUEST['PAIS']
+                ?? ($_REQUEST['PAIS_EMBARQUE'] ?? ($_REQUEST['PAIS_PUERTO'] ?? ($_REQUEST['PAISE'] ?? $PAIS ?? null)));
             $PAIS_DESTINO_FINAL_AUTOMATICO = $_REQUEST['PAIS_FINAL'] ?? ($PAIS_FINAL ?? null);
 
             $ICARGA->__SET('ID_AGCARGA', $AGCARGA);
@@ -982,6 +983,7 @@ if (isset($_POST)) {
     }
     if (isset($_REQUEST['PAIS_PUERTO'])) {
         $PAIS_PUERTO = $_REQUEST['PAIS_PUERTO'];
+        $PAIS = $_REQUEST['PAIS_PUERTO'];
     }
     if (isset($_REQUEST['PAIS_FINAL'])) {
         $PAIS_FINAL = $_REQUEST['PAIS_FINAL'];
@@ -5657,7 +5659,8 @@ if (isset($_POST)) {
         </script>
         <?php
             //OPERACIONES
-            $PAIS_DESTINO_FORM = $_REQUEST['PAIS'] ?? ($_REQUEST['PAIS_EMBARQUE'] ?? ($_REQUEST['PAISE'] ?? $PAIS ?? null));
+            $PAIS_DESTINO_FORM = $_REQUEST['PAIS']
+                ?? ($_REQUEST['PAIS_EMBARQUE'] ?? ($_REQUEST['PAIS_PUERTO'] ?? ($_REQUEST['PAISE'] ?? $PAIS ?? null)));
             $PAIS_DESTINO_FINAL_FORM = $_REQUEST['PAIS_FINAL'] ?? ($PAIS_FINAL ?? null);
             //OPERACION DE REGISTRO DE FILA
             if (isset($_REQUEST['CREAR'])) {
