@@ -1906,6 +1906,36 @@ WHERE
             die($e->getMessage());
         }
     }
+
+    public function listarEximateriaprimaEnExistencia($EMPRESA, $PLANTA, $TEMPORADA)
+    {
+        try {
+
+            $datos = $this->conexion->prepare("SELECT ID_EXIMATERIAPRIMA,
+                                                        FOLIO_EXIMATERIAPRIMA,
+                                                        FOLIO_AUXILIAR_EXIMATERIAPRIMA,
+                                                        ALIAS_DINAMICO_FOLIO_EXIMATERIAPRIMA,
+                                                        ALIAS_ESTATICO_FOLIO_EXIMATERIAPRIMA
+                                                    FROM fruta_eximateriaprima
+                                                    WHERE ESTADO_REGISTRO = 1
+                                                    AND ESTADO != 0
+                                                    AND ID_EMPRESA = ?
+                                                    AND ID_PLANTA = ?
+                                                    AND ID_TEMPORADA = ?
+                                                    ORDER BY FOLIO_EXIMATERIAPRIMA ASC;  ");
+            $datos->execute(array($EMPRESA, $PLANTA, $TEMPORADA));
+            $resultado = $datos->fetchAll(PDO::FETCH_ASSOC);
+            $datos=null;
+
+            //  print_r($resultado);
+            //  var_dump($resultado);
+
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
     public function listarEximateriaprimaEmpresaTemporada($EMPRESA,   $TEMPORADA)
     {
         try {
@@ -1974,6 +2004,33 @@ WHERE
 
 
             return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function cambioFolio(EXIMATERIAPRIMA $EXIMATERIAPRIMA)
+    {
+        try {
+            $query = "
+            UPDATE fruta_eximateriaprima SET
+                MODIFICACION = SYSDATE(),
+                FOLIO_EXIMATERIAPRIMA = ?,
+                FOLIO_AUXILIAR_EXIMATERIAPRIMA = ?,
+                ALIAS_DINAMICO_FOLIO_EXIMATERIAPRIMA = ?,
+                ALIAS_ESTATICO_FOLIO_EXIMATERIAPRIMA = ?
+            WHERE ID_EXIMATERIAPRIMA= ?;";
+            $this->conexion->prepare($query)
+                ->execute(
+                    array(
+                        $EXIMATERIAPRIMA->__GET('FOLIO_EXIMATERIAPRIMA'),
+                        $EXIMATERIAPRIMA->__GET('FOLIO_AUXILIAR_EXIMATERIAPRIMA'),
+                        $EXIMATERIAPRIMA->__GET('ALIAS_DINAMICO_FOLIO_EXIMATERIAPRIMA'),
+                        $EXIMATERIAPRIMA->__GET('ALIAS_ESTATICO_FOLIO_EXIMATERIAPRIMA'),
+                        $EXIMATERIAPRIMA->__GET('ID_EXIMATERIAPRIMA')
+                    )
+
+                );
         } catch (Exception $e) {
             die($e->getMessage());
         }
