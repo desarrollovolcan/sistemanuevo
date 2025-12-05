@@ -372,6 +372,9 @@ if (isset($_REQUEST['CAMBIAR'])) {
     if (!$IDEXIMATERIAPRIMA) {
         $errores[] = "Debe seleccionar un folio en existencia.";
     }
+    if ($ESTADOFOLIO == 1) {
+        $errores[] = "El folio seleccionado está activo; debe usar Cambiar y deshabilitar folio.";
+    }
     if (!$FOLION) {
         $errores[] = "Ingrese el nuevo folio.";
     }
@@ -523,17 +526,15 @@ if (isset($_REQUEST['CAMBIAR'])) {
             document.getElementById("INFO_RECEPCION").value = textoRecepcion;
             var botonDeshabilitar = document.getElementById("btnDeshabilitar");
             var botonCambiar = document.getElementById("btnCambiar");
-            var folioActivo = (folioActual && estadoRegistro === '1');
+            var folioActivo = (folioActual && (estadoRegistro === '1' || estadoRegistro === 1));
+
+            botonDeshabilitar.classList.add('d-none');
+            botonCambiar.classList.add('d-none');
 
             if (folioActivo) {
-                botonDeshabilitar.style.display = 'inline-flex';
-                botonCambiar.style.display = 'none';
+                botonDeshabilitar.classList.remove('d-none');
             } else if (folioActual) {
-                botonDeshabilitar.style.display = 'none';
-                botonCambiar.style.display = 'inline-flex';
-            } else {
-                botonDeshabilitar.style.display = 'none';
-                botonCambiar.style.display = 'none';
+                botonCambiar.classList.remove('d-none');
             }
         }
 
@@ -657,11 +658,11 @@ if (isset($_REQUEST['CAMBIAR'])) {
                                             <i class="ti-back-left mr-2"></i>
                                             <span>Volver</span>
                                         </button>
-                                        <button type="submit" class="btn btn-danger btn-rounded d-flex align-items-center justify-content-center" id="btnDeshabilitar" style="display: none;" data-toggle="tooltip" title="Cambiar y deshabilitar" name="DESHABILITAR" value="DESHABILITAR" onclick="return validacion();">
+                                        <button type="submit" class="btn btn-danger btn-rounded d-flex align-items-center justify-content-center d-none" id="btnDeshabilitar" data-toggle="tooltip" title="Cambiar y deshabilitar" name="DESHABILITAR" value="DESHABILITAR" onclick="return validacion();">
                                             <i class="ti-close mr-2"></i>
                                             <span>Cambiar y deshabilitar folio</span>
                                         </button>
-                                        <button type="submit" class="btn btn-warning btn-rounded d-flex align-items-center justify-content-center" id="btnCambiar" style="display: none;" data-toggle="tooltip" title="Cambiar número" name="CAMBIAR" value="CAMBIAR" onclick="return validacion()">
+                                        <button type="submit" class="btn btn-warning btn-rounded d-flex align-items-center justify-content-center d-none" id="btnCambiar" data-toggle="tooltip" title="Cambiar número" name="CAMBIAR" value="CAMBIAR" onclick="return validacion()">
                                             <i class="ti-save-alt mr-2"></i>
                                             <span>Cambiar número de folio</span>
                                         </button>
