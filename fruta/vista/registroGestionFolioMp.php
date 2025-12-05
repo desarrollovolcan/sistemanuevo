@@ -5,6 +5,8 @@ include_once '../../assest/controlador/EXIMATERIAPRIMA_ADO.php';
 include_once '../../assest/controlador/DRECEPCIONMP_ADO.php';
 include_once '../../assest/controlador/RECEPCIONMP_ADO.php';
 include_once '../../assest/controlador/AUSUARIO_ADO.php';
+include_once '../../assest/controlador/USUARIO_ADO.php';
+include_once '../../assest/controlador/TEMPORADA_ADO.php';
 
 include_once '../../assest/modelo/EXIMATERIAPRIMA.php';
 
@@ -12,6 +14,8 @@ $EXIMATERIAPRIMA_ADO =  new EXIMATERIAPRIMA_ADO();
 $DRECEPCIONMP_ADO = new DRECEPCIONMP_ADO();
 $RECEPCIONMP_ADO = new RECEPCIONMP_ADO();
 $AUSUARIO_ADO = new AUSUARIO_ADO();
+$USUARIO_ADO = new USUARIO_ADO();
+$TEMPORADA_ADO = new TEMPORADA_ADO();
 
 $EXIMATERIAPRIMA =  new EXIMATERIAPRIMA();
 
@@ -25,8 +29,20 @@ $MENSAJEENVIO = "";
 $IDRECEPCION = "";
 $NUMERORECEPCION = "";
 $ESTADORECEPCION = null;
+$CORREOUSUARIO = "";
+$NOMBRETEMPORADA = "Sin datos";
 $ARRAYRECEPCION = array();
 $ARRAYHISTORIAL = $AUSUARIO_ADO->listarUltimosCambiosFolioMp($EMPRESAS, $PLANTAS, $TEMPORADAS);
+
+$ARRAYUSUARIO = $USUARIO_ADO->verUsuario($_SESSION["ID_USUARIO"]);
+if ($ARRAYUSUARIO) {
+    $CORREOUSUARIO = trim($ARRAYUSUARIO[0]['EMAIL_USUARIO']);
+}
+
+$ARRAYTEMPORADA = $TEMPORADA_ADO->verTemporada($TEMPORADAS);
+if ($ARRAYTEMPORADA) {
+    $NOMBRETEMPORADA = $ARRAYTEMPORADA[0]['NOMBRE_TEMPORADA'];
+}
 
 function enviarCorreoSMTP($destinatarios, $asunto, $mensaje, $remitente, $usuario, $contrasena, $host, $puerto, $timeout = 30)
 {
@@ -171,12 +187,13 @@ if (isset($_REQUEST['SOLICITAR'])) {
 
         $textoEstadoRecepcion = $ESTADORECEPCION === null ? 'Sin datos' : (($ESTADORECEPCION == 1 || $ESTADORECEPCION === "1") ? 'Abierta' : 'Cerrada');
         $folioDestinoTexto = $FOLION ? $FOLION : 'No indicado';
-        $correoDestino = ['maperez@fvolcan.cl', 'eisla@fvolcan.cl'];
+        $correoDestino = array_values(array_unique(array_filter([$CORREOUSUARIO, 'maperez@fvolcan.cl', 'eisla@fvolcan.cl'])));
         $asunto = 'Código de autorización - Cambio de folio materia prima';
         $mensajeCorreo = "Se ha solicitado un código para cambiar el folio de materia prima." . "\r\n\r\n" .
             "Usuario: " . $_SESSION['NOMBRE_USUARIO'] . "\r\n" .
             "Planta: " . $NOMBREPLANTA . "\r\n" .
             "Empresa: " . $NOMBREEMPRESA . "\r\n" .
+            "Temporada: " . $NOMBRETEMPORADA . "\r\n" .
             "Recepción origen: " . ($NUMERORECEPCION ? $NUMERORECEPCION : 'Sin datos') . " (" . $textoEstadoRecepcion . ")\r\n" .
             "Folio actual: " . $FOLIO . "\r\n" .
             "Folio nuevo: " . $folioDestinoTexto . "\r\n" .
@@ -248,6 +265,32 @@ if (isset($_REQUEST['CAMBIAR'])) {
 
         $AUSUARIO_ADO->agregarAusuario2("NULL", 1, 2, $descripcionAccion, "fruta_eximateriaprima", $IDEXIMATERIAPRIMA, $_SESSION["ID_USUARIO"], $_SESSION['ID_EMPRESA'], $_SESSION['ID_PLANTA'], $_SESSION['ID_TEMPORADA']);
 
+        $destinatariosCambio = array_values(array_unique(array_filter([$CORREOUSUARIO, 'maperez@fvolcan.cl', 'eisla@fvolcan.cl'])));
+        $asuntoCambio = 'Folio materia prima actualizado';
+        $textoEstadoRecepcionCambio = $ESTADORECEPCION === null ? 'Sin datos' : (($ESTADORECEPCION == 1 || $ESTADORECEPCION === "1") ? 'Abierta' : 'Cerrada');
+        $mensajeCambio = "Se ha realizado un cambio de folio de materia prima." . "\r\n\r\n" .
+            "Usuario: " . $_SESSION['NOMBRE_USUARIO'] . "\r\n" .
+            "Planta: " . $NOMBREPLANTA . "\r\n" .
+            "Empresa: " . $NOMBREEMPRESA . "\r\n" .
+            "Temporada: " . $NOMBRETEMPORADA . "\r\n" .
+            "Recepción origen: " . ($NUMERORECEPCION ? $NUMERORECEPCION : 'Sin datos') . " (" . $textoEstadoRecepcionCambio . ")\r\n" .
+            "Folio actual: " . $FOLIOACTUAL . "\r\n" .
+            "Folio nuevo: " . $FOLION . "\r\n" .
+            (empty($MOTIVO) ? "" : "Motivo: " . $MOTIVO . "\r\n");
+
+        $remitente = 'informevolcan@gocreative.cl';
+        $usuarioSMTP = 'informevolcan@gocreative.cl';
+        $contrasenaSMTP = 'bOaKXtke6.#5#v[q';
+        $hostSMTP = 'mail.gocreative.cl';
+        $puertoSMTP = 465;
+
+        [$envioCambioOk, $errorEnvioCambio] = enviarCorreoSMTP($destinatariosCambio, $asuntoCambio, $mensajeCambio, $remitente, $usuarioSMTP, $contrasenaSMTP, $hostSMTP, $puertoSMTP);
+
+        $textoNotificacion = "El folio de materia prima fue modificado correctamente.";
+        if (!$envioCambioOk) {
+            $textoNotificacion .= " No se pudo enviar la notificación por correo: " . ($errorEnvioCambio ?: 'revise la configuración SMTP.');
+        }
+
         unset($_SESSION['GESTION_FOLIO_MP_CODIGO']);
         unset($_SESSION['GESTION_FOLIO_MP_TIEMPO']);
 
@@ -255,7 +298,7 @@ if (isset($_REQUEST['CAMBIAR'])) {
                     Swal.fire({
                         icon:"success",
                         title:"Folio actualizado",
-                        text:"El folio de materia prima fue modificado correctamente.",
+                        text:"' . $textoNotificacion . '",
                         showConfirmButton:true,
                         confirmButtonText:"Cerrar"
                     }).then((result)=>{
