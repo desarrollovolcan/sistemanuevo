@@ -5654,7 +5654,7 @@ if (isset($_POST)) {
         </script>
         <?php
             //OPERACIONES
-            $PAIS_DESTINO_FORM = $_REQUEST['PAIS'] ?? $_REQUEST['PAISE'] ?? null;
+            $PAIS_DESTINO_FORM = $_REQUEST['PAIS'] ?? $_REQUEST['PAISE'] ?? $PAIS;
             $PAIS_DESTINO_FINAL_FORM = $_REQUEST['PAIS_FINAL'] ?? null;
             //OPERACION DE REGISTRO DE FILA
             if (isset($_REQUEST['CREAR'])) {
