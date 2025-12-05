@@ -438,9 +438,9 @@ class AUSUARIO_ADO {
     //VER LA INFORMACION RELACIONADA EN BASE AL ID INGRESADO A LA FUNCION
     public function buscarAusuarioPorNombreUsuarioUltimasCinco($NOMBREUSUARIO){
         try{
-            
-            $datos=$this->conexion->prepare("SELECT * 
-                                            FROM  usuario_ausuario  
+
+            $datos=$this->conexion->prepare("SELECT *
+                                            FROM  usuario_ausuario
                                             WHERE  ID_USUARIO = '".$NOMBREUSUARIO."' 
                                             ORDER BY  FECHA_AUSUARIO  DESC LIMIT 5 ; ");
             $datos->execute();
@@ -455,7 +455,35 @@ class AUSUARIO_ADO {
         }catch(Exception $e){
             die($e->getMessage());
         }
-        
+
+    }
+
+    public function listarUltimosCambiosFolioMp($EMPRESA, $PLANTA, $TEMPORADA, $LIMIT = 10)
+    {
+        try {
+            $datos = $this->conexion->prepare("SELECT ID_AUSUARIO,
+                                                        MENSAJE,
+                                                        INGRESO
+                                                FROM usuario_ausuario
+                                                WHERE TABLA = 'fruta_eximateriaprima'
+                                                  AND MENSAJE LIKE '%Cambio de folio de materia prima%'
+                                                  AND ID_EMPRESA = ?
+                                                  AND ID_PLANTA = ?
+                                                  AND ID_TEMPORADA = ?
+                                                ORDER BY ID_AUSUARIO DESC
+                                                LIMIT ?;");
+            $datos->bindParam(1, $EMPRESA, PDO::PARAM_INT);
+            $datos->bindParam(2, $PLANTA, PDO::PARAM_INT);
+            $datos->bindParam(3, $TEMPORADA, PDO::PARAM_INT);
+            $datos->bindParam(4, $LIMIT, PDO::PARAM_INT);
+            $datos->execute();
+            $resultado = $datos->fetchAll(PDO::FETCH_ASSOC);
+            $datos=null;
+
+            return $resultado;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
     }
 }
 ?>
