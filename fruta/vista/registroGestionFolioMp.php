@@ -268,17 +268,10 @@ if (isset($_REQUEST['DESHABILITAR'])) {
         $EXIMATERIAPRIMA->__SET('ALIAS_DINAMICO_FOLIO_EXIMATERIAPRIMA', $FOLION);
         $EXIMATERIAPRIMA->__SET('ALIAS_ESTATICO_FOLIO_EXIMATERIAPRIMA', $FOLION);
         $EXIMATERIAPRIMA->__SET('ID_EXIMATERIAPRIMA', $IDEXIMATERIAPRIMA);
-        $EXIMATERIAPRIMA_ADO->cambioFolio($EXIMATERIAPRIMA);
+        $EXIMATERIAPRIMA_ADO->cambioFolioYDeshabilitar($EXIMATERIAPRIMA);
 
         if ($IDRECEPCION && $FOLIOACTUAL) {
-            $DRECEPCIONMP_ADO->actualizarFolioPorRecepcion($IDRECEPCION, $FOLIOACTUAL, $FOLION);
-        }
-
-        $EXIMATERIAPRIMA->__SET('ID_EXIMATERIAPRIMA', $IDEXIMATERIAPRIMA);
-        $EXIMATERIAPRIMA_ADO->deshabilitarCompleto($EXIMATERIAPRIMA);
-
-        if ($IDRECEPCION && $FOLION) {
-            $DRECEPCIONMP_ADO->deshabilitarFolioPorRecepcion($IDRECEPCION, $FOLION);
+            $DRECEPCIONMP_ADO->actualizarYDeshabilitarFolioPorRecepcion($IDRECEPCION, $FOLIOACTUAL, $FOLION);
         }
 
         $descripcionAccion = $NOMBRECOMPLETOUSUARIO . ", Cambia y deshabilita folio de materia prima de " . $FOLIOACTUAL . " a " . $FOLION;

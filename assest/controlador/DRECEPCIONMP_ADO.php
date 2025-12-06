@@ -722,6 +722,31 @@ class DRECEPCIONMP_ADO
         }
     }
 
+    public function actualizarYDeshabilitarFolioPorRecepcion($IDRECEPCION, $FOLIOACTUAL, $FOLIONUEVO)
+    {
+        try {
+            $query = "
+                UPDATE fruta_drecepcionmp SET
+                    MODIFICACION = SYSDATE(),
+                    FOLIO_DRECEPCION = ?,
+                    ESTADO_REGISTRO = 0,
+                    ESTADO = 0
+                WHERE ID_RECEPCION = ?
+                  AND FOLIO_DRECEPCION = ?;";
+
+            $this->conexion->prepare($query)
+                ->execute(
+                    array(
+                        $FOLIONUEVO,
+                        $IDRECEPCION,
+                        $FOLIOACTUAL
+                    )
+                );
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
 
     //OTRAS FUNCIONES
     //BUSCAR FECHA ACTUAL DEL SISTEMA

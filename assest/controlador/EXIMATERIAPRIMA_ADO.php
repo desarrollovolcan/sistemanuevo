@@ -2046,6 +2046,35 @@ WHERE
         }
     }
 
+    public function cambioFolioYDeshabilitar(EXIMATERIAPRIMA $EXIMATERIAPRIMA)
+    {
+        try {
+            $query = "
+            UPDATE fruta_eximateriaprima SET
+                MODIFICACION = SYSDATE(),
+                FOLIO_EXIMATERIAPRIMA = ?,
+                FOLIO_AUXILIAR_EXIMATERIAPRIMA = ?,
+                ALIAS_DINAMICO_FOLIO_EXIMATERIAPRIMA = ?,
+                ALIAS_ESTATICO_FOLIO_EXIMATERIAPRIMA = ?,
+                ESTADO_REGISTRO = 0,
+                ESTADO = 0
+            WHERE ID_EXIMATERIAPRIMA= ?;";
+
+            $this->conexion->prepare($query)
+                ->execute(
+                    array(
+                        $EXIMATERIAPRIMA->__GET('FOLIO_EXIMATERIAPRIMA'),
+                        $EXIMATERIAPRIMA->__GET('FOLIO_AUXILIAR_EXIMATERIAPRIMA'),
+                        $EXIMATERIAPRIMA->__GET('ALIAS_DINAMICO_FOLIO_EXIMATERIAPRIMA'),
+                        $EXIMATERIAPRIMA->__GET('ALIAS_ESTATICO_FOLIO_EXIMATERIAPRIMA'),
+                        $EXIMATERIAPRIMA->__GET('ID_EXIMATERIAPRIMA')
+                    )
+                );
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
 
 
  
