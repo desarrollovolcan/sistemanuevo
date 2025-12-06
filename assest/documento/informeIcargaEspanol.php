@@ -19,7 +19,6 @@ include_once '../../assest/controlador/RFINAL_ADO.php';
 
 include_once '../../assest/controlador/AGCARGA_ADO.php';
 include_once '../../assest/controlador/AADUANA_ADO.php';
-include_once '../../assest/controlador/DFINAL_ADO.php';
 
 
 include_once '../../assest/controlador/TRANSPORTE_ADO.php';
@@ -87,7 +86,6 @@ $RFINAL_ADO =  new RFINAL_ADO();
 
 $AGCARGA_ADO =  new AGCARGA_ADO();
 $AADUANA_ADO =  new AADUANA_ADO();
-$DFINAL_ADO =  new DFINAL_ADO();
 
 $TRANSPORTE_ADO =  new TRANSPORTE_ADO();
 $LCARGA_ADO =  new LCARGA_ADO();
@@ -260,33 +258,51 @@ if($ARRAYICARGA){
     $TOTALBRUTOV = $ARRAYDCARGATOTAL2[0]['BRUTO'];
     $TOTALUSV = $ARRAYDCARGATOTAL2[0]['TOTALUS'];
 
-    
+
     $ARRAYDESPACHOEX=$DESPACHOEX_ADO->buscarDespachoExPorIcarga($IDOP);
-    
-    $ARRAYDESPACHOEX2=$DESPACHOEX_ADO->buscarDespachoExPorIcargaAgrupadoPorPlanta($IDOP);
-    echo 1;
+
     if($ARRAYDESPACHOEX){
-      $NUMEROCONTENEDOR=$ARRAYDESPACHOEX[0]['NUMERO_CONTENEDOR_DESPACHOEX'];   
-      
-      foreach ($ARRAYDESPACHOEX2 as $r) :  
-        $FECHADESPACHOEX=$FECHADESPACHOEX.$r['FECHA']."<br> ";   
-        $NUMEROSELLO=$NUMEROSELLO.$r['NUMERO_SELLO_DESPACHOEX']."<br> ";
+      foreach ($ARRAYDESPACHOEX as $r) :
+        if(isset($r['FECHA']) && $r['FECHA']){
+          $FECHADESPACHOEX=$FECHADESPACHOEX.$r['FECHA']."<br> ";
+        }
+        if(isset($r['NUMERO_SELLO_DESPACHOEX']) && $r['NUMERO_SELLO_DESPACHOEX']){
+          $NUMEROSELLO=$NUMEROSELLO.$r['NUMERO_SELLO_DESPACHOEX']."<br> ";
+        }
+        if(isset($r['NUMERO_CONTENEDOR_DESPACHOEX']) && $r['NUMERO_CONTENEDOR_DESPACHOEX']){
+          $NUMEROCONTENEDOR = $r['NUMERO_CONTENEDOR_DESPACHOEX'];
+        }
         $ARRAYVERPLANTA = $PLANTA_ADO->verPlanta($r['ID_PLANTA']);
         if($ARRAYVERPLANTA){
           $LUGARDECARGA= $LUGARDECARGA.$ARRAYVERPLANTA[0]["RAZON_SOCIAL_PLANTA"]."<br> ";
           $FDADESPACHOEX= $FDADESPACHOEX.$ARRAYVERPLANTA[0]["FDA_PLANTA"]."<br> ";
-        }else{
-          $FECHADESPACHOEX=$FECHADESPACHOEX;
-          $LUGARDECARGA=$LUGARDECARGA;
         }
-      endforeach;     
+      endforeach;
+
+      if(!$FECHADESPACHOEX){
+        $FECHADESPACHOEX="Sin Datos";
+      }
+      if(!$NUMEROSELLO){
+        $NUMEROSELLO="Sin Datos";
+      }
+      if(!$LUGARDECARGA){
+        $LUGARDECARGA="Sin Datos";
+      }
+      if(!$FDADESPACHOEX){
+        $FDADESPACHOEX="Sin Datos";
+      }
 
     }else{
-      $FDADESPACHOEX="Sin Datos";
+      $FDADESPACHOEX=$ARRAYICARGA[0]['FDA_ICARGA'] ?? "Sin Datos";
       $NUMEROCONTENEDOR=$ARRAYICARGA[0]['NCONTENEDOR_ICARGA'];
       $NUMEROSELLO="Sin Datos";
       $FECHADESPACHOEX="Sin Datos";
-      $LUGARDECARGA="Sin Datos";
+      $ARRAYVERLCARGA = $LCARGA_ADO->verLcarga($ARRAYICARGA[0]['ID_LCARGA']);
+      if($ARRAYVERLCARGA){
+        $LUGARDECARGA=$ARRAYVERLCARGA[0]['NOMBRE_LCARGA'];
+      }else{
+        $LUGARDECARGA="Sin Datos";
+      }
     }
     
 
@@ -311,7 +327,7 @@ if($ARRAYICARGA){
       $FECHAETDREAL = "Sin Datos";
     }
     $FECHAETAREAL = $ARRAYICARGA[0]['FECHAETAREAL'];
-      $BOLAWBCRTINSTRUCTIVO = $ARRAYICARGA[0]['CRT_ICARGA'];
+      $BOLAWBCRTINSTRUCTIVO = $ARRAYICARGA[0]['BOLAWBCRT_ICARGA'];
       if(!$BOLAWBCRTINSTRUCTIVO){
         $BOLAWBCRTINSTRUCTIVO = "Sin Datos";
       }
@@ -435,9 +451,9 @@ if($ARRAYICARGA){
         $RUTEXPPORTADORA="Sin Datos";
         $NOMBREEXPPORTADORA="Sin Datos";
       }
-      $ARRAYDFINAL =$DFINAL_ADO->verDfinal( $ARRAYICARGA[0]['ID_DFINAL']);
-      if($ARRAYDFINAL){
-        $NOMBREDFINAL=$ARRAYDFINAL[0]["NOMBRE_DFINAL"];
+      $ARRAYPAISFINAL = $PAIS_ADO->verPais($ARRAYICARGA[0]['ID_DFINAL']);
+      if($ARRAYPAISFINAL){
+        $NOMBREDFINAL=$ARRAYPAISFINAL[0]["NOMBRE_PAIS"];
       }else{
         $NOMBREDFINAL="Sin Datos";
       }
